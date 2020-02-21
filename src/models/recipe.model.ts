@@ -2,7 +2,6 @@ export class Recipe {
     constructor(
         public id: string,
         public title: string,
-        public type: number,
         public imageUrl: string,
         public prepTime: number,
         public cookingTime: number,

@@ -14,6 +14,10 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: () => import('./recipes/recipes.module').then( m => m.RecipesPageModule)
+          },
+          {
+            path: ':recipeList',
+            loadChildren: () => import('./recipes-list/recipes-list.module').then( m => m.RecipesListPageModule)
           }
         ]
       }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Recipe } from '../../models/recipe.model';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,11 +9,11 @@ export class RecipeService {
 
   constructor() { }
 
-  recipes: Recipe[] = [
+  // tslint:disable-next-line: variable-name
+  private _mainRecipes = new BehaviorSubject<Recipe[]>([
     {
-      id: 'r1',
+      id: 'm1',
       title: 'Dhal au curry',
-      type: 2,
       imageUrl: 'https://static.750g.com/images/auto-427/06e0a3d7987f55ada249cc87cc759488/dhal.jpg',
       prepTime: 20,
       cookingTime: 20,
@@ -43,9 +44,8 @@ export class RecipeService {
       ],
     },
     {
-      id: 'r2',
+      id: 'm2',
       title: 'Macaronni au fromage',
-      type: 2,
       imageUrl: 'https://static.cuisineaz.com/400x320/i9734-les-macaroni-au-fromage-de-modern-family.jpg',
       prepTime: 30,
       cookingTime: 40,
@@ -76,7 +76,81 @@ export class RecipeService {
         'Dégustez bien chaud.',
       ],
     }
-  ];
+  ]);
+
+  // tslint:disable-next-line: variable-name
+  private _dessertRecipes = new BehaviorSubject<Recipe[]>([
+    {
+      id: 'd1',
+      title: 'Fondant au chocolat',
+      imageUrl: 'atelierdeschefs.com/media/recette-e6493-fondant-au-chocolat-creme-anglaise-au-pamplemousse.jpg',
+      prepTime: 10,
+      cookingTime: 7,
+      yields: 6,
+      star: 5,
+      isVegie: true,
+      isHealthy: false,
+      countrie: 'France',
+      ingredients: [
+        '250g de chocolat à dessert 53% cacao',
+        '175g de beurre',
+        '125g de sucre glace',
+        '75g de farine',
+        '5 oeufs'
+      ],
+      direction: [
+        'Préchauffer le four à 220°',
+        'Dans une casserole, faire fondre au bain marie le chocolat en morceaux et le beurre.',
+        'Dans un bol, incorporer farine et sucre glace, puis ajouter les oeufs et mélanger jusqu\'à ce que la préparation soit homogène',
+        'Beurrer et fariner 6 ramequins (environ 5 cm de haut par 7,5 cm de diamètre)',
+        'Les remplir au 3/4 avec la préparation',
+        'Enfourner 7 minutes précises à four bien chaud, déguster tiède avec une glace vanille'
+      ],
+    }
+  ]);
+
+  // tslint:disable-next-line: variable-name
+  private _appetizerRecipes = new BehaviorSubject<Recipe[]>([
+    {
+      id: 'a1',
+      title: 'Verrine de kiwi et saumon fumé',
+      imageUrl: 'https://static.750g.com/images/622-auto/ad7f44421b88e75913a53daaece36384/verrine-de-kiwi-et-saumon-fume.png',
+      prepTime: 15,
+      cookingTime: 0,
+      yields: 8,
+      star: 3,
+      isVegie: false,
+      isHealthy: false,
+      countrie: 'France',
+      ingredients: [
+        '4 kiwis',
+        '4 tranches de saumon fumé',
+        '20g de mayonnaise',
+        '5cl de crème liquide',
+        'Oeufs de lompe ou lump',
+        '2 brins de ciboulette',
+        '1 filer de citrons',
+        'Sel poivre'
+      ],
+      direction: [
+        'Couper les kiwis en petits dés, les déposer au fond des verrines.',
+        'Détailler le saumon fumé en dés, les déposer sur les dés de kiwis.',
+        'Faire un sauce en mélangeant la crème liquide avec la mayonnaise, le filet de citron et la ciboulette hachée finement. Repartir la sauce sur le saumon et le kiwi.',
+        'Décorer avec des oeufs de lump et un brin de ciboulette.',
+      ],
+    }
+  ]);
+
+
+  getRecipes(type: string) {
+    if (type === 'main') {
+      return this._mainRecipes.asObservable();
+    } else if (type === 'appetizer') {
+      return this._appetizerRecipes.asObservable();
+    } else if (type === 'dessert') {
+      return this._dessertRecipes.asObservable();
+    }
+  }
 
 
 }
