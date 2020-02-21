@@ -12,12 +12,14 @@ export class RecipeService {
     {
       id: 'r1',
       title: 'Dhal au curry',
+      type: 2,
       imageUrl: 'https://static.750g.com/images/auto-427/06e0a3d7987f55ada249cc87cc759488/dhal.jpg',
       prepTime: 20,
-      cookingTim: 20,
+      cookingTime: 20,
       yields: 4,
       star: 4,
       isVegie: true,
+      isHealthy: true,
       countrie: 'Inde',
       ingredients: [
         '250g de lentilles de corail',
@@ -43,12 +45,14 @@ export class RecipeService {
     {
       id: 'r2',
       title: 'Macaronni au fromage',
+      type: 2,
       imageUrl: 'https://static.cuisineaz.com/400x320/i9734-les-macaroni-au-fromage-de-modern-family.jpg',
       prepTime: 30,
-      cookingTim: 40,
+      cookingTime: 40,
       yields: 4,
       star: 3,
       isVegie: true,
+      isHealthy: false,
       countrie: 'Italie',
       ingredients: [
         '600 g de macaronis',

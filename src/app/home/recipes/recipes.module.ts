@@ -8,12 +8,16 @@ import { RecipesPageRoutingModule } from './recipes-routing.module';
 
 import { RecipesPage } from './recipes.page';
 
+import { NgxCarouselModule } from 'ngx-carousel';
+import 'hammerjs';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    RecipesPageRoutingModule
+    RecipesPageRoutingModule,
+    NgxCarouselModule
   ],
   declarations: [RecipesPage]
 })
