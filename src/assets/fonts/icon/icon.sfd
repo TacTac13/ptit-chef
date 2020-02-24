@@ -1,0 +1,71 @@
+SplineFontDB: 3.2
+FontName: Untitled1
+FullName: Untitled1
+FamilyName: Untitled1
+Weight: Regular
+Copyright: Copyright (c) 2020, SFA17237
+UComments: "2020-2-24: Created with FontForge (http://fontforge.org)"
+Version: 001.000
+ItalicAngle: 0
+UnderlinePosition: -100
+UnderlineWidth: 50
+Ascent: 800
+Descent: 200
+InvalidEm: 0
+LayerCount: 2
+Layer: 0 0 "Arri+AOgA-re" 1
+Layer: 1 0 "Avant" 0
+XUID: [1021 381 -1739411286 17915]
+OS2Version: 0
+OS2_WeightWidthSlopeOnly: 0
+OS2_UseTypoMetrics: 1
+CreationTime: 1582541790
+ModificationTime: 1582542009
+OS2TypoAscent: 0
+OS2TypoAOffset: 1
+OS2TypoDescent: 0
+OS2TypoDOffset: 1
+OS2TypoLinegap: 0
+OS2WinAscent: 0
+OS2WinAOffset: 1
+OS2WinDescent: 0
+OS2WinDOffset: 1
+HheadAscent: 0
+HheadAOffset: 1
+HheadDescent: 0
+HheadDOffset: 1
+OS2Vendor: 'PfEd'
+DEI: 91125
+Encoding: ISO8859-1
+UnicodeInterp: none
+NameList: AGL For New Fonts
+DisplaySize: -48
+AntiAlias: 1
+FitToEm: 0
+WinInfo: 48 16 5
+BeginChars: 256 1
+
+StartChar: A
+Encoding: 65 65 0
+Width: 1000
+VWidth: 0
+Flags: H
+LayerCount: 2
+Fore
+SplineSet
+266.9140625 426.203125 m 2
+ 532.5390625 691.828125 l 2
+ 550.8984375 710.1875 580.5859375 710.1875 598.75 691.828125 c 2
+ 642.890625 647.6875 l 2
+ 661.25 629.328125 661.25 599.640625 642.890625 581.4765625 c 2
+ 454.8046875 393 l 1
+ 643.0859375 204.71875 l 2
+ 661.4453125 186.359375 661.4453125 156.671875 643.0859375 138.5078125 c 2
+ 598.9453125 94.171875 l 2
+ 580.5859375 75.8125 550.8984375 75.8125 532.734375 94.171875 c 2
+ 267.109375 359.796875 l 2
+ 248.5546875 378.15625 248.5546875 407.84375 266.9140625 426.203125 c 2
+EndSplineSet
+EndChar
+EndChars
+EndSplineFont

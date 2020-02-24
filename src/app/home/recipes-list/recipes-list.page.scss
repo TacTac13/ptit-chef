@@ -1,0 +1,19 @@
+h3 {
+    margin-top: 10px;
+    margin-left: 12px;
+    font-family: "Roboto bold";
+    color: var(--ion-color-dark);
+    font-size: 21px;
+}
+ion-back-button{
+    font-family: "Icon";
+    font-size: 21px;
+    margin: 6px -8px 0 -26px;
+}
+
+.header-md:after {
+    height: 0;
+}
+ion-toolbar {
+    --color: white;
+}

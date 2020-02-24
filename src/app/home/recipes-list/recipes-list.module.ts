@@ -8,12 +8,15 @@ import { RecipesListPageRoutingModule } from './recipes-list-routing.module';
 
 import { RecipesListPage } from './recipes-list.page';
 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    RecipesListPageRoutingModule
+    RecipesListPageRoutingModule,
+    FontAwesomeModule
   ],
   declarations: [RecipesListPage]
 })

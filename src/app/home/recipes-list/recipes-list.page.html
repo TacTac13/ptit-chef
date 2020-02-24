@@ -1,6 +1,9 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>recipesList</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button color="dark" text="A" [icon]="faAngleLeft" defaultHref="/home/tabs/recipes"></ion-back-button>
+    </ion-buttons>
+    <h3>{{ title }}</h3>
   </ion-toolbar>
 </ion-header>
 

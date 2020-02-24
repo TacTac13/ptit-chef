@@ -16,7 +16,7 @@
 @import "~@ionic/angular/css/normalize.css";
 @import "~@ionic/angular/css/structure.css";
 @import "~@ionic/angular/css/typography.css";
-@import '~@ionic/angular/css/display.css';
+@import "~@ionic/angular/css/display.css";
 
 /* Optional CSS utils that can be commented out */
 @import "~@ionic/angular/css/padding.css";
@@ -24,3 +24,24 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+@font-face {
+  font-family: "Roboto bold";
+  src: url("/assets/fonts/roboto/Roboto-Bold.ttf"); //mine
+}
+@font-face {
+  font-family: "Roboto regular";
+  src: url("/assets/fonts/roboto/Roboto-Regular.ttf"); //mine
+}
+@font-face {
+  font-family: "Roboto light";
+  src: url("/assets/fonts/roboto/Roboto-Light.ttf"); //mine
+}
+@font-face {
+  font-family: "Icon";
+  src: url("/assets/fonts/icon/icon.ttf"); //mine
+}
+
+body {
+  font-family: "Roboto regular";
+}

@@ -8,24 +8,13 @@ import { NgxCarousel } from 'ngx-carousel';
 })
 export class RecipesPage implements OnInit {
 
-  public carouselOne: NgxCarousel;
+  slideOpts = {
+    initialSlide: 1,
+    speed: 400
+  };
 
   constructor() { }
 
-  ngOnInit() {
-    this.carouselOne = {
-      grid: {xs: 1, sm: 1, md: 1, lg: 1, all: 0},
-      slide: 2,
-      speed: 400,
-      interval: 4000,
-      point: {
-        visible: true
-      },
-      load: 2,
-      touch: true,
-      loop: false,
-      custom: 'banner'
-    };
-  }
+  ngOnInit() {}
 
 }
