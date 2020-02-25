@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { RecipeService } from '../recipe.service';
 import { Recipe } from 'src/models/recipe.model';
+import { faAngleLeft, faLeaf, faStar as faSolidStar } from '@fortawesome/free-solid-svg-icons';
+import { faStar as faRegularStar } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -12,6 +14,11 @@ import { Recipe } from 'src/models/recipe.model';
 export class RecipeDetailPage implements OnInit {
 
   recipe: Recipe;
+  recipeType: string;
+  faAngleLeft = faAngleLeft;
+  faLeaf = faLeaf;
+  faStar = faSolidStar;
+  faStar2 = faRegularStar;
 
   constructor(
     private route: ActivatedRoute,
@@ -20,16 +27,26 @@ export class RecipeDetailPage implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    if (!this.route.snapshot.paramMap.has('recipeList')) {
+      this.navCtrl.navigateBack('/home/tabs/recipes');
+      return;
+    } else {
+      this.recipeType = this.route.snapshot.paramMap.get('recipeList');
+    }
+
     if (!this.route.snapshot.paramMap.has('recipeId')) {
       this.navCtrl.navigateBack('/home/tabs/recipes');
       return;
     }
+
+
     this.recipeService.getRecipeFromId(
-      this.route.snapshot.paramMap.get('recipeId'), this.route.snapshot.paramMap.get('recipeList')
+      this.route.snapshot.paramMap.get('recipeId'),
+      this.route.snapshot.paramMap.get('recipeList')
     ).subscribe((recipe: Recipe) => {
         this.recipe = recipe;
         console.log(this.recipe);
       });
   }
-
 }

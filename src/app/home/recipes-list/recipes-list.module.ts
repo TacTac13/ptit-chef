@@ -11,7 +11,10 @@ import { RecipesListPage } from './recipes-list.page';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { RatingModule } from 'ng-starrating';
-import { MinuteSecondsPipe } from '../../../pipe/minute-seconds.pipe';
+import { ApplicationPipesModule } from '../../../app/application-pipe.module';
+
+
+
 
 @NgModule({
   imports: [
@@ -20,8 +23,9 @@ import { MinuteSecondsPipe } from '../../../pipe/minute-seconds.pipe';
     IonicModule,
     RecipesListPageRoutingModule,
     FontAwesomeModule,
-    RatingModule
+    RatingModule,
+    ApplicationPipesModule
   ],
-  declarations: [RecipesListPage, MinuteSecondsPipe]
+  declarations: [RecipesListPage]
 })
 export class RecipesListPageModule {}

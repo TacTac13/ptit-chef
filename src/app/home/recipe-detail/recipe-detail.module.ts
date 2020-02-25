@@ -8,12 +8,17 @@ import { RecipeDetailPageRoutingModule } from './recipe-detail-routing.module';
 
 import { RecipeDetailPage } from './recipe-detail.page';
 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ApplicationPipesModule } from '../../../app/application-pipe.module';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    RecipeDetailPageRoutingModule
+    RecipeDetailPageRoutingModule,
+    FontAwesomeModule,
+    ApplicationPipesModule
   ],
   declarations: [RecipeDetailPage]
 })

@@ -1,9 +1,76 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>recipe-detail</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-
+  <ion-grid class="ion-no-padding ion-no-margin">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="12" size-lg="8" size-md="10" size-sm="12" class="ion-no-padding">
+        <ion-buttons>
+          <ion-button color="dark" [routerLink]="['/', 'home', 'tabs', 'recipes', recipeType]" routerDirection="back"
+            class="back-button">A
+          </ion-button>
+        </ion-buttons>
+        <ion-img [src]="recipe.imageUrl" class="recipe-img"></ion-img>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="12" size-lg="8" size-md="10" size-sm="12" class="ion-no-padding">
+        <div class="recipe-title">
+          <h2 class="title">{{ recipe.title }}</h2>
+          <fa-icon [icon]="faLeaf" class="leaf" *ngIf="recipe.isVegie"></fa-icon>
+        </div>
+        <div class="recipe-star">
+          <div class="stars-container">
+            <div *ngFor="let star of recipe.star" class="star-icon">
+              <fa-icon [icon]="faStar" *ngIf="star"></fa-icon>
+              <fa-icon [icon]="faStar2" *ngIf="!star"></fa-icon>
+            </div>
+          </div>
+          <p>{{ recipe.totalTime | minuteSeconds }}</p>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="12" size-lg="8" size-md="10" size-sm="12" class="ion-no-padding">
+        <div class="time-container">
+          <div class="prep-time">
+            <p class="title">Prépartion</p>
+            <h2>{{ recipe.prepTime | minuteSeconds }}</h2>
+          </div>
+          <div class="divider"></div>
+          <div class="prep-time">
+            <p class="title">Cuisson</p>
+            <h2>{{ recipe.cookingTime | minuteSeconds }}</h2>
+          </div>
+          <div class="divider"></div>
+          <div class="prep-time">
+            <p class="title">Nb personne</p>
+            <h2>{{ recipe.yields }} pers</h2>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="12" size-lg="8" size-md="10" size-sm="12" class="ion-no-padding">
+        <div class="ingredient-container">
+          <h3>Ingrédients</h3>
+          <ion-list class="ion-no-padding">
+            <ion-item *ngFor="let ingredient of recipe.ingredients" lines="none">
+              <ion-label>- {{ ingredient }}</ion-label>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="12" size-lg="8" size-md="10" size-sm="12" class="ion-no-padding">
+        <div class="direction-container">
+          <h3>Préparation</h3>
+          <ion-list class="ion-no-padding">
+            <div *ngFor="let direction of recipe.direction, let i = index " lines="none" class="step">
+              <h5>Etape {{ i+1 }}</h5>
+              <ion-label>{{ direction }}</ion-label>
+            </div>
+          </ion-list>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
