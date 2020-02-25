@@ -18,6 +18,15 @@ const routes: Routes = [
           {
             path: ':recipeList',
             loadChildren: () => import('./recipes-list/recipes-list.module').then( m => m.RecipesListPageModule)
+          },
+          {
+            path: ':recipeList',
+            children: [
+              {
+                path: ':recipeId',
+                loadChildren: () => import('./recipe-detail/recipe-detail.module').then( m => m.RecipeDetailPageModule)
+              }
+            ]
           }
         ]
       }

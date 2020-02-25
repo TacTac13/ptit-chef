@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Recipe } from '../../models/recipe.model';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of, Observable } from 'rxjs';
+import { take, map, switchMap, find } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecipeService {
 
-  constructor() { }
+  constructor() {
+  }
 
   // tslint:disable-next-line: variable-name
-  private _mainRecipes = new BehaviorSubject<Recipe[]>([
+  private _static_data: Recipe[] = [
     {
       id: 'm1',
       title: 'Dhal au curry',
@@ -19,7 +21,7 @@ export class RecipeService {
       cookingTime: 20,
       totalTime: 40,
       yields: 4,
-      star: [true, true, true , true, false],
+      star: [true, true, true, true, false],
       isVegie: true,
       isHealthy: true,
       countrie: 'Inde',
@@ -52,7 +54,7 @@ export class RecipeService {
       cookingTime: 40,
       totalTime: 70,
       yields: 4,
-      star: [true, true, true , false, false],
+      star: [true, true, true, false, false],
       isVegie: true,
       isHealthy: false,
       countrie: 'Italie',
@@ -78,7 +80,10 @@ export class RecipeService {
         'Dégustez bien chaud.',
       ],
     }
-  ]);
+  ];
+
+  // tslint:disable-next-line: variable-name
+  private _mainRecipes = new BehaviorSubject<Recipe[]>(this._static_data);
 
   // tslint:disable-next-line: variable-name
   private _dessertRecipes = new BehaviorSubject<Recipe[]>([
@@ -90,7 +95,7 @@ export class RecipeService {
       cookingTime: 7,
       totalTime: 17,
       yields: 6,
-      star: [true, true, true , true, true],
+      star: [true, true, true, true, true],
       isVegie: true,
       isHealthy: false,
       countrie: 'France',
@@ -122,7 +127,7 @@ export class RecipeService {
       cookingTime: 0,
       totalTime: 15,
       yields: 8,
-      star: [true, true, true , false, false],
+      star: [true, true, true, false, false],
       isVegie: false,
       isHealthy: false,
       countrie: 'France',
@@ -146,15 +151,26 @@ export class RecipeService {
   ]);
 
 
-  getRecipes(type: string) {
+  getRecipes(type: string): Observable<Recipe[]> {
+    return this.findType(type).asObservable();
+  }
+
+  findType(type: string) {
     if (type === 'main') {
-      return this._mainRecipes.asObservable();
+      return this._mainRecipes;
     } else if (type === 'appetizer') {
-      return this._appetizerRecipes.asObservable();
+      return this._appetizerRecipes;
     } else if (type === 'dessert') {
-      return this._dessertRecipes.asObservable();
+      return this._dessertRecipes;
     }
   }
 
 
+  getRecipeFromId(id: string, type: string) {
+     return this.findType(type).pipe(map((recipes: Recipe[]) => {
+      return recipes.find(
+        r => r.id === id
+      );
+    }));
+  }
 }
