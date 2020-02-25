@@ -8,5 +8,41 @@
 </ion-header>
 
 <ion-content>
-
+  <ion-grid>
+    <ion-row class="ion-justify-content-center">
+      <ion-list *ngFor="let recipe of recipesList" approxItemHeight="70px">
+        <ion-col size="12" size-lg="4" size-sm="8" class="ion-justify-content-center">
+          <ion-card [routerLink]="['/', 'home', 'tabs', 'recipes', recipe.id]" class="card">
+            <ion-img [src]="recipe.imageUrl"></ion-img>
+            <ion-card-header class="header">
+              <ion-card-title class="title">{{ recipe.title }}</ion-card-title>
+              <fa-icon [icon]="faLeaf" class="leaf" *ngIf="recipe.isVegie"></fa-icon>
+            </ion-card-header>
+            <ion-card-content class="content">
+              <div class="stars-container">
+                <div *ngFor="let star of recipe.star" class="star-icon">
+                  <fa-icon [icon]="faStar" *ngIf="star" ></fa-icon>
+                  <fa-icon [icon]="faStar2" *ngIf="!star" ></fa-icon>
+                </div>                
+              </div>
+              <p>{{ recipe.totalTime | minuteSeconds }}</p>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-list>
+    </ion-row>
+  </ion-grid>
 </ion-content>
+
+
+<!-- <ion-virtual-scroll [items]="recipesList" approxItemHeight="70px">
+  <ion-item *virtualItem="let recipe" lines="none">
+    <ion-card  [routerLink]="['/', 'home', 'tabs', 'recipes', recipe.id]" class="card">
+      <ion-img [src]="recipe.imageUrl"></ion-img>
+      <ion-card-header class="header">
+        <ion-card-title class="title">{{ recipe.title }}</ion-card-title>
+        <fa-icon [icon]="faLeaf" class="leaf" *ngIf="recipe.isVegie"></fa-icon>
+      </ion-card-header>
+    </ion-card>
+  </ion-item>
+</ion-virtual-scroll> -->
