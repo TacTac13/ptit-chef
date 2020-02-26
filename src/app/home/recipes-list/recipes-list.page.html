@@ -16,7 +16,11 @@
             <ion-img [src]="recipe.imageUrl"></ion-img>
             <ion-card-header class="header">
               <ion-card-title class="title">{{ recipe.title }}</ion-card-title>
-              <fa-icon [icon]="faLeaf" class="leaf" *ngIf="recipe.isVegie"></fa-icon>
+              <div>
+                <fa-icon [icon]="faHeartbeat" class="heartbeat" *ngIf="recipe.isHealthy"></fa-icon>
+                <fa-icon [icon]="faLeaf" class="leaf" *ngIf="recipe.isVegie"></fa-icon>
+                <span [ngClass]="getCoutryClass(recipe.country)" class="flag-icon"></span>
+              </div>                             
             </ion-card-header>
             <ion-card-content class="content">
               <div class="stars-container">

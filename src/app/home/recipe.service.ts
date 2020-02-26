@@ -26,7 +26,7 @@ export class RecipeService {
         star: [true, true, true, true, false],
         isVegie: true,
         isHealthy: true,
-        countrie: 'Inde',
+        country: 'IN',
         ingredients: [
           '250g de lentilles de corail',
           '2 tomates',
@@ -59,7 +59,7 @@ export class RecipeService {
         star: [true, true, true, false, false],
         isVegie: true,
         isHealthy: false,
-        countrie: 'Italie',
+        country: 'IT',
         ingredients: [
           '600 g de macaronis',
           '200 g de cheddar râpé',
@@ -97,7 +97,7 @@ export class RecipeService {
       star: [true, true, true, true, true],
       isVegie: true,
       isHealthy: false,
-      countrie: 'France',
+      country: 'FR',
       ingredients: [
         '250g de chocolat à dessert 53% cacao',
         '175g de beurre',
@@ -129,7 +129,7 @@ export class RecipeService {
       star: [true, true, true, false, false],
       isVegie: false,
       isHealthy: false,
-      countrie: 'France',
+      country: 'FR',
       ingredients: [
         '4 kiwis',
         '4 tranches de saumon fumé',

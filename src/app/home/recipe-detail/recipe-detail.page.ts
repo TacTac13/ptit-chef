@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { RecipeService } from '../recipe.service';
 import { Recipe } from 'src/models/recipe.model';
-import { faAngleLeft, faLeaf, faStar as faSolidStar } from '@fortawesome/free-solid-svg-icons';
+import { faAngleLeft, faLeaf, faStar as faSolidStar, faHeartbeat } from '@fortawesome/free-solid-svg-icons';
 import { faStar as faRegularStar } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
@@ -19,6 +19,7 @@ export class RecipeDetailPage implements OnInit {
   faLeaf = faLeaf;
   faStar = faSolidStar;
   faStar2 = faRegularStar;
+  faHeartbeat = faHeartbeat;
 
   constructor(
     private route: ActivatedRoute,
@@ -49,4 +50,10 @@ export class RecipeDetailPage implements OnInit {
         console.log(this.recipe);
       });
   }
+
+  getCoutryClass(code: string) {
+    return 'flag-icon-' + code.toLowerCase();
+  }
+
+
 }

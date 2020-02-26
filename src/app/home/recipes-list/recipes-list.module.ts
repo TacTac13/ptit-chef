@@ -9,8 +9,6 @@ import { RecipesListPageRoutingModule } from './recipes-list-routing.module';
 import { RecipesListPage } from './recipes-list.page';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
-import { RatingModule } from 'ng-starrating';
 import { ApplicationPipesModule } from '../../../app/application-pipe.module';
 
 
@@ -23,7 +21,6 @@ import { ApplicationPipesModule } from '../../../app/application-pipe.module';
     IonicModule,
     RecipesListPageRoutingModule,
     FontAwesomeModule,
-    RatingModule,
     ApplicationPipesModule
   ],
   declarations: [RecipesListPage]

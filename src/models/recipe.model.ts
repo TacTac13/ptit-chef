@@ -10,7 +10,7 @@ export class Recipe {
         public star: boolean[],
         public isVegie: boolean,
         public isHealthy: boolean,
-        public countrie: string,
+        public country: string,
         public ingredients: string[],
         public direction: string[],
     ) { }

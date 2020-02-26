@@ -47,6 +47,14 @@ ion-row {
         }
         .leaf {
           color: #2ac22a;
+          margin-right: 5px;
+        }
+        .heartbeat {
+          color: #ff7dd1;
+          margin-right: 5px;
+        }
+        .flag-icon {
+          transform: scaleX(1.3);
         }
       }
       .content {
