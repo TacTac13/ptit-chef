@@ -7,6 +7,7 @@ import { HomePage } from './home.page';
 import { HomePageRoutingModule } from './home-routing.module';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NewRecipeModalComponent } from './modal/new-recipe-modal/new-recipe-modal.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     HomePageRoutingModule,
     FontAwesomeModule
   ],
-  declarations: [HomePage]
+  declarations: [HomePage, NewRecipeModalComponent],
+  entryComponents: [NewRecipeModalComponent],
 })
 export class HomePageModule {}

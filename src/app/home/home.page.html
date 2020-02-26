@@ -5,7 +5,7 @@
       <ion-label>Recettes</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="new">
+    <ion-tab-button (click)="openNewRecipeModal()">
       <div class="circle">
         <fa-icon [icon]="faPlus" class="plus"></fa-icon>
       </div>
