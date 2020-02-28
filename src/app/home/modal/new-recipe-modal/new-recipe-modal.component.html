@@ -13,3 +13,50 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+<ion-content class="ion-padding">
+  <form [formGroup]="form">
+    <ion-grid>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-sm="8" offset-sm="2">
+          <ion-item>
+            <ion-label position="floating">Nom de la recette</ion-label>
+            <ion-input type="text" autocomplete autocorrect formControlName="recipeName"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center">
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Prépartion (min) </ion-label>
+            <ion-input type="number" formControlName="prep"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Cuisson (min) </ion-label>
+            <ion-input type="number" formControlName="cook"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center"> 
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Nb Personne </ion-label>
+            <ion-input type="number" formControlName="yields"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Pays</ion-label>
+            <ion-input type="text" formControlName="country" (click)="openCountryPicker()" [value]="countryValue"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <app-image-picker [showPreview]="form.get('image').value" (imagePick)="onImagePicked($event)"></app-image-picker>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

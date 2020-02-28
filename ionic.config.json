@@ -1,5 +1,7 @@
 {
   "name": "ptit-chef",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }
