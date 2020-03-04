@@ -9,6 +9,7 @@ import { HomePageRoutingModule } from './home-routing.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NewRecipeModalComponent } from './modal/new-recipe-modal/new-recipe-modal.component';
 import { ImagePickerComponent } from './modal/image-picker/image-picker.component';
+import { UiSwitchModule } from 'ngx-toggle-switch';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { ImagePickerComponent } from './modal/image-picker/image-picker.componen
     IonicModule,
     HomePageRoutingModule,
     FontAwesomeModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    UiSwitchModule
   ],
   declarations: [HomePage, NewRecipeModalComponent, ImagePickerComponent],
   entryComponents: [NewRecipeModalComponent, ImagePickerComponent],

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faTimes, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { ModalController, PickerController } from '@ionic/angular';
 import { PickerOptions } from '@ionic/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { countryList } from '../../../../shared/country-list';
 
 function base64toBlob(base64Data, contentType) {
@@ -37,18 +37,24 @@ export class NewRecipeModalComponent implements OnInit {
 
   faCheck = faCheck;
   faTimes = faTimes;
+  faTrash = faTrash;
+  faPlus = faPlus;
   form: FormGroup;
   framework = '';
   countryList = countryList;
   countryValue: string;
+  countryText: string;
+  healthySwitch = false;
+  vegieSwitch = false;
 
   constructor(
     private modalCtrl: ModalController,
-    private pickerCtrl: PickerController
+    private pickerCtrl: PickerController,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit() {
-    this.form = new FormGroup({
+    this.form = this.fb.group({
       recipeName: new FormControl(null, {
         updateOn: 'blur',
         validators: [Validators.required]
@@ -65,19 +71,64 @@ export class NewRecipeModalComponent implements OnInit {
         updateOn: 'blur',
         validators: [Validators.required]
       }),
-      country: new FormControl(null, {
+      country: new FormControl(this.countryValue, {
         updateOn: 'blur',
         validators: [Validators.required]
       }),
-      image: new FormControl(null)
+      image: new FormControl(null),
+      vegieSwitch: new FormControl(false, {
+        validators: [Validators.required]
+      }),
+      healthySwitch: new FormControl(false, {
+        validators: [Validators.required]
+      }),
+      ingredients: new FormArray([this.initLine()]),
+      steps: new FormArray([this.initLine()])
     });
   }
 
-  onCancel() {
-    this.modalCtrl.dismiss();
+  get formControl() {
+    return this.form.controls;
   }
 
-  openCountryPicker() {
+  get ingredientsControl() {
+    return this.formControl.ingredients as FormArray;
+  }
+
+  get stepsControl() {
+    return this.formControl.steps as FormArray;
+  }
+
+  initLine() {
+    return this.fb.group({
+      value: ['', Validators.required]
+    });
+  }
+
+  addLine(line: string) {
+    if (line === 'ingredients') {
+      this.ingredientsControl.push(this.initLine());
+    } else if (line === 'steps') {
+      this.stepsControl.push(this.initLine());
+    }
+  }
+
+  removeLine(line: string, i: number) {
+    if (line === 'ingredients') {
+      this.ingredientsControl.removeAt(i);
+    } else if (line === 'steps') {
+      this.stepsControl.removeAt(i);
+    }
+  }
+
+
+  onCancel() {
+    this.modalCtrl.dismiss();
+    console.log(this.form.value);
+  }
+
+  openCountryPicker() {    
+    
     const opts: PickerOptions = {
       buttons: [
         {
@@ -87,7 +138,7 @@ export class NewRecipeModalComponent implements OnInit {
         {
           text: 'OK',
           handler: (value: any) => {
-            this.countryValue = value.country.text;
+            this.countryText = value.country.text;
           }
         }
       ],
@@ -115,6 +166,10 @@ export class NewRecipeModalComponent implements OnInit {
     } else {
       imageFile = imageData;
     }
-    this.form.patchValue({ image: imageFile});
+    this.form.patchValue({ image: imageFile });
+  }
+
+  onSwitchChange(switchName: string) {
+    this.form.value[switchName] = !this.form.value[switchName];
   }
 }

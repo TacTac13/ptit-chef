@@ -18,6 +18,8 @@
     <ion-grid>
       <ion-row class="ion-justify-content-center">
         <ion-col size-sm="8" offset-sm="2">
+          <h2 style="margin-top: 0;">Informations</h2>
+          <p class="baseline">Veulliez renseigner les informations sur la recette</p>
           <ion-item>
             <ion-label position="floating">Nom de la recette</ion-label>
             <ion-input type="text" autocomplete autocorrect formControlName="recipeName"></ion-input>
@@ -38,7 +40,7 @@
           </ion-item>
         </ion-col>
       </ion-row>
-      <ion-row class="ion-justify-content-center"> 
+      <ion-row class="ion-justify-content-center">
         <ion-col>
           <ion-item>
             <ion-label position="floating">Nb Personne </ion-label>
@@ -48,13 +50,79 @@
         <ion-col>
           <ion-item>
             <ion-label position="floating">Pays</ion-label>
-            <ion-input type="text" formControlName="country" (click)="openCountryPicker()" [value]="countryValue"></ion-input>
+            <ion-input type="text" formControlName="country" (click)="openCountryPicker()" [value]="countryText">
+            </ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
+      <ion-row class="ion-justify-content-center">
+        <ion-col>
+          <ion-item lines="none">
+            <ion-label>Est-ce un plat végétarien ?</ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col class="switch-container">
+          <ion-item lines="none">
+            <ui-switch size="small" (change)="onSwitchChange('vegieSwitch')" color="#F9B191"
+              formControlName="vegieSwitch"></ui-switch>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center">
+        <ion-col>
+          <ion-item lines="none">
+            <ion-label>Est-ce un plat équilibré ?</ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col class="switch-container">
+          <ion-item lines="none">
+            <ui-switch size="small" (change)="onSwitchChange('healthySwitch')" color="#F9B191"
+              formControlName="healthySwitch"></ui-switch>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center" class="lines-container">
+        <ion-col>
+          <h2>Ingrédients</h2>
+          <p class="baseline">Ajoutez les ingrédients de la recette</p>
+          <div *ngFor="let ingredients of ingredientsControl.controls; let i = index">
+            <div [formGroup]="ingredients">
+              <ion-item>
+                <ion-input type="text" formControlName="value" placeholder="Ingrédient {{ i + 1 }}"> </ion-input>
+                <fa-icon [icon]="faTrash" (click)="removeLine('ingredients', i)" class="trash-icon"></fa-icon>
+              </ion-item>
+            </div>
+          </div>
+          <ion-button (click)="addLine('ingredients')">
+            <fa-icon [icon]="faPlus" class="add-icon"></fa-icon>
+            <ion-label>Ajouter un ingrédient</ion-label>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center" class="lines-container">
+        <ion-col>
+          <h2>Préparation</h2>
+          <p class="baseline">Ajoutez les étapes de préparation de la recette</p>
+          <div *ngFor="let step of stepsControl.controls; let i = index">
+            <div [formGroup]="step">
+              <ion-item>
+                <ion-textarea formControlName="value" placeholder="Etape {{ i + 1 }}"> </ion-textarea>
+                <fa-icon [icon]="faTrash" (click)="removeLine('steps', i)" class="trash-icon"></fa-icon>
+              </ion-item>
+            </div>
+          </div>
+          <ion-button (click)="addLine('steps')">
+            <fa-icon [icon]="faPlus" class="add-icon"></fa-icon>
+            <ion-label>Ajouter une étape</ion-label>
+          </ion-button>
+        </ion-col>
+      </ion-row>      
       <ion-row>
         <ion-col>
-          <app-image-picker [showPreview]="form.get('image').value" (imagePick)="onImagePicked($event)"></app-image-picker>
+          <h2>Photo</h2>
+          <p class="baseline">Ajoutez une photo</p>
+          <app-image-picker [showPreview]="form.get('image').value" (imagePick)="onImagePicked($event)">
+          </app-image-picker>
         </ion-col>
       </ion-row>
     </ion-grid>

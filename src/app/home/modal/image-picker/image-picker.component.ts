@@ -1,6 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild, Output, Input, EventEmitter } from '@angular/core';
 import { Plugins, Capacitor, CameraSource, CameraResultType } from '@capacitor/core';
 import { Platform } from '@ionic/angular';
+import { faCamera } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-image-picker',
@@ -14,6 +15,7 @@ export class ImagePickerComponent implements OnInit {
 
   selectedImage: string;
   usePicker = false;
+  faCamera = faCamera;
 
   constructor(private platform: Platform) { }
 
