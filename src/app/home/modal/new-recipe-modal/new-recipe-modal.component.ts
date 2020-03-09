@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
 import { faCheck, faTimes, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { ModalController, PickerController } from '@ionic/angular';
-import { PickerOptions } from '@ionic/core';
+import { ModalController } from '@ionic/angular';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { countryList } from '../../../../shared/country-list';
+import { RecipeService } from '../../recipe.service';
+
+import { StarRatingComponent } from 'ng-starrating';
 
 function base64toBlob(base64Data, contentType) {
   contentType = contentType || '';
@@ -41,21 +43,27 @@ export class NewRecipeModalComponent implements OnInit {
   faPlus = faPlus;
   form: FormGroup;
   framework = '';
+  rating: boolean[] = [];
   countryList = countryList;
   countryValue: string;
   countryText: string;
   healthySwitch = false;
   vegieSwitch = false;
+  selectedImage: string;
 
   constructor(
     private modalCtrl: ModalController,
-    private pickerCtrl: PickerController,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private recipeService: RecipeService
   ) { }
 
   ngOnInit() {
     this.form = this.fb.group({
       recipeName: new FormControl(null, {
+        updateOn: 'blur',
+        validators: [Validators.required]
+      }),
+      recipeType: new FormControl(null, {
         updateOn: 'blur',
         validators: [Validators.required]
       }),
@@ -71,11 +79,14 @@ export class NewRecipeModalComponent implements OnInit {
         updateOn: 'blur',
         validators: [Validators.required]
       }),
-      country: new FormControl(this.countryValue, {
+      country: new FormControl(null, {
         updateOn: 'blur',
         validators: [Validators.required]
       }),
-      image: new FormControl(null),
+      rating: new FormControl(null),
+      image: new FormControl(null, {
+        validators: [Validators.required]
+      }),
       vegieSwitch: new FormControl(false, {
         validators: [Validators.required]
       }),
@@ -124,34 +135,6 @@ export class NewRecipeModalComponent implements OnInit {
 
   onCancel() {
     this.modalCtrl.dismiss();
-    console.log(this.form.value);
-  }
-
-  openCountryPicker() {    
-    
-    const opts: PickerOptions = {
-      buttons: [
-        {
-          text: 'Annuler',
-          role: 'cancel'
-        },
-        {
-          text: 'OK',
-          handler: (value: any) => {
-            this.countryText = value.country.text;
-          }
-        }
-      ],
-      columns: [
-        {
-          name: 'country',
-          options: this.countryList
-        }
-      ]
-    };
-    this.pickerCtrl.create(opts).then(pickerEl => {
-      pickerEl.present();
-    });
   }
 
   onImagePicked(imageData: string) {
@@ -172,4 +155,41 @@ export class NewRecipeModalComponent implements OnInit {
   onSwitchChange(switchName: string) {
     this.form.value[switchName] = !this.form.value[switchName];
   }
+
+  onCreateRecipe() {
+    if (this.rating.length === 0) {
+      this.rating = [false, false, false, false, false];
+    }
+    const fr = new FileReader();
+    fr.readAsDataURL(this.form.value.image);
+    fr.onload = () => {
+      this.selectedImage = fr.result.toString();
+      this.recipeService.addRecipe(
+        this.form.value.recipeName,
+        this.form.value.recipeType,
+        this.selectedImage,
+        this.form.value.prep,
+        this.form.value.cook,
+        this.form.value.yields,
+        this.rating,
+        this.form.value.vegieSwitch,
+        this.form.value.healthySwitch,
+        this.form.value.country,
+        this.form.value.ingredients,
+        this.form.value.steps,
+      );
+    };
+  }
+
+  onRate(event) {
+    this.rating = [];
+    const starsLeft: number = 5 - event.newValue;
+    for (let i = 0; i < event.newValue; i++) {
+      this.rating.push(true);
+    }
+    for (let j = 0; j < starsLeft; j++) {
+      this.rating.push(false);
+    }
+  }
+
 }

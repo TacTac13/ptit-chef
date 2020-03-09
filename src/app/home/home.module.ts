@@ -10,6 +10,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NewRecipeModalComponent } from './modal/new-recipe-modal/new-recipe-modal.component';
 import { ImagePickerComponent } from './modal/image-picker/image-picker.component';
 import { UiSwitchModule } from 'ngx-toggle-switch';
+import { RatingModule } from 'ng-starrating';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { UiSwitchModule } from 'ngx-toggle-switch';
     HomePageRoutingModule,
     FontAwesomeModule,
     ReactiveFormsModule,
-    UiSwitchModule
+    UiSwitchModule,
+    RatingModule
   ],
   declarations: [HomePage, NewRecipeModalComponent, ImagePickerComponent],
   entryComponents: [NewRecipeModalComponent, ImagePickerComponent],

@@ -7,7 +7,7 @@
     </ion-buttons>
     <ion-title color="light" class="title">Nouvelle recette</ion-title>
     <ion-buttons slot="primary">
-      <ion-button color="light" (click)="onCancel()" slot="primary">
+      <ion-button color="light" (click)="onCreateRecipe()" slot="primary" [disabled]="!form.valid">
         <fa-icon [icon]="faCheck"></fa-icon>
       </ion-button>
     </ion-buttons>
@@ -23,6 +23,18 @@
           <ion-item>
             <ion-label position="floating">Nom de la recette</ion-label>
             <ion-input type="text" autocomplete autocorrect formControlName="recipeName"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-sm="8" offset-sm="2">
+          <ion-item>
+            <ion-label>Type de plat</ion-label>
+            <ion-select ok-text="OK" cancel-text="Annuler" formControlName="recipeType">
+              <ion-select-option value="appetizer">Entrée</ion-select-option>
+              <ion-select-option value="main">Plat principal</ion-select-option>
+              <ion-select-option value="dessert">Dessert</ion-select-option>
+            </ion-select>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -50,8 +62,9 @@
         <ion-col>
           <ion-item>
             <ion-label position="floating">Pays</ion-label>
-            <ion-input type="text" formControlName="country" (click)="openCountryPicker()" [value]="countryText">
-            </ion-input>
+            <ion-select  ok-text="OK" cancel-text="Annuler" formControlName="country">
+              <ion-select-option *ngFor="let country of countryList" value="{{country.value}}">{{country.text}}</ion-select-option>
+            </ion-select>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -79,6 +92,13 @@
             <ui-switch size="small" (change)="onSwitchChange('healthySwitch')" color="#F9B191"
               formControlName="healthySwitch"></ui-switch>
           </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center">
+        <ion-col>
+          <h2>Evaluation</h2>
+          <p class="baseline">Notez cette recette</p>
+          <star-rating value="0" totalstars="5" checkedcolor="#F9B191" uncheckedcolor="#DFDFDF" size="28px" readonly="false" (rate)="onRate($event)"></star-rating>
         </ion-col>
       </ion-row>
       <ion-row class="ion-justify-content-center" class="lines-container">

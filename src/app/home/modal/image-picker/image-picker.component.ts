@@ -51,7 +51,6 @@ export class ImagePickerComponent implements OnInit {
     const pickedFile = (event.target as HTMLInputElement).files[0];
     if (!pickedFile) {
       return;
-    } else {
     }
     const fr = new FileReader();
     fr.onload = () => {
@@ -61,6 +60,5 @@ export class ImagePickerComponent implements OnInit {
     };
     fr.readAsDataURL(pickedFile);
   }
-
-
 }
+

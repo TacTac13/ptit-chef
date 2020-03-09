@@ -47,7 +47,6 @@ export class RecipeDetailPage implements OnInit {
       this.route.snapshot.paramMap.get('recipeList')
     ).subscribe((recipe: Recipe) => {
         this.recipe = recipe;
-        console.log(this.recipe);
       });
   }
 

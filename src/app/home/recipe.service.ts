@@ -171,4 +171,60 @@ export class RecipeService {
       );
     }));
   }
+
+  addRecipe(
+    title: string,
+    type: string,
+    imageUrl: string,
+    prepTime: number,
+    cookingTime: number,
+    yields: number,
+    star: boolean[],
+    isVegie: boolean,
+    isHealthy: boolean,
+    country: string,
+    ingredients: any,
+    direction: any) {
+
+      let newRecipe: Recipe;
+      const totalTime: number = cookingTime + prepTime;
+      const recipeId: string = '_' + Math.random().toString(36).substr(2, 9);
+      const recipeIngr: string[] = [];
+      const recipeDir: string[] = [];
+
+      // tslint:disable-next-line: prefer-for-of
+      for (let i = 0; i < ingredients.length; i++) {
+        recipeIngr.push(ingredients[i].value);
+      }
+
+      // tslint:disable-next-line: prefer-for-of
+      for (let i = 0; i < direction.length; i++) {
+        recipeDir.push(direction[i].value);
+      }
+
+      newRecipe = new Recipe(
+        recipeId,
+        title,
+        imageUrl,
+        prepTime,
+        cookingTime,
+        totalTime,
+        yields,
+        star,
+        isVegie,
+        isHealthy,
+        country,
+        recipeIngr,
+        recipeDir,
+      );
+      this.getRecipes(type).pipe(take(1)).subscribe(recipes => {
+        if (type === 'main') {
+          this._mainRecipes.next(recipes.concat(newRecipe));
+        } else if (type === 'appetizer') {
+          this._appetizerRecipes.next(recipes.concat(newRecipe));
+        } else if (type === 'dessert') {
+          this._dessertRecipes.next(recipes.concat(newRecipe));
+        }
+      });
+  }
 }
