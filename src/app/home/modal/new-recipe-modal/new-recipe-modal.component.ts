@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, ViewChildren, QueryList } from '@angular/core';
 
 import { faCheck, faTimes, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavParams, IonInput } from '@ionic/angular';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { countryList } from '../../../../shared/country-list';
 import { RecipeService } from '../../recipe.service';
 
-import { StarRatingComponent } from 'ng-starrating';
+import { Recipe } from 'src/models/recipe.model';
 
 function base64toBlob(base64Data, contentType) {
   contentType = contentType || '';
@@ -37,6 +37,12 @@ function base64toBlob(base64Data, contentType) {
 })
 export class NewRecipeModalComponent implements OnInit {
 
+  @ViewChildren('ingredientInput') ingredientInput: QueryList<any>;
+  @ViewChildren('stepsInput') stepsInput: QueryList<any>;
+
+
+  @Input() Recipe: Recipe;
+
   faCheck = faCheck;
   faTimes = faTimes;
   faTrash = faTrash;
@@ -47,17 +53,31 @@ export class NewRecipeModalComponent implements OnInit {
   countryList = countryList;
   countryValue: string;
   countryText: string;
-  healthySwitch = false;
   vegieSwitch = false;
+  healthySwitch = false;
+  stars: number;
+  ingredients = [''];
+  steps = [''];
   selectedImage: string;
 
   constructor(
     private modalCtrl: ModalController,
     private fb: FormBuilder,
-    private recipeService: RecipeService
+    private recipeService: RecipeService,
+    private navParams: NavParams
   ) { }
 
   ngOnInit() {
+    if (this.Recipe) {
+      this.vegieSwitch = this.Recipe.isVegie;
+      this.healthySwitch = this.Recipe.isHealthy;
+
+      this.stars = this.Recipe.star.filter(star => star === true).length;
+
+      this.ingredients = this.Recipe.ingredients;
+      this.steps = this.Recipe.direction;
+    }
+
     this.form = this.fb.group({
       recipeName: new FormControl(null, {
         updateOn: 'blur',
@@ -87,48 +107,36 @@ export class NewRecipeModalComponent implements OnInit {
       image: new FormControl(null, {
         validators: [Validators.required]
       }),
-      vegieSwitch: new FormControl(false, {
+      vegieSwitch: new FormControl(this.vegieSwitch, [Validators.required]),
+      healthySwitch: new FormControl(this.healthySwitch, [Validators.required]),
+      ingredients: new FormControl(null, {
         validators: [Validators.required]
       }),
-      healthySwitch: new FormControl(false, {
+      steps: new FormControl(null, {
         validators: [Validators.required]
-      }),
-      ingredients: new FormArray([this.initLine()]),
-      steps: new FormArray([this.initLine()])
-    });
-  }
-
-  get formControl() {
-    return this.form.controls;
-  }
-
-  get ingredientsControl() {
-    return this.formControl.ingredients as FormArray;
-  }
-
-  get stepsControl() {
-    return this.formControl.steps as FormArray;
-  }
-
-  initLine() {
-    return this.fb.group({
-      value: ['', Validators.required]
+      })
     });
   }
 
   addLine(line: string) {
     if (line === 'ingredients') {
-      this.ingredientsControl.push(this.initLine());
-    } else if (line === 'steps') {
-      this.stepsControl.push(this.initLine());
+      this.ingredients.push('');
+    }
+    if (line === 'steps') {
+      this.steps.push('');
     }
   }
 
   removeLine(line: string, i: number) {
     if (line === 'ingredients') {
-      this.ingredientsControl.removeAt(i);
-    } else if (line === 'steps') {
-      this.stepsControl.removeAt(i);
+      this.ingredients = [];
+      this.getTableMemory(this.ingredientInput, this.ingredients, true);
+      this.ingredients.splice(i, 1);
+    }
+    if (line === 'steps') {
+      this.steps = [];
+      this.getTableMemory(this.stepsInput, this.steps, true);
+      this.steps.splice(i, 1);
     }
   }
 
@@ -154,12 +162,21 @@ export class NewRecipeModalComponent implements OnInit {
 
   onSwitchChange(switchName: string) {
     this.form.value[switchName] = !this.form.value[switchName];
+    console.log(this.form.value.vegieSwitch);
   }
 
   onCreateRecipe() {
+    this.ingredients = [];
+    this.steps = [];
+
     if (this.rating.length === 0) {
       this.rating = [false, false, false, false, false];
     }
+
+    this.getTableMemory(this.ingredientInput, this.ingredients, false);
+    this.getTableMemory(this.stepsInput, this.steps, false);
+
+
     const fr = new FileReader();
     fr.readAsDataURL(this.form.value.image);
     fr.onload = () => {
@@ -175,8 +192,8 @@ export class NewRecipeModalComponent implements OnInit {
         this.form.value.vegieSwitch,
         this.form.value.healthySwitch,
         this.form.value.country,
-        this.form.value.ingredients,
-        this.form.value.steps,
+        this.ingredients,
+        this.steps,
       );
     };
   }
@@ -190,6 +207,16 @@ export class NewRecipeModalComponent implements OnInit {
     for (let j = 0; j < starsLeft; j++) {
       this.rating.push(false);
     }
+  }
+
+  private getTableMemory(input: QueryList<any>, table: string[], deleteMethode: boolean) {
+    input.forEach((item) => {
+      if (!deleteMethode && item.value) {
+        table.push(item.value);
+      } else if (deleteMethode) {
+        table.push(item.value);
+      }
+    });
   }
 
 }

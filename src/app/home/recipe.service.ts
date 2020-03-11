@@ -18,6 +18,7 @@ export class RecipeService {
       {
         id: 'm1',
         title: 'Dhal au curry',
+        type: 'main',
         imageUrl: 'https://static.750g.com/images/auto-427/06e0a3d7987f55ada249cc87cc759488/dhal.jpg',
         prepTime: 20,
         cookingTime: 20,
@@ -51,6 +52,7 @@ export class RecipeService {
       {
         id: 'm2',
         title: 'Macaronni au fromage',
+        type: 'main',
         imageUrl: 'https://static.cuisineaz.com/400x320/i9734-les-macaroni-au-fromage-de-modern-family.jpg',
         prepTime: 30,
         cookingTime: 40,
@@ -89,6 +91,7 @@ export class RecipeService {
     {
       id: 'd1',
       title: 'Fondant au chocolat',
+      type: 'dessert',
       imageUrl: 'https://static.cuisineaz.com/400x320/i75546-fondant-au-chocolat-de-delphine.jpg',
       prepTime: 10,
       cookingTime: 7,
@@ -121,6 +124,7 @@ export class RecipeService {
     {
       id: 'a1',
       title: 'Verrine de kiwi et saumon fumé',
+      type: 'appetizer',
       imageUrl: 'https://static.750g.com/images/622-auto/ad7f44421b88e75913a53daaece36384/verrine-de-kiwi-et-saumon-fume.png',
       prepTime: 15,
       cookingTime: 0,
@@ -183,28 +187,17 @@ export class RecipeService {
     isVegie: boolean,
     isHealthy: boolean,
     country: string,
-    ingredients: any,
-    direction: any) {
+    ingredients: string[],
+    direction: string[]) {
 
       let newRecipe: Recipe;
       const totalTime: number = cookingTime + prepTime;
       const recipeId: string = '_' + Math.random().toString(36).substr(2, 9);
-      const recipeIngr: string[] = [];
-      const recipeDir: string[] = [];
-
-      // tslint:disable-next-line: prefer-for-of
-      for (let i = 0; i < ingredients.length; i++) {
-        recipeIngr.push(ingredients[i].value);
-      }
-
-      // tslint:disable-next-line: prefer-for-of
-      for (let i = 0; i < direction.length; i++) {
-        recipeDir.push(direction[i].value);
-      }
 
       newRecipe = new Recipe(
         recipeId,
         title,
+        type,
         imageUrl,
         prepTime,
         cookingTime,
@@ -214,8 +207,8 @@ export class RecipeService {
         isVegie,
         isHealthy,
         country,
-        recipeIngr,
-        recipeDir,
+        ingredients,
+        direction,
       );
       this.getRecipes(type).pipe(take(1)).subscribe(recipes => {
         if (type === 'main') {
@@ -226,5 +219,9 @@ export class RecipeService {
           this._dessertRecipes.next(recipes.concat(newRecipe));
         }
       });
+  }
+
+  updateRecipe() {
+
   }
 }

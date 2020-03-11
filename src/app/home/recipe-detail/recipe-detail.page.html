@@ -3,9 +3,24 @@
     <ion-row class="ion-justify-content-center">
       <ion-col size="12" size-lg="8" size-md="10" size-sm="12" class="ion-no-padding">
         <ion-buttons>
-          <ion-button color="dark" [routerLink]="['/', 'home', 'tabs', 'recipes', recipeType]" routerDirection="back"
+          <ion-button color="light" [routerLink]="['/', 'home', 'tabs', 'recipes', recipeType]" routerDirection="back"
             class="back-button">A
           </ion-button>
+          <ion-button color="light" routerDirection="back"
+            class="menu-button" (click)="openDropdown()"><fa-icon [icon]="faEllipsisH"></fa-icon>
+          </ion-button>
+          <div class="dropdown" *ngIf="isDropdownOpen">
+            <div class="triangle"></div>
+            <div class="dropdown-line" (click)="onEditRecipe()">
+              <fa-icon class="icon" [icon]="faEdit"></fa-icon>
+              <ion-label>Modifier</ion-label>
+            </div>
+            <div class="separate"></div>
+            <div class="dropdown-line" (click)="onDeleteRecipe()">
+              <fa-icon class="icon" [icon]="faTrash"></fa-icon>
+              <ion-label>Supprimer</ion-label>
+            </div>
+          </div>
         </ion-buttons>
         <ion-img [src]="recipe.imageUrl" class="recipe-img"></ion-img>
       </ion-col>
