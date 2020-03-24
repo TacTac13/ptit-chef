@@ -1,0 +1,64 @@
+#container {
+  text-align: center;
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#container strong {
+  font-size: 20px;
+  line-height: 26px;
+}
+
+#container p {
+  font-size: 16px;
+  line-height: 22px;
+
+  color: #8c8c8c;
+
+  margin: 0;
+}
+
+#container a {
+  text-decoration: none;
+}
+
+ion-content ion-toolbar {
+  --background: translucent;
+}
+
+ion-label {
+  font-family: "Roboto light";
+}
+
+.icon {
+  font-size: 19px;
+}
+
+ion-tab-button{
+  --color: var(--ion-color-medium);
+  --color-selected : var(--ion-color-medium);
+  --ripple-color : var(--ion-color-primary);
+}
+
+ion-label{
+  font-size: 11px;
+}
+
+.circle{
+    width: 37px;
+    height: 37px;
+    background-color: var(--ion-color-primary);
+    border-radius: 34px;
+    color: var(--ion-color-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .plus{
+      font-size: 16px;
+    }
+}
+

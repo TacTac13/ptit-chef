@@ -1,0 +1,54 @@
+.title {
+  font-family: "Roboto Regular";
+  text-align: center;
+}
+
+ion-label {
+  font-family: "Roboto light" !important;
+}
+
+ion-item {
+  --padding-start: 0;
+}
+
+.switch-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.trash-icon {
+  color: var(--ion-color-primary);
+  margin-top: 16px;
+}
+
+.lines-container {
+  ion-button {
+    --background: var(--ion-color-primary);
+    --color: var(--ion-color-light);
+    --border-radius: 0;
+    margin-top: 15px;
+  }
+  ion-input {
+    font-size: 14px;
+  }
+  ion-textarea {
+    font-size: 14px;
+  }
+}
+
+h2 {
+  margin-bottom: 0px;
+  font-family: "Roboto Regular";
+}
+
+.add-icon {
+  margin-right: 10px;
+  font-size: 17px;
+}
+
+.baseline {
+  font-size: 12px;
+  margin-top: 4px;
+  color: var(--ion-color-medium);
+  margin-bottom: 5px;
+}

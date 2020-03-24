@@ -1,0 +1,19 @@
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="recipes">
+      <fa-icon [icon]="faHamburger" class="icon"></fa-icon>
+      <ion-label>Recettes</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button (click)="openNewRecipeModal()">
+      <div class="circle">
+        <fa-icon [icon]="faPlus" class="plus"></fa-icon>
+      </div>
+    </ion-tab-button>
+
+    <ion-tab-button tab="search">
+      <fa-icon [icon]="faSearch" class="icon"></fa-icon>
+      <ion-label>Rechercher</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>
