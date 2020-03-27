@@ -65,6 +65,7 @@ export class RecipeDetailPage implements OnInit {
   }
 
   onEditRecipe() {
+    this.recipeService.oldType = this.recipe.type;
     this.isDropdownOpen = false;
     this.modalCtrl.create({ component: NewRecipeModalComponent, componentProps: {
       Recipe: this.recipe,

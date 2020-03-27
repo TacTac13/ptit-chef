@@ -8,6 +8,8 @@ import { take, map, switchMap, find } from 'rxjs/operators';
 })
 export class RecipeService {
 
+  public oldType: string;
+
   constructor() {
   }
 
@@ -257,7 +259,7 @@ export class RecipeService {
 
     this.getRecipes(type).pipe(take(1)).subscribe(recipes => {
       console.log(recipes);
-
+      this.deleteRecipe(id, this.oldType);
       const updatedRecipeIndex = recipes.findIndex(rp => rp.id === id);
       if (updatedRecipeIndex !== -1) {
         updatedRecipesList = [...recipes];
