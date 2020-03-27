@@ -7,7 +7,7 @@
     </ion-buttons>
     <ion-title color="light" class="title">Nouvelle recette</ion-title>
     <ion-buttons slot="primary">
-      <ion-button color="light" (click)="onCreateRecipe()" slot="primary">
+      <ion-button color="light" (click)="!Recipe ? onCreateRecipe() : onEditRecipe()" slot="primary">
         <fa-icon [icon]="faCheck"></fa-icon>
       </ion-button>
     </ion-buttons>
@@ -64,7 +64,7 @@
         <ion-col>
           <ion-item>
             <ion-label position="floating">Pays</ion-label>
-            <ion-select ok-text="OK" cancel-text="Annuler" formControlName="country">
+            <ion-select ok-text="OK" cancel-text="Annuler" formControlName="country" [value]="Recipe ? Recipe.country : ''">
               <ion-select-option *ngFor="let country of countryList" value="{{country.value}}">{{country.text}}
               </ion-select-option>
             </ion-select>
@@ -150,7 +150,7 @@
         <ion-col>
           <h2>Photo</h2>
           <p class="baseline">Ajoutez une photo</p>
-          <app-image-picker [showPreview]="form.get('image').value" (imagePick)="onImagePicked($event)">
+          <app-image-picker [showPreview]="Recipe ? Recipe.imageUrl : form.get('image').value" (imagePick)="onImagePicked($event)">
           </app-image-picker>
         </ion-col>
       </ion-row>

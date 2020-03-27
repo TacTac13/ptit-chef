@@ -11,7 +11,7 @@ import { faCamera } from '@fortawesome/free-solid-svg-icons';
 export class ImagePickerComponent implements OnInit {
   @ViewChild('filePicker', { static: false }) filPickerRef: ElementRef;
   @Output() imagePick = new EventEmitter<string | File>();
-  @Input() showPreview = false;
+  @Input() showPreview;
 
   selectedImage: string;
   usePicker = false;
@@ -22,6 +22,9 @@ export class ImagePickerComponent implements OnInit {
   ngOnInit() {
     if (this.platform.is('mobile') && !this.platform.is('hybrid') || this.platform.is('desktop')) {
       this.usePicker = true;
+    }
+    if (this.showPreview) {
+      this.selectedImage = this.showPreview;
     }
   }
 

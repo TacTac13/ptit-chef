@@ -7,6 +7,7 @@ import { countryList } from '../../../../shared/country-list';
 import { RecipeService } from '../../recipe.service';
 
 import { Recipe } from 'src/models/recipe.model';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 function base64toBlob(base64Data, contentType) {
   contentType = contentType || '';
@@ -63,8 +64,7 @@ export class NewRecipeModalComponent implements OnInit {
   constructor(
     private modalCtrl: ModalController,
     private fb: FormBuilder,
-    private recipeService: RecipeService,
-    private navParams: NavParams
+    private recipeService: RecipeService
   ) { }
 
   ngOnInit() {
@@ -162,21 +162,18 @@ export class NewRecipeModalComponent implements OnInit {
 
   onSwitchChange(switchName: string) {
     this.form.value[switchName] = !this.form.value[switchName];
-    console.log(this.form.value.vegieSwitch);
   }
 
   onCreateRecipe() {
     this.ingredients = [];
     this.steps = [];
 
-    if (this.rating.length === 0) {
-      this.rating = [false, false, false, false, false];
-    }
-
     this.getTableMemory(this.ingredientInput, this.ingredients, false);
     this.getTableMemory(this.stepsInput, this.steps, false);
 
-
+    if (this.rating.length === 0) {
+      this.rating = [false, false, false, false, false];
+    }
     const fr = new FileReader();
     fr.readAsDataURL(this.form.value.image);
     fr.onload = () => {
@@ -198,25 +195,72 @@ export class NewRecipeModalComponent implements OnInit {
     };
   }
 
-  onRate(event) {
-    this.rating = [];
-    const starsLeft: number = 5 - event.newValue;
-    for (let i = 0; i < event.newValue; i++) {
-      this.rating.push(true);
-    }
-    for (let j = 0; j < starsLeft; j++) {
-      this.rating.push(false);
-    }
-  }
+onEditRecipe() {
+  this.ingredients = [];
+  this.steps = [];
 
-  private getTableMemory(input: QueryList<any>, table: string[], deleteMethode: boolean) {
-    input.forEach((item) => {
-      if (!deleteMethode && item.value) {
-        table.push(item.value);
-      } else if (deleteMethode) {
-        table.push(item.value);
-      }
-    });
+  this.getTableMemory(this.ingredientInput, this.ingredients, false);
+  this.getTableMemory(this.stepsInput, this.steps, false);
+
+  if (this.form.value.image) {
+    const fr = new FileReader();
+    fr.readAsDataURL(this.form.value.image);
+    fr.onload = () => {
+      this.selectedImage = fr.result.toString();
+      this.recipeService.updateRecipe(
+        this.Recipe.id,
+        this.form.value.recipeName ? this.form.value.recipeName : this.Recipe.title,
+        this.form.value.recipeType ? this.form.value.recipeType : this.Recipe.type,
+        this.selectedImage,
+        this.form.value.prep ? this.form.value.prep : this.Recipe.prepTime,
+        this.form.value.cook ? this.form.value.cook : this.Recipe.cookingTime,
+        this.form.value.yields ? this.form.value.yields : this.Recipe.yields,
+        this.rating.length !== 0 ? this.rating : this.Recipe.star,
+        this.form.value.vegieSwitch,
+        this.form.value.healthySwitch,
+        this.form.value.country ? this.form.value.country : this.Recipe.country,
+        this.ingredients ? this.ingredients : this.Recipe.ingredients,
+        this.steps ? this.steps : this.Recipe.direction,
+      );
+    };
+  } else {
+    this.recipeService.updateRecipe(
+      this.Recipe.id,
+      this.form.value.recipeName ? this.form.value.recipeName : this.Recipe.title,
+      this.form.value.recipeType ? this.form.value.recipeType : this.Recipe.type,
+      this.Recipe.imageUrl,
+      this.form.value.prep ? this.form.value.prep : this.Recipe.prepTime,
+      this.form.value.cook ? this.form.value.cook : this.Recipe.cookingTime,
+      this.form.value.yields ? this.form.value.yields : this.Recipe.yields,
+      this.rating.length !== 0 ? this.rating : this.Recipe.star,
+      this.form.value.vegieSwitch,
+      this.form.value.healthySwitch,
+      this.form.value.country ? this.form.value.country : this.Recipe.country,
+      this.ingredients ? this.ingredients : this.Recipe.ingredients,
+      this.steps ? this.steps : this.Recipe.direction,
+    );
   }
+}
+
+onRate(event) {
+  this.rating = [];
+  const starsLeft: number = 5 - event.newValue;
+  for (let i = 0; i < event.newValue; i++) {
+    this.rating.push(true);
+  }
+  for (let j = 0; j < starsLeft; j++) {
+    this.rating.push(false);
+  }
+}
+
+  private getTableMemory(input: QueryList < any >, table: string[], deleteMethode: boolean) {
+  input.forEach((item) => {
+    if (!deleteMethode && item.value) {
+      table.push(item.value);
+    } else if (deleteMethode) {
+      table.push(item.value);
+    }
+  });
+}
 
 }

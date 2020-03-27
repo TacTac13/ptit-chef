@@ -3,7 +3,7 @@ import { RecipeService } from '../recipe.service';
 import { Recipe } from 'src/models/recipe.model';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { faAngleLeft, faLeaf, faStar as faSolidStar, faHeartbeat } from '@fortawesome/free-solid-svg-icons';
+import { faAngleLeft, faLeaf, faStar as faSolidStar, faWeight } from '@fortawesome/free-solid-svg-icons';
 import { faStar as faRegularStar } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
@@ -20,7 +20,7 @@ export class RecipesListPage implements OnInit {
   faLeaf = faLeaf;
   faStar = faSolidStar;
   faStar2 = faRegularStar;
-  faHeartbeat = faHeartbeat;
+  faWeight = faWeight;
 
   constructor(
     private recipeService: RecipeService,

@@ -30,7 +30,7 @@
         <div class="recipe-title">
           <h2 class="title">{{ recipe.title }}</h2>
           <div>
-            <fa-icon [icon]="faHeartbeat" class="heartbeat" *ngIf="recipe.isHealthy"></fa-icon>
+            <fa-icon [icon]="faWeight" class="weight" *ngIf="recipe.isHealthy"></fa-icon>
             <fa-icon [icon]="faLeaf" class="leaf" *ngIf="recipe.isVegie"></fa-icon>
             <span [ngClass]="getCoutryClass(recipe.country)" class="flag-icon"></span>
           </div>          

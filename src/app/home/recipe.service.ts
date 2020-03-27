@@ -84,7 +84,7 @@ export class RecipeService {
           'Dégustez bien chaud.',
         ],
       }
-  ]);
+    ]);
 
   // tslint:disable-next-line: variable-name
   private _dessertRecipes = new BehaviorSubject<Recipe[]>([
@@ -190,38 +190,111 @@ export class RecipeService {
     ingredients: string[],
     direction: string[]) {
 
-      let newRecipe: Recipe;
-      const totalTime: number = cookingTime + prepTime;
-      const recipeId: string = '_' + Math.random().toString(36).substr(2, 9);
+    let newRecipe: Recipe;
+    const totalTime: number = cookingTime + prepTime;
+    const recipeId: string = '_' + Math.random().toString(36).substr(2, 9);
 
-      newRecipe = new Recipe(
-        recipeId,
-        title,
-        type,
-        imageUrl,
-        prepTime,
-        cookingTime,
-        totalTime,
-        yields,
-        star,
-        isVegie,
-        isHealthy,
-        country,
-        ingredients,
-        direction,
-      );
-      this.getRecipes(type).pipe(take(1)).subscribe(recipes => {
-        if (type === 'main') {
-          this._mainRecipes.next(recipes.concat(newRecipe));
-        } else if (type === 'appetizer') {
-          this._appetizerRecipes.next(recipes.concat(newRecipe));
-        } else if (type === 'dessert') {
-          this._dessertRecipes.next(recipes.concat(newRecipe));
-        }
-      });
+    newRecipe = new Recipe(
+      recipeId,
+      title,
+      type,
+      imageUrl,
+      prepTime,
+      cookingTime,
+      totalTime,
+      yields,
+      star,
+      isVegie,
+      isHealthy,
+      country,
+      ingredients,
+      direction,
+    );
+    this.getRecipes(type).pipe(take(1)).subscribe(recipes => {
+      if (type === 'main') {
+        this._mainRecipes.next(recipes.concat(newRecipe));
+      } else if (type === 'appetizer') {
+        this._appetizerRecipes.next(recipes.concat(newRecipe));
+      } else if (type === 'dessert') {
+        this._dessertRecipes.next(recipes.concat(newRecipe));
+      }
+    });
   }
 
-  updateRecipe() {
+  updateRecipe(
+    id: string,
+    title: string,
+    type: string,
+    imageUrl: string,
+    prepTime: number,
+    cookingTime: number,
+    yields: number,
+    star: boolean[],
+    isVegie: boolean,
+    isHealthy: boolean,
+    country: string,
+    ingredients: string[],
+    direction: string[]
+  ) {
+    let updatedRecipesList: Recipe[];
+    const totalTime: number = cookingTime + prepTime;
+    const updatedRecipe: Recipe = new Recipe(
+      id,
+      title,
+      type,
+      imageUrl,
+      prepTime,
+      cookingTime,
+      totalTime,
+      yields,
+      star,
+      isVegie,
+      isHealthy,
+      country,
+      ingredients,
+      direction
+    );
 
+    this.getRecipes(type).pipe(take(1)).subscribe(recipes => {
+      console.log(recipes);
+
+      const updatedRecipeIndex = recipes.findIndex(rp => rp.id === id);
+      if (updatedRecipeIndex !== -1) {
+        updatedRecipesList = [...recipes];
+        updatedRecipesList[updatedRecipeIndex] = updatedRecipe;
+        if (type === 'main') {
+          this._mainRecipes.next(updatedRecipesList);
+        } else if (type === 'appetizer') {
+          this._appetizerRecipes.next(updatedRecipesList);
+        } else if (type === 'dessert') {
+          this._dessertRecipes.next(updatedRecipesList);
+        }
+      } else {
+        if (type === 'main') {
+          this._mainRecipes.next(recipes.concat(updatedRecipe));
+        } else if (type === 'appetizer') {
+          this._appetizerRecipes.next(recipes.concat(updatedRecipe));
+        } else if (type === 'dessert') {
+          this._dessertRecipes.next(recipes.concat(updatedRecipe));
+        }
+      }
+    }
+    );
+  }
+
+  deleteRecipe(id: string, type: string) {
+    let deleteRecipeList: Recipe[];
+    this.getRecipes(type).pipe(take(1)).subscribe(recipes => {
+      const deleteRecipeIndex = recipes.findIndex(rp => rp.id === id);
+      deleteRecipeList = [...recipes];
+      deleteRecipeList.splice(deleteRecipeIndex, 1);
+      if (type === 'main') {
+        this._mainRecipes.next(deleteRecipeList);
+      } else if (type === 'appetizer') {
+        this._appetizerRecipes.next(deleteRecipeList);
+      } else if (type === 'dessert') {
+        this._dessertRecipes.next(deleteRecipeList);
+      }
+    });
   }
 }

@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NavController, ModalController } from '@ionic/angular';
 import { RecipeService } from '../recipe.service';
 import { Recipe } from 'src/models/recipe.model';
-import { faAngleLeft, faLeaf, faStar as faSolidStar, faHeartbeat, faEllipsisH, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faAngleLeft, faLeaf, faStar as faSolidStar, faWeight, faEllipsisH, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { faStar as faRegularStar } from '@fortawesome/free-regular-svg-icons';
 import { NewRecipeModalComponent } from '../modal/new-recipe-modal/new-recipe-modal.component';
 
@@ -21,7 +21,7 @@ export class RecipeDetailPage implements OnInit {
   faStar = faSolidStar;
   faStar2 = faRegularStar;
   faEllipsisH = faEllipsisH;
-  faHeartbeat = faHeartbeat;
+  faWeight = faWeight;
   faEdit = faEdit;
   faTrash = faTrash;
   isDropdownOpen = false;
@@ -76,11 +76,13 @@ export class RecipeDetailPage implements OnInit {
       });
       modalEl.present();
     });
-    this.recipeService.updateRecipe();
   }
 
   onDeleteRecipe() {
     this.isDropdownOpen = false;
+    const type = this.recipe.type;
+    this.recipeService.deleteRecipe(this.recipe.id, type);
+    this.navCtrl.navigateBack(`/home/tabs/recipes/${type}`);
   }
 
 
