@@ -1,0 +1,46 @@
+<ion-content>
+  <div class="background-container">
+    <div class="logo-container">
+      <img src="../../assets/img/logo.png" class="logo" />
+    </div>
+  </div>
+  <div class="curve">
+    <svg version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+      x="0px" y="0px" viewBox="0 0 500 131.82" style="enable-background:new 0 0 500 131.82;" xml:space="preserve">
+      <style type="text/css">
+        .st0 {
+          fill: #F7B192;
+        }
+      </style>
+      <g transform="matrix(1, 0, 0, 1, 0, 0)">
+        <path id="Tracé_1-2" class="st0" d="M0,16.58c0,0,74.81-33.49,223.14,26.32c138.5,55.85,195.86,88.71,276.86,88.92
+     C500,0,500,103.24,500,0H0V16.58z" />
+      </g>
+    </svg>
+  </div>
+  <ion-grid>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-xs="8" size-sm="6">
+        <div class="connexion-container">
+          <ion-item>
+            <ion-label position="floating">E-mail</ion-label>
+            <ion-input type="text"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Mot de passe</ion-label>
+            <ion-input type="text"></ion-input>
+          </ion-item>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-xs="8" size-sm="6">
+        <ion-button class="login-button" (click)="onLogin()" expand="block">
+          C'est parti !
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+</ion-content>

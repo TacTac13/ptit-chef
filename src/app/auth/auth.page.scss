@@ -1,0 +1,30 @@
+ion-content {
+  .background-container {
+    background-color: var(--ion-color-primary);
+    height: 47%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .logo-container {
+        display: flex;  
+        justify-content: center;
+        .logo{
+            width: 72%;
+        }
+    }
+  }
+  .curve{
+    margin-top: -2px;
+  }
+  .connexion-container{
+      margin-top: -26px;
+  }
+  ion-button{
+    font-family: "Roboto Bold";
+    font-size: 21px;
+    --border-radius: 0px;
+    --color: var(--ion-color-secondary);
+    margin-top: 30px;
+    padding: 4px 0;
+  }
+}
