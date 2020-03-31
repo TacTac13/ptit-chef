@@ -1,0 +1,48 @@
+.search {
+  margin-top: 5px;
+  color: var(--ion-color-secondary);
+  margin-bottom: -10px;
+}
+
+h3{
+  font-family: "Roboto regular";
+}
+
+ion-searchbar {
+  --box-shadow: none;
+  --placeholder-opacity: 1;
+}
+
+.sc-ion-searchbar-ios {
+  opacity: 1;
+}
+
+.info-container{
+  display: flex;
+  justify-content: space-between;
+  .stars-container {
+    display: flex;
+    margin-top: 1px;
+    .star-icon {
+      transform: rotate(45deg);
+      color: var(--ion-color-primary);
+      margin-right: 5px;
+      font-size: 13px;
+    }    
+  }
+  .info{
+    font-size: 13px;
+    .leaf {
+      color: #2ac22a;
+      margin-right: 5px;
+    }
+    .weight {
+      color: #309ec0;
+      margin-right: 5px;
+    }
+    .flag-icon {
+      transform: scaleX(1.3);
+    }
+  }
+}
+

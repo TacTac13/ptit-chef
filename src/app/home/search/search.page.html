@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-searchbar animated color="primary" placeholder="Rechercher une recette" class="search" (ionInput)="filterList($event)"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let recipe of recipesList" (click)="onClickRecipe(recipe.id, recipe.type)">
+      <ion-avatar slot="start">
+        <img src="{{recipe.imageUrl}}">
+      </ion-avatar>
+      <ion-label>
+        <h3>{{recipe.title}}</h3>
+        <div class="info-container">
+          <div class="stars-container">
+            <div *ngFor="let star of recipe.star" class="star-icon">
+              <fa-icon [icon]="faStar" *ngIf="star"></fa-icon>
+              <fa-icon [icon]="faStar2" *ngIf="!star"></fa-icon>
+            </div>          
+          </div>
+          <div class="info">
+            <fa-icon [icon]="faWeight" class="weight" *ngIf="recipe.isHealthy"></fa-icon>
+            <fa-icon [icon]="faLeaf" class="leaf" *ngIf="recipe.isVegie"></fa-icon>
+            <span [ngClass]="getCoutryClass(recipe.country)" class="flag-icon"></span>
+          </div>
+        </div>
+        
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

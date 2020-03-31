@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, ViewChildren, QueryList } from '@angular/core';
 
 import { faCheck, faTimes, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { ModalController, NavParams, IonInput } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { countryList } from '../../../../shared/country-list';
-import { RecipeService } from '../../recipe.service';
+import { RecipeService } from '../../../../service/recipe.service';
 
 import { Recipe } from 'src/models/recipe.model';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
@@ -64,7 +64,8 @@ export class NewRecipeModalComponent implements OnInit {
   constructor(
     private modalCtrl: ModalController,
     private fb: FormBuilder,
-    private recipeService: RecipeService
+    private recipeService: RecipeService,
+    private navCtrl: NavController
   ) { }
 
   ngOnInit() {
@@ -151,8 +152,7 @@ export class NewRecipeModalComponent implements OnInit {
       try {
         imageFile = base64toBlob(imageData.replace('data:image/jpeg;base64', ''), 'image/jpeg');
       } catch (error) {
-        console.log(error);
-        return;
+         return;
       }
     } else {
       imageFile = imageData;
@@ -193,6 +193,7 @@ export class NewRecipeModalComponent implements OnInit {
         this.steps,
       );
     };
+    this.modalCtrl.dismiss();
   }
 
 onEditRecipe() {
@@ -240,6 +241,10 @@ onEditRecipe() {
       this.steps ? this.steps : this.Recipe.direction,
     );
   }
+  if (this.form.value.recipeType && this.Recipe.type !== this.form.value.recipeType) {
+    this.navCtrl.navigateRoot(`/home/tabs/recipes/${this.form.value.recipeType}/${this.Recipe.id}`);
+  }
+  this.modalCtrl.dismiss();
 }
 
 onRate(event) {

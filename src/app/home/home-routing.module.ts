@@ -17,16 +17,25 @@ const routes: Routes = [
           },
           {
             path: ':recipeList',
-            loadChildren: () => import('./recipes-list/recipes-list.module').then( m => m.RecipesListPageModule)
+            loadChildren: () => import('./recipes/recipes-list/recipes-list.module').then( m => m.RecipesListPageModule)
           },
           {
             path: ':recipeList',
             children: [
               {
                 path: ':recipeId',
-                loadChildren: () => import('./recipe-detail/recipe-detail.module').then( m => m.RecipeDetailPageModule)
+                loadChildren: () => import('./recipes/recipe-detail/recipe-detail.module').then( m => m.RecipeDetailPageModule)
               }
             ]
+          }
+        ]
+      },
+      {
+        path: 'search',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('./search/search.module').then( m => m.SearchPageModule)
           }
         ]
       }
