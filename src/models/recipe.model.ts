@@ -14,5 +14,6 @@ export class Recipe {
         public country: string,
         public ingredients: string[],
         public direction: string[],
+        public userId: string,
     ) { }
 }

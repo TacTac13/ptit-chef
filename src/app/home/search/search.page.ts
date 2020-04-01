@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RecipeService } from 'src/service/recipe.service';
 import { Recipe } from 'src/models/recipe.model';
 import { faStar as faSolidStar, faWeight, faLeaf } from '@fortawesome/free-solid-svg-icons';
 import { faStar as faRegularStar } from '@fortawesome/free-regular-svg-icons';
 import { NavController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.page.html',
   styleUrls: ['./search.page.scss'],
 })
-export class SearchPage implements OnInit {
+export class SearchPage implements OnInit, OnDestroy {
 
   constructor(private recipeService: RecipeService, private navCtrl: NavController) { }
 
@@ -20,9 +21,10 @@ export class SearchPage implements OnInit {
   faStar2 = faRegularStar;
   faWeight = faWeight;
   faLeaf = faLeaf;
+  recipesSub: Subscription;
 
   ngOnInit() {
-    this.recipeService.getAllRecipes().subscribe( recipes => {
+    this.recipesSub = this.recipeService.getAllRecipes().subscribe( recipes => {
       this.recipesList = recipes;
       this.loadedrecipesList = recipes;
     });
@@ -56,6 +58,12 @@ export class SearchPage implements OnInit {
         return false;
       }
     });
+  }
+
+  ngOnDestroy() {
+    if (this.recipesSub) {
+      this.recipesSub.unsubscribe();
+    }
   }
 
 }

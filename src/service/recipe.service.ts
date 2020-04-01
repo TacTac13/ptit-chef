@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Recipe } from '../models/recipe.model';
 import { BehaviorSubject, of, Observable } from 'rxjs';
 import { take, map, switchMap, find } from 'rxjs/operators';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class RecipeService {
 
   public oldType: string;
 
-  constructor() {
+  constructor(private authService: AuthService) {
   }
 
 
@@ -50,6 +51,7 @@ export class RecipeService {
           'Quand les lentilles sont cuites, ajoutez-les dans la poêle, ajoutez un peu d\'eau et laissez cuire encore 10 minutes.',
           'Au moment de servir, ajoutez un filet d\'huile d\'olive et un peu de coriandre fraîche.'
         ],
+        userId: 'abc'
       },
       {
         id: 'm2',
@@ -85,6 +87,7 @@ export class RecipeService {
           'Enfournez pendant 40 minutes.',
           'Dégustez bien chaud.',
         ],
+        userId: 'abc'
       }
     ]);
 
@@ -118,6 +121,7 @@ export class RecipeService {
         'Les remplir au 3/4 avec la préparation',
         'Enfourner 7 minutes précises à four bien chaud, déguster tiède avec une glace vanille'
       ],
+      userId: 'abc'
     }
   ]);
 
@@ -152,6 +156,7 @@ export class RecipeService {
         'Faire un sauce en mélangeant la crème liquide avec la mayonnaise, le filet de citron et la ciboulette hachée finement. Repartir la sauce sur le saumon et le kiwi.',
         'Décorer avec des oeufs de lump et un brin de ciboulette.',
       ],
+      userId: 'abc'
     }
   ]);
 
@@ -214,6 +219,7 @@ export class RecipeService {
       country,
       ingredients,
       direction,
+      this.authService.userId
     );
     this.getRecipes(type).pipe(take(1)).subscribe(recipes => {
       if (type === 'main') {
@@ -257,7 +263,8 @@ export class RecipeService {
       isHealthy,
       country,
       ingredients,
-      direction
+      direction,
+      this.authService.userId
     );
 
     this.getRecipes(type).pipe(take(1)).subscribe(recipes => {

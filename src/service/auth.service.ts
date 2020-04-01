@@ -6,11 +6,17 @@ import { Injectable } from '@angular/core';
 export class AuthService {
   // tslint:disable-next-line: variable-name
   private _userIsAuthenticated = false;
+  // tslint:disable-next-line: variable-name
+  private _userId = 'abc';
 
   constructor() { }
 
   get userIsAuthenticated() {
     return this._userIsAuthenticated;
+  }
+
+  get userId() {
+    return this._userId;
   }
 
   login() {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController, ModalController, AlertController } from '@ionic/angular';
 import { RecipeService } from '../../../../service/recipe.service';
@@ -6,13 +6,14 @@ import { Recipe } from 'src/models/recipe.model';
 import { faAngleLeft, faLeaf, faStar as faSolidStar, faWeight, faEllipsisH, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { faStar as faRegularStar } from '@fortawesome/free-regular-svg-icons';
 import { NewRecipeModalComponent } from '../../modal/new-recipe-modal/new-recipe-modal.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-recipe-detail',
   templateUrl: './recipe-detail.page.html',
   styleUrls: ['./recipe-detail.page.scss'],
 })
-export class RecipeDetailPage implements OnInit {
+export class RecipeDetailPage implements OnInit, OnDestroy {
 
   recipe: Recipe;
   recipeType: string;
@@ -25,6 +26,7 @@ export class RecipeDetailPage implements OnInit {
   faEdit = faEdit;
   faTrash = faTrash;
   isDropdownOpen = false;
+  recipesSub: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -49,7 +51,7 @@ export class RecipeDetailPage implements OnInit {
     }
 
 
-    this.recipeService.getRecipeFromId(
+    this.recipesSub = this.recipeService.getRecipeFromId(
       this.route.snapshot.paramMap.get('recipeId'),
       this.route.snapshot.paramMap.get('recipeList')
     ).subscribe((recipe: Recipe) => {
@@ -106,5 +108,10 @@ export class RecipeDetailPage implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    if (this.recipesSub) {
+      this.recipesSub.unsubscribe();
+    }
+  }
 
 }
