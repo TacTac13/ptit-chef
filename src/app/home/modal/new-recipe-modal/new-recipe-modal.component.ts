@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, ViewChildren, QueryList } from '@angular/core';
 
 import { faCheck, faTimes, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { ModalController, NavController } from '@ionic/angular';
+import { ModalController, NavController, LoadingController } from '@ionic/angular';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { countryList } from '../../../../shared/country-list';
 import { RecipeService } from '../../../../service/recipe.service';
@@ -65,7 +65,8 @@ export class NewRecipeModalComponent implements OnInit {
     private modalCtrl: ModalController,
     private fb: FormBuilder,
     private recipeService: RecipeService,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private loaderCtrl: LoadingController
   ) { }
 
   ngOnInit() {
@@ -152,7 +153,7 @@ export class NewRecipeModalComponent implements OnInit {
       try {
         imageFile = base64toBlob(imageData.replace('data:image/jpeg;base64', ''), 'image/jpeg');
       } catch (error) {
-         return;
+        return;
       }
     } else {
       imageFile = imageData;
@@ -168,51 +169,76 @@ export class NewRecipeModalComponent implements OnInit {
     this.ingredients = [];
     this.steps = [];
 
+    this.loaderCtrl.create({
+      message: 'Ajout de la nouvelle recette...'
+    }).then(loadingEl => {
+      loadingEl.present();
+      this.getTableMemory(this.ingredientInput, this.ingredients, false);
+      this.getTableMemory(this.stepsInput, this.steps, false);
+
+      if (this.rating.length === 0) {
+        this.rating = [false, false, false, false, false];
+      }
+      const fr = new FileReader();
+      fr.readAsDataURL(this.form.value.image);
+      fr.onload = () => {
+        this.selectedImage = fr.result.toString();
+        this.recipeService.addRecipe(
+          this.form.value.recipeName,
+          this.form.value.recipeType,
+          this.selectedImage,
+          this.form.value.prep,
+          this.form.value.cook,
+          this.form.value.yields,
+          this.rating,
+          this.form.value.vegieSwitch,
+          this.form.value.healthySwitch,
+          this.form.value.country,
+          this.ingredients,
+          this.steps,
+        ).subscribe(() => {
+          loadingEl.dismiss();
+          this.form.reset();
+          this.modalCtrl.dismiss();
+        });
+      };
+    });
+  }
+
+  onEditRecipe() {
+    this.ingredients = [];
+    this.steps = [];
+
     this.getTableMemory(this.ingredientInput, this.ingredients, false);
     this.getTableMemory(this.stepsInput, this.steps, false);
 
-    if (this.rating.length === 0) {
-      this.rating = [false, false, false, false, false];
-    }
-    const fr = new FileReader();
-    fr.readAsDataURL(this.form.value.image);
-    fr.onload = () => {
-      this.selectedImage = fr.result.toString();
-      this.recipeService.addRecipe(
-        this.form.value.recipeName,
-        this.form.value.recipeType,
-        this.selectedImage,
-        this.form.value.prep,
-        this.form.value.cook,
-        this.form.value.yields,
-        this.rating,
-        this.form.value.vegieSwitch,
-        this.form.value.healthySwitch,
-        this.form.value.country,
-        this.ingredients,
-        this.steps,
-      );
-    };
-    this.modalCtrl.dismiss();
-  }
-
-onEditRecipe() {
-  this.ingredients = [];
-  this.steps = [];
-
-  this.getTableMemory(this.ingredientInput, this.ingredients, false);
-  this.getTableMemory(this.stepsInput, this.steps, false);
-
-  if (this.form.value.image) {
-    const fr = new FileReader();
-    fr.readAsDataURL(this.form.value.image);
-    fr.onload = () => {
-      this.selectedImage = fr.result.toString();
+    if (this.form.value.image) {
+      const fr = new FileReader();
+      fr.readAsDataURL(this.form.value.image);
+      fr.onload = () => {
+        this.selectedImage = fr.result.toString();
+        this.recipeService.updateRecipe(
+          this.Recipe.id,
+          this.form.value.recipeName ? this.form.value.recipeName : this.Recipe.title,
+          this.form.value.recipeType ? this.form.value.recipeType : this.Recipe.type,
+          this.selectedImage,
+          this.form.value.prep ? this.form.value.prep : this.Recipe.prepTime,
+          this.form.value.cook ? this.form.value.cook : this.Recipe.cookingTime,
+          this.form.value.yields ? this.form.value.yields : this.Recipe.yields,
+          this.rating.length !== 0 ? this.rating : this.Recipe.star,
+          this.form.value.vegieSwitch,
+          this.form.value.healthySwitch,
+          this.form.value.country ? this.form.value.country : this.Recipe.country,
+          this.ingredients ? this.ingredients : this.Recipe.ingredients,
+          this.steps ? this.steps : this.Recipe.direction,
+        );
+      };
+    } else {
       this.recipeService.updateRecipe(
         this.Recipe.id,
         this.form.value.recipeName ? this.form.value.recipeName : this.Recipe.title,
         this.form.value.recipeType ? this.form.value.recipeType : this.Recipe.type,
-        this.selectedImage,
+        this.Recipe.imageUrl,
         this.form.value.prep ? this.form.value.prep : this.Recipe.prepTime,
         this.form.value.cook ? this.form.value.cook : this.Recipe.cookingTime,
         this.form.value.yields ? this.form.value.yields : this.Recipe.yields,
@@ -223,49 +249,32 @@ onEditRecipe() {
         this.ingredients ? this.ingredients : this.Recipe.ingredients,
         this.steps ? this.steps : this.Recipe.direction,
       );
-    };
-  } else {
-    this.recipeService.updateRecipe(
-      this.Recipe.id,
-      this.form.value.recipeName ? this.form.value.recipeName : this.Recipe.title,
-      this.form.value.recipeType ? this.form.value.recipeType : this.Recipe.type,
-      this.Recipe.imageUrl,
-      this.form.value.prep ? this.form.value.prep : this.Recipe.prepTime,
-      this.form.value.cook ? this.form.value.cook : this.Recipe.cookingTime,
-      this.form.value.yields ? this.form.value.yields : this.Recipe.yields,
-      this.rating.length !== 0 ? this.rating : this.Recipe.star,
-      this.form.value.vegieSwitch,
-      this.form.value.healthySwitch,
-      this.form.value.country ? this.form.value.country : this.Recipe.country,
-      this.ingredients ? this.ingredients : this.Recipe.ingredients,
-      this.steps ? this.steps : this.Recipe.direction,
-    );
-  }
-  if (this.form.value.recipeType && this.Recipe.type !== this.form.value.recipeType) {
-    this.navCtrl.navigateRoot(`/home/tabs/recipes/${this.form.value.recipeType}/${this.Recipe.id}`);
-  }
-  this.modalCtrl.dismiss();
-}
-
-onRate(event) {
-  this.rating = [];
-  const starsLeft: number = 5 - event.newValue;
-  for (let i = 0; i < event.newValue; i++) {
-    this.rating.push(true);
-  }
-  for (let j = 0; j < starsLeft; j++) {
-    this.rating.push(false);
-  }
-}
-
-  private getTableMemory(input: QueryList < any >, table: string[], deleteMethode: boolean) {
-  input.forEach((item) => {
-    if (!deleteMethode && item.value) {
-      table.push(item.value);
-    } else if (deleteMethode) {
-      table.push(item.value);
     }
-  });
-}
+    if (this.form.value.recipeType && this.Recipe.type !== this.form.value.recipeType) {
+      this.navCtrl.navigateRoot(`/home/tabs/recipes/${this.form.value.recipeType}/${this.Recipe.id}`);
+    }
+    this.modalCtrl.dismiss();
+  }
+
+  onRate(event) {
+    this.rating = [];
+    const starsLeft: number = 5 - event.newValue;
+    for (let i = 0; i < event.newValue; i++) {
+      this.rating.push(true);
+    }
+    for (let j = 0; j < starsLeft; j++) {
+      this.rating.push(false);
+    }
+  }
+
+  private getTableMemory(input: QueryList<any>, table: string[], deleteMethode: boolean) {
+    input.forEach((item) => {
+      if (!deleteMethode && item.value) {
+        table.push(item.value);
+      } else if (deleteMethode) {
+        table.push(item.value);
+      }
+    });
+  }
 
 }

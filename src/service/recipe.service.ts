@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Recipe } from '../models/recipe.model';
 import { BehaviorSubject, of, Observable } from 'rxjs';
-import { take, map, switchMap, find } from 'rxjs/operators';
+import { take, map, switchMap, find, tap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class RecipeService {
 
   public oldType: string;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private http: HttpClient) {
   }
 
 
@@ -200,6 +201,7 @@ export class RecipeService {
     ingredients: string[],
     direction: string[]) {
 
+    let generatedId: string;
     let newRecipe: Recipe;
     const totalTime: number = cookingTime + prepTime;
     const recipeId: string = '_' + Math.random().toString(36).substr(2, 9);
@@ -221,15 +223,25 @@ export class RecipeService {
       direction,
       this.authService.userId
     );
-    this.getRecipes(type).pipe(take(1)).subscribe(recipes => {
-      if (type === 'main') {
-        this._mainRecipes.next(recipes.concat(newRecipe));
-      } else if (type === 'appetizer') {
-        this._appetizerRecipes.next(recipes.concat(newRecipe));
-      } else if (type === 'dessert') {
-        this._dessertRecipes.next(recipes.concat(newRecipe));
-      }
-    });
+
+    return this.http.post<{ name: string }>(`https://ptit-chef.firebaseio.com/${type}.json`, { ...newRecipe, id: null })
+      .pipe(
+        switchMap(resData => {
+          generatedId = resData.name;
+          return this.getRecipes(type);
+        }),
+        take(1),
+        tap(recipes => {
+          newRecipe.id = generatedId;
+          if (type === 'main') {
+            this._mainRecipes.next(recipes.concat(newRecipe));
+          } else if (type === 'appetizer') {
+            this._appetizerRecipes.next(recipes.concat(newRecipe));
+          } else if (type === 'dessert') {
+            this._dessertRecipes.next(recipes.concat(newRecipe));
+          }
+        })
+      );
   }
 
   updateRecipe(
