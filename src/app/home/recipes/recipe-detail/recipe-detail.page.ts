@@ -27,6 +27,7 @@ export class RecipeDetailPage implements OnInit, OnDestroy {
   faTrash = faTrash;
   isDropdownOpen = false;
   recipesSub: Subscription;
+  isLoading = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -56,6 +57,13 @@ export class RecipeDetailPage implements OnInit, OnDestroy {
       this.route.snapshot.paramMap.get('recipeList')
     ).subscribe((recipe: Recipe) => {
       this.recipe = recipe;
+    });
+  }
+
+  ionViewWillEnter() {
+    this.isLoading = true;
+    this.recipeService.fetchRecipes(this.recipeType).subscribe(() => {
+      this.isLoading = false;
     });
   }
 

@@ -23,6 +23,7 @@ export class RecipesListPage implements OnInit, OnDestroy {
   faStar2 = faRegularStar;
   faWeight = faWeight;
   recipesSub: Subscription;
+  isLoading = false;
 
   constructor(
     private recipeService: RecipeService,
@@ -42,6 +43,13 @@ export class RecipesListPage implements OnInit, OnDestroy {
 
     this.recipesSub = this.recipeService.getRecipes(this.recipeType).subscribe((recipes: Recipe[]) => {
       this.recipesList = recipes;
+    });
+  }
+
+  ionViewWillEnter() {
+    this.isLoading = true;
+    this.recipeService.fetchRecipes(this.recipeType).subscribe(() => {
+      this.isLoading = false;
     });
   }
 

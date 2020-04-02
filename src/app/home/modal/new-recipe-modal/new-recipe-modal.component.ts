@@ -169,12 +169,13 @@ export class NewRecipeModalComponent implements OnInit {
     this.ingredients = [];
     this.steps = [];
 
+    this.ingredients = this.getTableMemory(this.ingredientInput, this.ingredients, false);
+    this.steps = this.getTableMemory(this.stepsInput, this.steps, false);
+
     this.loaderCtrl.create({
       message: 'Ajout de la nouvelle recette...'
     }).then(loadingEl => {
       loadingEl.present();
-      this.getTableMemory(this.ingredientInput, this.ingredients, false);
-      this.getTableMemory(this.stepsInput, this.steps, false);
 
       if (this.rating.length === 0) {
         this.rating = [false, false, false, false, false];
@@ -209,8 +210,8 @@ export class NewRecipeModalComponent implements OnInit {
     this.ingredients = [];
     this.steps = [];
 
-    this.getTableMemory(this.ingredientInput, this.ingredients, false);
-    this.getTableMemory(this.stepsInput, this.steps, false);
+    this.ingredients = this.getTableMemory(this.ingredientInput, this.ingredients, false);
+    this.steps = this.getTableMemory(this.stepsInput, this.steps, false);
 
     if (this.form.value.image) {
       const fr = new FileReader();
@@ -275,6 +276,7 @@ export class NewRecipeModalComponent implements OnInit {
         table.push(item.value);
       }
     });
+    return table;
   }
 
 }

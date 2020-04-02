@@ -18,6 +18,13 @@ ion-toolbar {
   --color: white;
   --border-width: 0 0 0 !important;
 }
+ion-grid{
+  .spinner{
+    width: 100%;
+    justify-content: center;
+    display: flex;
+  }
+}
 
 ion-row {
   margin-top: -22px;
@@ -80,4 +87,6 @@ ion-row {
       }
     }
   }
+
+ 
 }

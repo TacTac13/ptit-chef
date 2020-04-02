@@ -13,7 +13,11 @@ import { Subscription } from 'rxjs';
 })
 export class SearchPage implements OnInit, OnDestroy {
 
-  constructor(private recipeService: RecipeService, private navCtrl: NavController) { }
+  constructor(private recipeService: RecipeService, private navCtrl: NavController) {
+    // this.recipeService.fetchRecipes('appetizer').subscribe();
+    // this.recipeService.fetchRecipes('main').subscribe();
+    // this.recipeService.fetchRecipes('dessert').subscribe();
+  }
 
   recipesList: Recipe[];
   loadedrecipesList: Recipe[];
@@ -24,10 +28,24 @@ export class SearchPage implements OnInit, OnDestroy {
   recipesSub: Subscription;
 
   ngOnInit() {
-    this.recipesSub = this.recipeService.getAllRecipes().subscribe( recipes => {
-      this.recipesList = recipes;
-      this.loadedrecipesList = recipes;
+
+  }
+
+  private fetchAllRecipes(type: string) {
+    this.recipeService.fetchAllRecipes(type).subscribe(recipes => {
+      for (let i = 0; i < recipes.length; i++) {
+        this.recipesList.push(recipes[i]);
+        this.loadedrecipesList.push(recipes[i]);
+      }
     });
+  }
+
+  ionViewWillEnter() {
+    this.recipesList = [];
+    this.loadedrecipesList = [];
+    this.fetchAllRecipes('appetizer');
+    this.fetchAllRecipes('main');
+    this.fetchAllRecipes('dessert');
   }
 
   initializeItems(): void {
@@ -39,7 +57,9 @@ export class SearchPage implements OnInit, OnDestroy {
   }
 
   onClickRecipe(id: string, type: string) {
-    this.navCtrl.navigateForward(`/home/tabs/recipes/${type}/${id}`);
+    this.recipeService.fetchRecipes(type).subscribe(() => {
+      this.navCtrl.navigateForward(`/home/tabs/recipes/${type}/${id}`);
+    });
   }
 
   filterList(evt) {
