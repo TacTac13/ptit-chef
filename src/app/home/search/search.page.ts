@@ -13,11 +13,7 @@ import { Subscription } from 'rxjs';
 })
 export class SearchPage implements OnInit, OnDestroy {
 
-  constructor(private recipeService: RecipeService, private navCtrl: NavController) {
-    // this.recipeService.fetchRecipes('appetizer').subscribe();
-    // this.recipeService.fetchRecipes('main').subscribe();
-    // this.recipeService.fetchRecipes('dessert').subscribe();
-  }
+  constructor(private recipeService: RecipeService, private navCtrl: NavController) {}
 
   recipesList: Recipe[];
   loadedrecipesList: Recipe[];
@@ -27,15 +23,13 @@ export class SearchPage implements OnInit, OnDestroy {
   faLeaf = faLeaf;
   recipesSub: Subscription;
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 
   private fetchAllRecipes(type: string) {
     this.recipeService.fetchAllRecipes(type).subscribe(recipes => {
-      for (let i = 0; i < recipes.length; i++) {
-        this.recipesList.push(recipes[i]);
-        this.loadedrecipesList.push(recipes[i]);
+      for (const i of recipes) {
+        this.recipesList.push(i);
+        this.loadedrecipesList.push(i);
       }
     });
   }

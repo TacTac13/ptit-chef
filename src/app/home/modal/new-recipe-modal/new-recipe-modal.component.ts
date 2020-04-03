@@ -232,7 +232,15 @@ export class NewRecipeModalComponent implements OnInit {
           this.form.value.country ? this.form.value.country : this.Recipe.country,
           this.ingredients ? this.ingredients : this.Recipe.ingredients,
           this.steps ? this.steps : this.Recipe.direction,
-        );
+        ).subscribe(() => {
+          //loadingEl.dismiss();
+          if (this.form.value.recipeType && this.Recipe.type !== this.form.value.recipeType) {
+            this.recipeService.deleteRecipe(this.Recipe.id, this.Recipe.type).subscribe(() => {
+              this.navCtrl.navigateRoot(`/home/tabs/recipes/${this.form.value.recipeType}/${this.Recipe.id}`);
+            });
+          }
+          this.modalCtrl.dismiss();
+        });
       };
     } else {
       this.recipeService.updateRecipe(
@@ -249,12 +257,17 @@ export class NewRecipeModalComponent implements OnInit {
         this.form.value.country ? this.form.value.country : this.Recipe.country,
         this.ingredients ? this.ingredients : this.Recipe.ingredients,
         this.steps ? this.steps : this.Recipe.direction,
-      );
+      ).subscribe(() => {
+        //loadingEl.dismiss();
+        if (this.form.value.recipeType && this.Recipe.type !== this.form.value.recipeType) {
+          this.recipeService.deleteRecipe(this.Recipe.id, this.Recipe.type).subscribe();
+          this.recipeService.fetchRecipes(this.form.value.recipeType).subscribe(() => {
+            this.navCtrl.navigateRoot(`/home/tabs/recipes/${this.form.value.recipeType}/${this.Recipe.id}`);
+          });
+        }
+        this.modalCtrl.dismiss();
+      });
     }
-    if (this.form.value.recipeType && this.Recipe.type !== this.form.value.recipeType) {
-      this.navCtrl.navigateRoot(`/home/tabs/recipes/${this.form.value.recipeType}/${this.Recipe.id}`);
-    }
-    this.modalCtrl.dismiss();
   }
 
   onRate(event) {

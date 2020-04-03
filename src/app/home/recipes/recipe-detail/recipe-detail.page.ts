@@ -38,20 +38,10 @@ export class RecipeDetailPage implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-
-    if (!this.route.snapshot.paramMap.has('recipeList')) {
-      this.navCtrl.navigateBack('/home/tabs/recipes');
-      return;
-    } else {
-      this.recipeType = this.route.snapshot.paramMap.get('recipeList');
-    }
-
     if (!this.route.snapshot.paramMap.has('recipeId')) {
       this.navCtrl.navigateBack('/home/tabs/recipes');
       return;
     }
-
-
     this.recipesSub = this.recipeService.getRecipeFromId(
       this.route.snapshot.paramMap.get('recipeId'),
       this.route.snapshot.paramMap.get('recipeList')
@@ -61,6 +51,12 @@ export class RecipeDetailPage implements OnInit, OnDestroy {
   }
 
   ionViewWillEnter() {
+    if (!this.route.snapshot.paramMap.has('recipeList')) {
+      this.navCtrl.navigateBack('/home/tabs/recipes');
+      return;
+    } else {
+      this.recipeType = this.route.snapshot.paramMap.get('recipeList');
+    }
     this.isLoading = true;
     this.recipeService.fetchRecipes(this.recipeType).subscribe(() => {
       this.isLoading = false;
@@ -106,8 +102,9 @@ export class RecipeDetailPage implements OnInit, OnDestroy {
         },
         {
           text: 'Ok', handler: () => {
-            this.recipeService.deleteRecipe(this.recipe.id, type);
-            this.navCtrl.navigateBack(`/home/tabs/recipes/${type}`);
+            this.recipeService.deleteRecipe(this.recipe.id, type).subscribe(() => {
+              this.navCtrl.navigateBack(`/home/tabs/recipes/${type}`);
+            });
           }
         }
       ]

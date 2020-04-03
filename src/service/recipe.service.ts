@@ -161,9 +161,6 @@ export class RecipeService {
   // tslint:disable-next-line: variable-name
   private _appetizerRecipes = new BehaviorSubject<Recipe[]>([]);
 
-  // tslint:disable-next-line: variable-name
-  private _allRecipeList = new BehaviorSubject<Recipe[]>([]);
-
   private findType(type: string) {
     if (type === 'main') {
       return this._mainRecipes;
@@ -277,13 +274,7 @@ export class RecipeService {
         take(1),
         tap(recipes => {
           newRecipe.id = generatedId;
-          if (type === 'main') {
-            this._mainRecipes.next(recipes.concat(newRecipe));
-          } else if (type === 'appetizer') {
-            this._appetizerRecipes.next(recipes.concat(newRecipe));
-          } else if (type === 'dessert') {
-            this._dessertRecipes.next(recipes.concat(newRecipe));
-          }
+          this.dispatchData(type, recipes.concat(newRecipe));
         })
       );
   }
@@ -303,6 +294,7 @@ export class RecipeService {
     ingredients: string[],
     direction: string[]
   ) {
+
     let updatedRecipesList: Recipe[];
     const totalTime: number = cookingTime + prepTime;
     const updatedRecipe: Recipe = new Recipe(
@@ -323,70 +315,41 @@ export class RecipeService {
       this.authService.userId
     );
 
-    this.getRecipes(type).pipe(take(1)).subscribe(recipes => {
-      this.deleteRecipe(id, this.oldType);
-      const updatedRecipeIndex = recipes.findIndex(rp => rp.id === id);
-      if (updatedRecipeIndex !== -1) {
+    return this.getRecipes(type).pipe(
+      take(1),
+      switchMap(recipes => {
+        const updatedRecipeIndex = recipes.findIndex(rp => rp.id === id);
         updatedRecipesList = [...recipes];
         updatedRecipesList[updatedRecipeIndex] = updatedRecipe;
-        if (type === 'main') {
-          this._mainRecipes.next(updatedRecipesList);
-        } else if (type === 'appetizer') {
-          this._appetizerRecipes.next(updatedRecipesList);
-        } else if (type === 'dessert') {
-          this._dessertRecipes.next(updatedRecipesList);
-        }
-      } else {
-        if (type === 'main') {
-          this._mainRecipes.next(recipes.concat(updatedRecipe));
-        } else if (type === 'appetizer') {
-          this._appetizerRecipes.next(recipes.concat(updatedRecipe));
-        } else if (type === 'dessert') {
-          this._dessertRecipes.next(recipes.concat(updatedRecipe));
-        }
-      }
-    }
+        return this.http.put(`https://ptit-chef.firebaseio.com/${type}/${id}.json`, { ...updatedRecipesList[updatedRecipeIndex], id: null });
+
+        // if (updatedRecipeIndex !== -1) {
+        //   updatedRecipesList = [...recipes];
+        //   updatedRecipesList[updatedRecipeIndex] = updatedRecipe;
+        //   this.dispatchData(type, updatedRecipesList);
+        // } else {
+        //   this.dispatchData(type, recipes.concat(updatedRecipe));
+        // }
+      }),
+      tap(() => {
+        this.dispatchData(type, updatedRecipesList);
+      })
     );
   }
 
-  deleteRecipe(id: string, type: string) {
+  deleteRecipe(id: string, type: string): any {
     let deleteRecipeList: Recipe[];
-    this.getRecipes(type).pipe(take(1)).subscribe(recipes => {
+    return this.getRecipes(type).pipe(
+    take(1),
+    switchMap(recipes => {
       const deleteRecipeIndex = recipes.findIndex(rp => rp.id === id);
       deleteRecipeList = [...recipes];
       deleteRecipeList.splice(deleteRecipeIndex, 1);
-      if (type === 'main') {
-        this._mainRecipes.next(deleteRecipeList);
-      } else if (type === 'appetizer') {
-        this._appetizerRecipes.next(deleteRecipeList);
-      } else if (type === 'dessert') {
-        this._dessertRecipes.next(deleteRecipeList);
-      }
-    });
-  }
-
-  getAllRecipes() {
-    const allRecipeList = [];
-
-    this.getRecipes('appetizer').subscribe(recipes => {
-      recipes.map(recipe => {
-        allRecipeList.push(recipe);
-      });
-    });
-    this.getRecipes('main').subscribe(recipes => {
-      recipes.map(recipe => {
-        allRecipeList.push(recipe);
-      });
-    });
-    this.getRecipes('dessert').subscribe(recipes => {
-      recipes.map(recipe => {
-        allRecipeList.push(recipe);
-      });
-    });
-
-    this._allRecipeList.next(allRecipeList);
-
-    return this._allRecipeList.asObservable();
+      return this.http.delete(`https://ptit-chef.firebaseio.com/${type}/${id}.json`);
+    }),
+    tap(() => {
+      this.dispatchData(type, deleteRecipeList);
+    }));
   }
 
   fetchAllRecipes(type: string) {
