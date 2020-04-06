@@ -5,9 +5,10 @@
         <fa-icon [icon]="faTimes"></fa-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title color="light" class="title">Nouvelle recette</ion-title>
+    <ion-title color="light" class="title">{{!Recipe ? "Nouvelle recette" : "Modifier la recette"}}</ion-title>
     <ion-buttons slot="primary">
-      <ion-button color="light" (click)="!Recipe ? onCreateRecipe() : onEditRecipe()" slot="primary" [disabled]="!Recipe ? !form.valid : false">
+      <ion-button color="light" (click)="!Recipe ? onCreateRecipe() : onEditRecipe()" slot="primary"
+        [disabled]="!Recipe ? !form.valid : false">
         <fa-icon [icon]="faCheck"></fa-icon>
       </ion-button>
     </ion-buttons>
@@ -21,16 +22,19 @@
           <h2 style="margin-top: 0;">Informations</h2>
           <p class="baseline">Veulliez renseigner les informations sur la recette</p>
           <ion-item>
-            <ion-label position="floating">Nom de la recette</ion-label>
+            <ion-label position="floating">Nom de la recette*</ion-label>
             <ion-input type="text" autocomplete autocorrect formControlName="recipeName"
               [value]="Recipe ? Recipe.title: ''"></ion-input>
           </ion-item>
+          <div *ngIf="!form.get('recipeName').valid && form.get('recipeName').touched">
+            <p class="alert">Veuillez nommer votre recette</p>
+          </div>
         </ion-col>
       </ion-row>
       <ion-row class="ion-justify-content-center">
         <ion-col size-sm="8" offset-sm="2">
           <ion-item>
-            <ion-label>Type de plat</ion-label>
+            <ion-label>Type de plat*</ion-label>
             <ion-select ok-text="OK" cancel-text="Annuler" formControlName="recipeType"
               [value]="Recipe ? Recipe.type : ''">
               <ion-select-option value="appetizer">Entrée</ion-select-option>
@@ -38,14 +42,20 @@
               <ion-select-option value="dessert">Dessert</ion-select-option>
             </ion-select>
           </ion-item>
+          <div *ngIf="!form.get('recipeType').valid && form.get('recipeType').touched">
+            <p class="alert">Choisissez un type de plat</p>
+          </div>
         </ion-col>
       </ion-row>
       <ion-row class="ion-justify-content-center">
         <ion-col>
           <ion-item>
-            <ion-label position="floating">Prépartion (min) </ion-label>
+            <ion-label position="floating">Prépartion (min)* </ion-label>
             <ion-input type="number" formControlName="prep" [value]="Recipe ? Recipe.prepTime : ''"></ion-input>
           </ion-item>
+          <div *ngIf="!form.get('prep').valid && form.get('prep').touched">
+            <p class="alert">Indiquez le temps de préparation</p>
+          </div>
         </ion-col>
         <ion-col>
           <ion-item>
@@ -57,18 +67,25 @@
       <ion-row class="ion-justify-content-center">
         <ion-col>
           <ion-item>
-            <ion-label position="floating">Nb Personne </ion-label>
+            <ion-label position="floating">Nb Personne* </ion-label>
             <ion-input type="number" formControlName="yields" [value]="Recipe ? Recipe.yields : ''"></ion-input>
           </ion-item>
+          <div *ngIf="!form.get('yields').valid && form.get('yields').touched">
+            <p class="alert">Indiquez le nombre de personne</p>
+          </div>
         </ion-col>
         <ion-col>
           <ion-item>
-            <ion-label position="floating">Pays</ion-label>
-            <ion-select ok-text="OK" cancel-text="Annuler" formControlName="country" [value]="Recipe ? Recipe.country : ''">
+            <ion-label position="floating">Pays*</ion-label>
+            <ion-select ok-text="OK" cancel-text="Annuler" formControlName="country"
+              [value]="Recipe ? Recipe.country : ''" (ionChange)="Recipe ? countryValidator($event, Recipe.country) : countryValidator($event) " (ionCancel)="Recipe ? countryValidator($event, Recipe.country) : countryValidator($event) ">
               <ion-select-option *ngFor="let country of countryList" value="{{country.value}}">{{country.text}}
               </ion-select-option>
             </ion-select>
           </ion-item>
+          <div *ngIf="!form.get('country').valid && selectOk">
+            <p class="alert">Indiquez le pays de votre recette</p>
+          </div>
         </ion-col>
       </ion-row>
       <ion-row class="ion-justify-content-center">
@@ -102,19 +119,21 @@
           <h2>Evaluation</h2>
           <p class="baseline">Notez cette recette</p>
           <star-rating [value]="Recipe ? stars : 0" totalstars="5" checkedcolor="#F9B191" uncheckedcolor="#DFDFDF"
-            size="28px" readonly="false" (rate)="onRate($event)" ></star-rating>
+            size="28px" readonly="false" (rate)="onRate($event)"></star-rating>
         </ion-col>
       </ion-row>
       <ion-row class="ion-justify-content-center" class="lines-container">
         <ion-col>
           <h2>Ingrédients</h2>
-          <p class="baseline">Ajoutez les ingrédients de la recette</p>
+          <p class="baseline">Ajoutez les ingrédients de la recette*</p>
           <ion-item *ngFor="let ingredient of ingredients; let i = index">
             <ion-input id="i" #ingredientInput formControlName="ingredients" type="text"
               placeholder="Ingrédient {{ i + 1 }}" [value]="this.ingredients[i]"> </ion-input>
             <fa-icon [icon]="faTrash" (click)="removeLine('ingredients', i)" class="trash-icon"></fa-icon>
           </ion-item>
-
+          <div *ngIf="!form.get('ingredients').valid && form.get('ingredients').touched">
+            <p class="alert">Veuillez rentrer au moins un ingrédient à votre recette</p>
+          </div>
           <ion-button (click)="addLine('ingredients')">
             <fa-icon [icon]="faPlus" class="add-icon"></fa-icon>
             <ion-label>Ajouter un ingrédient</ion-label>
@@ -124,26 +143,33 @@
       <ion-row class="ion-justify-content-center" class="lines-container">
         <ion-col>
           <h2>Préparation</h2>
-          <p class="baseline">Ajoutez les étapes de préparation de la recette</p>
-
+          <p class="baseline">Ajoutez les étapes de préparation de la recette*</p>
           <ion-item *ngFor="let step of steps; let i = index">
-            <ion-textarea #stepsInput formControlName="steps" type="text"
-              placeholder="Etape {{ i + 1 }}" [value]="this.steps[i]"> </ion-textarea>
+            <ion-textarea #stepsInput formControlName="steps" type="text" placeholder="Etape {{ i + 1 }}"
+              [value]="this.steps[i]"> </ion-textarea>
             <fa-icon [icon]="faTrash" (click)="removeLine('steps', i)" class="trash-icon"></fa-icon>
           </ion-item>
-
+          <div *ngIf="!form.get('steps').valid && form.get('steps').touched">
+            <p class="alert">Veuillez rentrer au moins une étape de préparation à votre recette</p>
+          </div>
           <ion-button (click)="addLine('steps')">
             <fa-icon [icon]="faPlus" class="add-icon"></fa-icon>
             <ion-label>Ajouter une étape</ion-label>
           </ion-button>
         </ion-col>
-      </ion-row>      
+      </ion-row>
       <ion-row>
         <ion-col>
           <h2>Photo</h2>
           <p class="baseline">Ajoutez une photo</p>
-          <app-image-picker [showPreview]="Recipe ? Recipe.imageUrl : form.get('image').value" (imagePick)="onImagePicked($event)">
+          <app-image-picker [showPreview]="Recipe ? Recipe.imageUrl : form.get('image').value"
+            (imagePick)="onImagePicked($event)">
           </app-image-picker>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <p class="alert">* Champs obligatoires</p>
         </ion-col>
       </ion-row>
     </ion-grid>

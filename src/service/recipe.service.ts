@@ -246,6 +246,9 @@ export class RecipeService {
     let newRecipe: Recipe;
     const totalTime: number = cookingTime + prepTime;
     const recipeId: string = '_' + Math.random().toString(36).substr(2, 9);
+    if (imageUrl === '') {
+      imageUrl = '../assets/img/place-holder.jpg';
+    }
 
     newRecipe = new Recipe(
       recipeId,

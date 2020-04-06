@@ -56,7 +56,7 @@
           <div class="divider"></div>
           <div class="prep-time">
             <p class="title">Cuisson</p>
-            <h2>{{ recipe.cookingTime | minuteSeconds }}</h2>
+            <h2>{{ recipe.cookingTime === 0 ? "-" : recipe.cookingTime | minuteSeconds }}</h2>
           </div>
           <div class="divider"></div>
           <div class="prep-time">

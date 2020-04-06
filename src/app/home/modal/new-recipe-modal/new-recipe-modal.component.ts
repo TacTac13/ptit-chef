@@ -60,6 +60,7 @@ export class NewRecipeModalComponent implements OnInit {
   ingredients = [''];
   steps = [''];
   selectedImage: string;
+  selectOk = false;
 
   constructor(
     private modalCtrl: ModalController,
@@ -94,8 +95,7 @@ export class NewRecipeModalComponent implements OnInit {
         validators: [Validators.required]
       }),
       cook: new FormControl(null, {
-        updateOn: 'blur',
-        validators: [Validators.required]
+        updateOn: 'blur'
       }),
       yields: new FormControl(null, {
         updateOn: 'blur',
@@ -106,9 +106,7 @@ export class NewRecipeModalComponent implements OnInit {
         validators: [Validators.required]
       }),
       rating: new FormControl(null),
-      image: new FormControl(null, {
-        validators: [Validators.required]
-      }),
+      image: new FormControl(null),
       vegieSwitch: new FormControl(this.vegieSwitch, [Validators.required]),
       healthySwitch: new FormControl(this.healthySwitch, [Validators.required]),
       ingredients: new FormControl(null, {
@@ -118,6 +116,19 @@ export class NewRecipeModalComponent implements OnInit {
         validators: [Validators.required]
       })
     });
+  }
+
+  countryValidator(event, country?) {
+    console.log(event, this.selectOk);
+    if (event.detail && !event.detail.value) {
+      this.selectOk = true;
+    } else if (!event.detail && country) {
+      this.selectOk = false;
+    } else if (!event.detail) {
+      this.selectOk = true;
+    } else {
+      this.selectOk = false;
+    }
   }
 
   addLine(line: string) {
@@ -172,24 +183,47 @@ export class NewRecipeModalComponent implements OnInit {
     this.ingredients = this.getTableMemory(this.ingredientInput, this.ingredients, false);
     this.steps = this.getTableMemory(this.stepsInput, this.steps, false);
 
+    if (this.rating.length === 0) {
+      this.rating = [false, false, false, false, false];
+    }
+
     this.loaderCtrl.create({
-      message: 'Ajout de la nouvelle recette...'
+      message: 'Ajout de votre nouvelle recette...'
     }).then(loadingEl => {
       loadingEl.present();
 
-      if (this.rating.length === 0) {
-        this.rating = [false, false, false, false, false];
-      }
-      const fr = new FileReader();
-      fr.readAsDataURL(this.form.value.image);
-      fr.onload = () => {
-        this.selectedImage = fr.result.toString();
+      if (this.form.value.image) {
+        const fr = new FileReader();
+        fr.readAsDataURL(this.form.value.image);
+        fr.onload = () => {
+          this.selectedImage = fr.result.toString();
+          this.recipeService.addRecipe(
+            this.form.value.recipeName,
+            this.form.value.recipeType,
+            this.selectedImage,
+            this.form.value.prep,
+            this.form.value.cook ? this.form.value.cook : 0,
+            this.form.value.yields,
+            this.rating,
+            this.form.value.vegieSwitch,
+            this.form.value.healthySwitch,
+            this.form.value.country,
+            this.ingredients,
+            this.steps,
+          ).subscribe(() => {
+            loadingEl.dismiss();
+            this.form.reset();
+            this.modalCtrl.dismiss();
+          });
+        };
+      } else {
+        this.selectedImage = '';
         this.recipeService.addRecipe(
           this.form.value.recipeName,
           this.form.value.recipeType,
           this.selectedImage,
           this.form.value.prep,
-          this.form.value.cook,
+          this.form.value.cook ? this.form.value.cook : 0,
           this.form.value.yields,
           this.rating,
           this.form.value.vegieSwitch,
@@ -202,7 +236,7 @@ export class NewRecipeModalComponent implements OnInit {
           this.form.reset();
           this.modalCtrl.dismiss();
         });
-      };
+      }
     });
   }
 
@@ -213,16 +247,45 @@ export class NewRecipeModalComponent implements OnInit {
     this.ingredients = this.getTableMemory(this.ingredientInput, this.ingredients, false);
     this.steps = this.getTableMemory(this.stepsInput, this.steps, false);
 
-    if (this.form.value.image) {
-      const fr = new FileReader();
-      fr.readAsDataURL(this.form.value.image);
-      fr.onload = () => {
-        this.selectedImage = fr.result.toString();
+    this.loaderCtrl.create({
+      message: 'Modification de votre recette...'
+    }).then(loadingEl => {
+      loadingEl.present();
+      if (this.form.value.image) {
+        const fr = new FileReader();
+        fr.readAsDataURL(this.form.value.image);
+        fr.onload = () => {
+          this.selectedImage = fr.result.toString();
+          this.recipeService.updateRecipe(
+            this.Recipe.id,
+            this.form.value.recipeName ? this.form.value.recipeName : this.Recipe.title,
+            this.form.value.recipeType ? this.form.value.recipeType : this.Recipe.type,
+            this.selectedImage,
+            this.form.value.prep ? this.form.value.prep : this.Recipe.prepTime,
+            this.form.value.cook ? this.form.value.cook : this.Recipe.cookingTime,
+            this.form.value.yields ? this.form.value.yields : this.Recipe.yields,
+            this.rating.length !== 0 ? this.rating : this.Recipe.star,
+            this.form.value.vegieSwitch,
+            this.form.value.healthySwitch,
+            this.form.value.country ? this.form.value.country : this.Recipe.country,
+            this.ingredients ? this.ingredients : this.Recipe.ingredients,
+            this.steps ? this.steps : this.Recipe.direction,
+          ).subscribe(() => {
+            if (this.form.value.recipeType && this.Recipe.type !== this.form.value.recipeType) {
+              this.recipeService.deleteRecipe(this.Recipe.id, this.Recipe.type).subscribe(() => {
+                this.navCtrl.navigateRoot(`/home/tabs/recipes/${this.form.value.recipeType}/${this.Recipe.id}`);
+              });
+            }
+            this.modalCtrl.dismiss();
+            loadingEl.dismiss();
+          });
+        };
+      } else {
         this.recipeService.updateRecipe(
           this.Recipe.id,
           this.form.value.recipeName ? this.form.value.recipeName : this.Recipe.title,
           this.form.value.recipeType ? this.form.value.recipeType : this.Recipe.type,
-          this.selectedImage,
+          this.Recipe.imageUrl,
           this.form.value.prep ? this.form.value.prep : this.Recipe.prepTime,
           this.form.value.cook ? this.form.value.cook : this.Recipe.cookingTime,
           this.form.value.yields ? this.form.value.yields : this.Recipe.yields,
@@ -233,41 +296,17 @@ export class NewRecipeModalComponent implements OnInit {
           this.ingredients ? this.ingredients : this.Recipe.ingredients,
           this.steps ? this.steps : this.Recipe.direction,
         ).subscribe(() => {
-          //loadingEl.dismiss();
           if (this.form.value.recipeType && this.Recipe.type !== this.form.value.recipeType) {
-            this.recipeService.deleteRecipe(this.Recipe.id, this.Recipe.type).subscribe(() => {
+            this.recipeService.deleteRecipe(this.Recipe.id, this.Recipe.type).subscribe();
+            this.recipeService.fetchRecipes(this.form.value.recipeType).subscribe(() => {
               this.navCtrl.navigateRoot(`/home/tabs/recipes/${this.form.value.recipeType}/${this.Recipe.id}`);
             });
           }
           this.modalCtrl.dismiss();
+          loadingEl.dismiss();
         });
-      };
-    } else {
-      this.recipeService.updateRecipe(
-        this.Recipe.id,
-        this.form.value.recipeName ? this.form.value.recipeName : this.Recipe.title,
-        this.form.value.recipeType ? this.form.value.recipeType : this.Recipe.type,
-        this.Recipe.imageUrl,
-        this.form.value.prep ? this.form.value.prep : this.Recipe.prepTime,
-        this.form.value.cook ? this.form.value.cook : this.Recipe.cookingTime,
-        this.form.value.yields ? this.form.value.yields : this.Recipe.yields,
-        this.rating.length !== 0 ? this.rating : this.Recipe.star,
-        this.form.value.vegieSwitch,
-        this.form.value.healthySwitch,
-        this.form.value.country ? this.form.value.country : this.Recipe.country,
-        this.ingredients ? this.ingredients : this.Recipe.ingredients,
-        this.steps ? this.steps : this.Recipe.direction,
-      ).subscribe(() => {
-        //loadingEl.dismiss();
-        if (this.form.value.recipeType && this.Recipe.type !== this.form.value.recipeType) {
-          this.recipeService.deleteRecipe(this.Recipe.id, this.Recipe.type).subscribe();
-          this.recipeService.fetchRecipes(this.form.value.recipeType).subscribe(() => {
-            this.navCtrl.navigateRoot(`/home/tabs/recipes/${this.form.value.recipeType}/${this.Recipe.id}`);
-          });
-        }
-        this.modalCtrl.dismiss();
-      });
-    }
+      }
+    });
   }
 
   onRate(event) {
