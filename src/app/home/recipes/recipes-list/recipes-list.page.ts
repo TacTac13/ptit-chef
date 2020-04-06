@@ -24,6 +24,7 @@ export class RecipesListPage implements OnInit, OnDestroy {
   faWeight = faWeight;
   recipesSub: Subscription;
   isLoading = false;
+  skeletonList = [1, 2, 3, 4, 5];
 
   constructor(
     private recipeService: RecipeService,

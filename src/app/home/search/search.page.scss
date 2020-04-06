@@ -17,6 +17,11 @@ ion-searchbar {
   opacity: 1;
 }
 
+.info-skeleton{
+  display: flex;
+  justify-content: space-between;
+}
+
 .info-container{
   display: flex;
   justify-content: space-between;
@@ -42,7 +47,9 @@ ion-searchbar {
     }
     .flag-icon {
       transform: scaleX(1.3);
+      border: 1px solid #ededed;
     }
   }
+  
 }
 

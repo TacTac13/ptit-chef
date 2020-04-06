@@ -322,14 +322,6 @@ export class RecipeService {
         updatedRecipesList = [...recipes];
         updatedRecipesList[updatedRecipeIndex] = updatedRecipe;
         return this.http.put(`https://ptit-chef.firebaseio.com/${type}/${id}.json`, { ...updatedRecipesList[updatedRecipeIndex], id: null });
-
-        // if (updatedRecipeIndex !== -1) {
-        //   updatedRecipesList = [...recipes];
-        //   updatedRecipesList[updatedRecipeIndex] = updatedRecipe;
-        //   this.dispatchData(type, updatedRecipesList);
-        // } else {
-        //   this.dispatchData(type, recipes.concat(updatedRecipe));
-        // }
       }),
       tap(() => {
         this.dispatchData(type, updatedRecipesList);

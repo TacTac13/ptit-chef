@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
+  <ion-list *ngIf="!isLoading">
     <ion-item *ngFor="let recipe of recipesList" (click)="onClickRecipe(recipe.id, recipe.type)">
       <ion-avatar slot="start">
         <img src="{{recipe.imageUrl}}">
@@ -24,8 +24,21 @@
             <fa-icon [icon]="faLeaf" class="leaf" *ngIf="recipe.isVegie"></fa-icon>
             <span [ngClass]="getCoutryClass(recipe.country)" class="flag-icon"></span>
           </div>
-        </div>
-        
+        </div>        
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-list *ngIf="isLoading">
+    <ion-item *ngFor="let skeleton of skeletonList">
+      <ion-avatar slot="start">
+        <ion-skeleton-text></ion-skeleton-text>
+      </ion-avatar>
+      <ion-label>
+        <ion-skeleton-text  animated style="width: 80%"></ion-skeleton-text>
+        <div class="info-skeleton">
+            <ion-skeleton-text  animated style="width: 30%"></ion-skeleton-text>
+            <ion-skeleton-text  animated style="width: 15%"></ion-skeleton-text>
+          </div>      
       </ion-label>
     </ion-item>
   </ion-list>
