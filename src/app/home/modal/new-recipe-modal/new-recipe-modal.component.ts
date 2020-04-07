@@ -60,7 +60,8 @@ export class NewRecipeModalComponent implements OnInit {
   ingredients = [''];
   steps = [''];
   selectedImage: string;
-  selectOk = false;
+  countrySelectOk = false;
+  typeSelectOk = false;
 
   constructor(
     private modalCtrl: ModalController,
@@ -118,15 +119,15 @@ export class NewRecipeModalComponent implements OnInit {
     });
   }
 
-  countryValidator(event, country?) {
+  selectValidator(event, el?) {
     if (event.detail && !event.detail.value) {
-      this.selectOk = true;
-    } else if (!event.detail && country) {
-      this.selectOk = false;
+      this.countrySelectOk = true;
+    } else if (!event.detail && el) {
+      this.countrySelectOk = false;
     } else if (!event.detail) {
-      this.selectOk = true;
+      this.countrySelectOk = true;
     } else {
-      this.selectOk = false;
+      this.countrySelectOk = false;
     }
   }
 

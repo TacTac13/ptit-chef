@@ -36,13 +36,15 @@
           <ion-item>
             <ion-label>Type de plat*</ion-label>
             <ion-select ok-text="OK" cancel-text="Annuler" formControlName="recipeType"
-              [value]="Recipe ? Recipe.type : ''">
+              [value]="Recipe ? Recipe.type : ''"
+              (ionChange)="Recipe ? selectValidator($event, Recipe.type) : selectValidator($event) " 
+              (ionCancel)="Recipe ? selectValidator($event, Recipe.type) : selectValidator($event) ">
               <ion-select-option value="appetizer">Entrée</ion-select-option>
               <ion-select-option value="main">Plat principal</ion-select-option>
               <ion-select-option value="dessert">Dessert</ion-select-option>
             </ion-select>
           </ion-item>
-          <div *ngIf="!form.get('recipeType').valid && form.get('recipeType').touched">
+          <div *ngIf="!form.get('recipeType').valid  && countrySelectOk && form.get('recipeType').touched">
             <p class="alert">Choisissez un type de plat</p>
           </div>
         </ion-col>
@@ -78,12 +80,14 @@
           <ion-item>
             <ion-label position="floating">Pays*</ion-label>
             <ion-select ok-text="OK" cancel-text="Annuler" formControlName="country"
-              [value]="Recipe ? Recipe.country : ''" (ionChange)="Recipe ? countryValidator($event, Recipe.country) : countryValidator($event) " (ionCancel)="Recipe ? countryValidator($event, Recipe.country) : countryValidator($event) ">
+              [value]="Recipe ? Recipe.country : ''" 
+              (ionChange)="Recipe ? selectValidator($event, Recipe.country) : selectValidator($event) " 
+              (ionCancel)="Recipe ? selectValidator($event, Recipe.country) : selectValidator($event) ">
               <ion-select-option *ngFor="let country of countryList" value="{{country.value}}">{{country.text}}
               </ion-select-option>
             </ion-select>
           </ion-item>
-          <div *ngIf="!form.get('country').valid && selectOk">
+          <div *ngIf="!form.get('country').valid && countrySelectOk && form.get('country').touched">
             <p class="alert">Indiquez le pays de votre recette</p>
           </div>
         </ion-col>
