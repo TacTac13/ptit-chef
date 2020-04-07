@@ -3,6 +3,28 @@ import { Plugins, Capacitor, CameraSource, CameraResultType } from '@capacitor/c
 import { Platform } from '@ionic/angular';
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
 
+function base64toBlob(base64Data, contentType) {
+  contentType = contentType || '';
+  const sliceSize = 1024;
+  const byteCharacters = window.atob(base64Data);
+  const bytesLength = byteCharacters.length;
+  const slicesCount = Math.ceil(bytesLength / sliceSize);
+  const byteArrays = new Array(slicesCount);
+
+  for (let sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+    const begin = sliceIndex * sliceSize;
+    const end = Math.min(begin + sliceSize, bytesLength);
+
+    const bytes = new Array(end - begin);
+    for (let offset = begin, i = 0; offset < end; ++i, ++offset) {
+      bytes[i] = byteCharacters[offset].charCodeAt(0);
+    }
+    byteArrays[sliceIndex] = new Uint8Array(bytes);
+  }
+  return new Blob(byteArrays, { type: contentType });
+}
+
+
 @Component({
   selector: 'app-image-picker',
   templateUrl: './image-picker.component.html',
@@ -13,7 +35,7 @@ export class ImagePickerComponent implements OnInit {
   @Output() imagePick = new EventEmitter<string | File>();
   @Input() showPreview;
 
-  selectedImage: string;
+  selectedImage;
   usePicker = false;
   faCamera = faCamera;
 
@@ -28,6 +50,9 @@ export class ImagePickerComponent implements OnInit {
     }
   }
 
+  ionViewWillEnter() {
+  }
+
   onPickImage() {
     if (!Capacitor.isPluginAvailable('Camera')) {
       this.filPickerRef.nativeElement.click();
@@ -40,7 +65,18 @@ export class ImagePickerComponent implements OnInit {
       width: 600,
       resultType: CameraResultType.Base64
     }).then(image => {
-      this.selectedImage = image.base64String;
+      let imageData;
+      const imageFile = image.base64String;
+      try {
+        imageData = base64toBlob(imageFile.replace('data:image/jpeg;base64', ''), 'image/jpeg');
+      } catch (error) {
+        return;
+      }
+      const fr = new FileReader();
+      fr.readAsDataURL(imageData);
+      fr.onload = () => {
+        this.selectedImage = fr.result.toString();
+      };
       this.imagePick.emit(image.base64String);
     }).catch(err => {
       if (this.usePicker) {

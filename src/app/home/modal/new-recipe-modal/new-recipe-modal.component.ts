@@ -119,7 +119,6 @@ export class NewRecipeModalComponent implements OnInit {
   }
 
   countryValidator(event, country?) {
-    console.log(event, this.selectOk);
     if (event.detail && !event.detail.value) {
       this.selectOk = true;
     } else if (!event.detail && country) {
