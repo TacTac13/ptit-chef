@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/service/auth.service';
 import { Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
+import { NewUserModalComponent } from '../home/modal/new-user-modal/new-user-modal.component';
 
 @Component({
   selector: 'app-auth',
@@ -15,7 +16,8 @@ export class AuthPage implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private modalCtrl: ModalController
     ) { }
 
   ngOnInit() {
@@ -34,6 +36,17 @@ export class AuthPage implements OnInit {
           this.router.navigateByUrl('/home/tabs/recipes');
         }, 1500);
       });
+  }
+
+  openNewUserModal() {
+    this.modalCtrl.create({ component: NewUserModalComponent }).then(modalEl => {
+      modalEl.onDidDismiss().then(modalData => {
+        if (!modalData.data) {
+          return;
+        }
+      });
+      modalEl.present();
+    });
   }
 
 }

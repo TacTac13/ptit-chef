@@ -1,13 +1,12 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, Input, ViewChildren, QueryList } from '@angular/core';
 
 import { faCheck, faTimes, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { ModalController, NavController, LoadingController } from '@ionic/angular';
-import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
+import { ModalController, NavController, LoadingController, ToastController } from '@ionic/angular';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { countryList } from '../../../../shared/country-list';
 import { RecipeService } from '../../../../service/recipe.service';
 
 import { Recipe } from 'src/models/recipe.model';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 function base64toBlob(base64Data, contentType) {
   contentType = contentType || '';
@@ -68,7 +67,8 @@ export class NewRecipeModalComponent implements OnInit {
     private fb: FormBuilder,
     private recipeService: RecipeService,
     private navCtrl: NavController,
-    private loaderCtrl: LoadingController
+    private loaderCtrl: LoadingController,
+    private toastController: ToastController,
   ) { }
 
   ngOnInit() {
@@ -117,6 +117,15 @@ export class NewRecipeModalComponent implements OnInit {
         validators: [Validators.required]
       })
     });
+  }
+
+  async presentToast(message) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2000,
+      color: 'success'
+    });
+    toast.present();
   }
 
   selectValidator(event, el?) {
@@ -214,6 +223,7 @@ export class NewRecipeModalComponent implements OnInit {
             loadingEl.dismiss();
             this.form.reset();
             this.modalCtrl.dismiss();
+            this.presentToast('Votre recette a bien été créé !');
           });
         };
       } else {
@@ -235,6 +245,7 @@ export class NewRecipeModalComponent implements OnInit {
           loadingEl.dismiss();
           this.form.reset();
           this.modalCtrl.dismiss();
+          this.presentToast('Votre recette a bien été créé !');
         });
       }
     });
@@ -278,6 +289,7 @@ export class NewRecipeModalComponent implements OnInit {
             }
             this.modalCtrl.dismiss();
             loadingEl.dismiss();
+            this.presentToast('Votre recette a bien été modifié !');
           });
         };
       } else {
@@ -304,6 +316,7 @@ export class NewRecipeModalComponent implements OnInit {
           }
           this.modalCtrl.dismiss();
           loadingEl.dismiss();
+          this.presentToast('Votre recette a bien été modifié !');
         });
       }
     });
