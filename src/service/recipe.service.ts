@@ -238,6 +238,15 @@ export class RecipeService {
       }));
   }
 
+  uploadImage(image: File) {
+    const uploadData = new FormData();
+    uploadData.append('image', image);
+
+    return this.http.post<{imageUrl: string, imagePath: string}>(
+      'https://us-central1-ptit-chef.cloudfunctions.net/storeImage', uploadData
+      );
+  }
+
   addRecipe(
     title: string,
     type: string,
