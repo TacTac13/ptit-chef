@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/service/auth.service';
+import { AuthService } from '../../service/auth.service';
 import { Router } from '@angular/router';
-import { LoadingController, ModalController } from '@ionic/angular';
+import { LoadingController, ModalController, AlertController } from '@ionic/angular';
 import { NewUserModalComponent } from '../home/modal/new-user-modal/new-user-modal.component';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-auth',
@@ -11,30 +12,52 @@ import { NewUserModalComponent } from '../home/modal/new-user-modal/new-user-mod
 })
 export class AuthPage implements OnInit {
 
-  isLoading = true;
-
   constructor(
     private authService: AuthService,
     private router: Router,
     private loadingCtrl: LoadingController,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private alertCtrl: AlertController,
     ) { }
 
   ngOnInit() {
   }
 
-  onLogin() {
-    this.isLoading = true;
-    this.authService.login();
+  private showAlert(message: string) {
+    this.alertCtrl.create({
+      header: 'Echec de connexion',
+      message,
+      buttons: ['OK']
+    }).then(alertEl => {
+      alertEl.present();
+    });
+  }
+
+  onLogin(form: NgForm) {
+    const email = form.value.email;
+    const password = form.value.password;
     this.loadingCtrl
       .create({ keyboardClose: true, message: 'Chargement...' })
       .then(loadingEl => {
         loadingEl.present();
-        setTimeout(() => {
-          this.isLoading = false;
+        this.authService.login(email, password).subscribe(resData => {
           loadingEl.dismiss();
           this.router.navigateByUrl('/home/tabs/recipes');
-        }, 1500);
+          form.reset();
+        },
+        errRes => {
+          loadingEl.dismiss();
+          const code = errRes.error.error.message;
+          let message = 'Veuillez rentrer une adresse mail et un mot de passe valide';
+          if (code === 'EMAIL_EXISTS') {
+            message = 'Cette adresse email existe déjà';
+          } else if (code === 'EMAIL_NOT_FOUND') {
+            message = 'Cette adresse email n\'existe pas';
+          } else if (code === 'INVALID_PASSWORD') {
+            message = 'Ce mot de pas est incorrect';
+          }
+          this.showAlert(message);
+        });
       });
   }
 

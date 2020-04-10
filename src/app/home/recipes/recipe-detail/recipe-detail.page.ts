@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController, ModalController, AlertController } from '@ionic/angular';
 import { RecipeService } from '../../../../service/recipe.service';
-import { Recipe } from 'src/models/recipe.model';
-import { faAngleLeft, faLeaf, faStar as faSolidStar, faWeight, faEllipsisH, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { Recipe } from '../../../../models/recipe.model';
+import { faAngleLeft, faLeaf, faStar as faSolidStar, faWeight, faEllipsisH, faEdit, faTrash, faBars } from '@fortawesome/free-solid-svg-icons';
 import { faStar as faRegularStar } from '@fortawesome/free-regular-svg-icons';
 import { NewRecipeModalComponent } from '../../modal/new-recipe-modal/new-recipe-modal.component';
 import { Subscription } from 'rxjs';
@@ -22,6 +22,7 @@ export class RecipeDetailPage implements OnInit, OnDestroy {
   faStar = faSolidStar;
   faStar2 = faRegularStar;
   faEllipsisH = faEllipsisH;
+  faBars = faBars;
   faWeight = faWeight;
   faEdit = faEdit;
   faTrash = faTrash;

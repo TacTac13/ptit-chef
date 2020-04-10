@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { RecipesPageRoutingModule } from './recipes-routing.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { RecipesPage } from './recipes.page';
 
@@ -14,6 +15,7 @@ import 'hammerjs';
   imports: [
     CommonModule,
     FormsModule,
+    FontAwesomeModule,
     IonicModule,
     RecipesPageRoutingModule
   ],

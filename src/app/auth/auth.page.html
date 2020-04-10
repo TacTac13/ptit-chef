@@ -18,32 +18,35 @@
       </g>
     </svg>
   </div>
-  <ion-grid>
-    <ion-row class="ion-justify-content-center">
-      <ion-col size-xs="8" size-sm="6">
-        <div class="connexion-container">
-          <ion-item>
-            <ion-label position="floating">E-mail</ion-label>
-            <ion-input type="email"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label position="floating">Mot de passe</ion-label>
-            <ion-input type="password"></ion-input>
-          </ion-item>
-        </div>
-      </ion-col>
-    </ion-row>
-    <ion-row class="ion-justify-content-center">
-      <ion-col size-xs="8" size-sm="6">
-        <ion-button class="login-button" (click)="onLogin()" expand="block">
-          C'est parti !
-        </ion-button>
-        <div class="new-user-button">
-          <h4 (click)="openNewUserModal()">ou créer un compte</h4>
-        </div>        
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <form #f="ngForm" (ngSubmit)="onLogin(f)">
+    <ion-grid>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-xs="8" size-sm="6">
+          <div class="connexion-container">
+            <ion-item>
+              <ion-label position="floating">E-mail</ion-label>
+              <ion-input type="email" ngModel name="email" required email #emailCtrl="ngModel"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Mot de passe</ion-label>
+              <ion-input type="password" ngModel name="password" required minlength="6" #passwordCtrl="ngModel">
+              </ion-input>
+            </ion-item>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-xs="8" size-sm="6">
+          <ion-button type="submit" class="login-button" expand="block">
+            C'est parti !
+          </ion-button>
+          <div class="new-user-button">
+            <h4 (click)="openNewUserModal()">ou créer un compte</h4>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
 
 
 </ion-content>

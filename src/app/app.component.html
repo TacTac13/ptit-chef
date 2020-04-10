@@ -1,3 +1,28 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-menu side="start" menuId="m1" contentId="main">
+    <ion-header>
+      <ion-toolbar color="light">
+        <ion-item lines="none">
+          <!-- <ion-avatar slot="start">
+            <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+          </ion-avatar>
+          <ion-label>Bienvenue</ion-label> -->
+          <h2>P'tit Chef</h2>
+        </ion-item>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content color="primary">
+      <ion-list>
+        <div class="menu-item" routerLink="/">
+          <fa-icon [icon]="faHeart" class="icon"></fa-icon>
+          <ion-label>Mes favoris (A venir)</ion-label>
+        </div>
+        <div class="menu-item" (click)="onLogout()">
+          <fa-icon [icon]="faSignOutAlt"  class="icon"></fa-icon>
+          <ion-label>Se déconnecter</ion-label>
+        </div>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  <ion-router-outlet id="main"></ion-router-outlet>
 </ion-app>

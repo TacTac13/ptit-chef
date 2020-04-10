@@ -6,7 +6,7 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import { countryList } from '../../../../shared/country-list';
 import { RecipeService } from '../../../../service/recipe.service';
 
-import { Recipe } from 'src/models/recipe.model';
+import { Recipe } from '../../../../models/recipe.model';
 
 function base64toBlob(base64Data, contentType) {
   contentType = contentType || '';
@@ -281,6 +281,7 @@ export class NewRecipeModalComponent implements OnInit {
             this.form.value.country ? this.form.value.country : this.Recipe.country,
             this.ingredients ? this.ingredients : this.Recipe.ingredients,
             this.steps ? this.steps : this.Recipe.direction,
+            this.Recipe.userId
           ).subscribe(() => {
             if (this.form.value.recipeType && this.Recipe.type !== this.form.value.recipeType) {
               this.recipeService.deleteRecipe(this.Recipe.id, this.Recipe.type).subscribe(() => {
@@ -307,6 +308,7 @@ export class NewRecipeModalComponent implements OnInit {
           this.form.value.country ? this.form.value.country : this.Recipe.country,
           this.ingredients ? this.ingredients : this.Recipe.ingredients,
           this.steps ? this.steps : this.Recipe.direction,
+          this.Recipe.userId
         ).subscribe(() => {
           if (this.form.value.recipeType && this.Recipe.type !== this.form.value.recipeType) {
             this.recipeService.deleteRecipe(this.Recipe.id, this.Recipe.type).subscribe();

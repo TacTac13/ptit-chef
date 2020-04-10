@@ -1,5 +1,5 @@
 h3 {
-  margin-top: 10px;
+  margin-top: 2px;
   margin-left: 12px;
   font-family: "Roboto bold";
   color: var(--ion-color-dark);
@@ -8,7 +8,13 @@ h3 {
 ion-back-button {
   font-family: "Icon";
   font-size: 21px;
-  margin: 6px -8px 0 -26px;
+  margin: -3px -5px 0 0px;
+  width: 26px;
+}
+
+.menu-icon {
+  font-size: 22px;
+  margin-top: -7px;
 }
 
 .header-md:after {
@@ -18,8 +24,8 @@ ion-toolbar {
   --color: white;
   --border-width: 0 0 0 !important;
 }
-ion-grid{
-  .spinner{
+ion-grid {
+  .spinner {
     width: 100%;
     justify-content: center;
     display: flex;
@@ -89,6 +95,4 @@ ion-row {
       }
     }
   }
-
- 
 }

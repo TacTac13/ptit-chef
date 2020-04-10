@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RecipeService } from '../../../../service/recipe.service';
-import { Recipe } from 'src/models/recipe.model';
+import { Recipe } from '../../../../models/recipe.model';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { faAngleLeft, faLeaf, faStar as faSolidStar, faWeight } from '@fortawesome/free-solid-svg-icons';
+import { faAngleLeft, faLeaf, faStar as faSolidStar, faWeight, faBars } from '@fortawesome/free-solid-svg-icons';
 import { faStar as faRegularStar } from '@fortawesome/free-regular-svg-icons';
 import { Subscription } from 'rxjs';
 
@@ -19,6 +19,7 @@ export class RecipesListPage implements OnInit, OnDestroy {
   title: string;
   faAngleLeft = faAngleLeft;
   faLeaf = faLeaf;
+  faBars = faBars;
   faStar = faSolidStar;
   faStar2 = faRegularStar;
   faWeight = faWeight;

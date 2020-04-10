@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { faCheck, faTimes, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { ModalController, LoadingController, ToastController, AlertController } from '@ionic/angular';
 import { NgForm } from '@angular/forms';
-import { AuthService } from 'src/service/auth.service';
+import { AuthService } from '../../../../service/auth.service';
 
 @Component({
   selector: 'app-new-user-modal',
@@ -57,7 +57,6 @@ export class NewUserModalComponent implements OnInit {
     ).then(loadingEl => {
       loadingEl.present();
       this.authService.sinup(email, password).subscribe(resData => {
-        console.log(resData);
         this.modalCtrl.dismiss();
         loadingEl.dismiss();
         form.reset();

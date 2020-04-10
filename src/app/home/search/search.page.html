@@ -1,7 +1,14 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-searchbar animated color="primary" placeholder="Rechercher une recette" class="search" (ionInput)="filterList($event)"></ion-searchbar>
-  </ion-toolbar>
+  <div class="toolbar" color="primary">
+    <div class="menu">
+      <ion-menu-button color="light" menu="m1">
+        <fa-icon class="menu-icon" [icon]="faBars"></fa-icon>
+      </ion-menu-button>
+    </div>
+    <div class="searchbar">
+      <ion-searchbar animated color="primary" placeholder="Rechercher une recette" class="search" (ionInput)="filterList($event)"></ion-searchbar>
+    </div>
+  </div>
 </ion-header>
 
 <ion-content>

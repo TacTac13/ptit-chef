@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { RecipeService } from 'src/service/recipe.service';
-import { Recipe } from 'src/models/recipe.model';
-import { faStar as faSolidStar, faWeight, faLeaf } from '@fortawesome/free-solid-svg-icons';
+import { RecipeService } from '../../../service/recipe.service';
+import { Recipe } from '../../../models/recipe.model';
+import { faStar as faSolidStar, faWeight, faLeaf, faBars } from '@fortawesome/free-solid-svg-icons';
 import { faStar as faRegularStar } from '@fortawesome/free-regular-svg-icons';
 import { NavController, LoadingController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
@@ -25,6 +25,7 @@ export class SearchPage implements OnInit, OnDestroy {
   faStar2 = faRegularStar;
   faWeight = faWeight;
   faLeaf = faLeaf;
+  faBars = faBars;
   recipesSub: Subscription;
   isLoading = false;
   skeletonList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];

@@ -1,4 +1,16 @@
-<ion-content>
+<ion-header mode="ios">
+  <div class="toolbar">
+    <div class="menu">
+      <ion-buttons slot="start">
+        <ion-menu-button color="light" menu="m1">
+          <fa-icon class="menu-icon" [icon]="faBars"></fa-icon>
+        </ion-menu-button>
+      </ion-buttons>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content [fullscreen]="true">
   <ion-grid class="ion-no-padding">
     <ion-row>
       <ion-col size-sm="6" offset-sm="3" class="ion-no-padding">
