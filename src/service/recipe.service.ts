@@ -187,24 +187,48 @@ export class RecipeService {
 
 
   getRecipeFromId(id: string, type: string) {
-    return this.findType(type).pipe(map((recipes: Recipe[]) => {
-      return recipes.find(
-        r => r.id === id
-      );
-    }));
+    return this.authService.token.pipe(
+      take(1),
+      switchMap(token => {
+        return this.http.get<RecipeData>(`https://ptit-chef.firebaseio.com/${type}/${id}.json?auth=${token}`);
+      }),
+      map(recipeData => {
+        return new Recipe(
+          id,
+          recipeData.title,
+          recipeData.type,
+          recipeData.imageUrl,
+          recipeData.prepTime,
+          recipeData.cookingTime,
+          recipeData.totalTime,
+          recipeData.yields,
+          recipeData.star,
+          recipeData.isVegie,
+          recipeData.isHealthy,
+          recipeData.country,
+          recipeData.ingredients,
+          recipeData.direction,
+          recipeData.userId
+        );
+      })
+    );
   }
 
   fetchRecipes(type: string) {
-    let fetchedUserId;
-    return this.authService.userId.pipe(
+    let fetchedToken: string;
+    return this.authService.token.pipe(
+      take(1),
+      switchMap(token => {
+        fetchedToken = token;
+        return this.authService.userId;
+      }),
       take(1),
       switchMap(userId => {
         if (!userId) {
           throw new Error('No user id found!');
         }
-        fetchedUserId = userId;
         return this.http.get<{ [key: string]: RecipeData }>(
-          `https://ptit-chef.firebaseio.com/${type}.json?orderBy="userId"&equalTo="${fetchedUserId}"`
+          `https://ptit-chef.firebaseio.com/${type}.json?orderBy="userId"&equalTo="${userId}"&auth=${fetchedToken}`
         );
       }),
       take(1),
@@ -242,9 +266,18 @@ export class RecipeService {
     const uploadData = new FormData();
     uploadData.append('image', image);
 
-    return this.http.post<{imageUrl: string, imagePath: string}>(
-      'https://us-central1-ptit-chef.cloudfunctions.net/storeImage', uploadData
+    return this.authService.token.pipe(
+      take(1),
+      switchMap(token => {
+        return this.http.post<{ imageUrl: string, imagePath: string }>(
+          'https://us-central1-ptit-chef.cloudfunctions.net/storeImage',
+          uploadData,
+          {headers: {
+            Authorization: 'Bearer ' + token
+            }
+          }
       );
+    }));
   }
 
   addRecipe(
@@ -263,6 +296,7 @@ export class RecipeService {
 
     let generatedId: string;
     let newRecipe: Recipe;
+    let fetechedToken: string;
     const totalTime: number = cookingTime + prepTime;
     const recipeId: string = '_' + Math.random().toString(36).substr(2, 9);
 
@@ -270,7 +304,12 @@ export class RecipeService {
       imageUrl = '../assets/img/place-holder.jpg';
     }
 
-    return this.authService.userId.pipe(
+    return this.authService.token.pipe(
+      take(1),
+      switchMap(token => {
+        fetechedToken = token;
+        return this.authService.userId;
+      }),
       take(1),
       switchMap(userId => {
         if (!userId) {
@@ -293,7 +332,7 @@ export class RecipeService {
           direction,
           userId
         );
-        return this.http.post<{ name: string }>(`https://ptit-chef.firebaseio.com/${type}.json`, { ...newRecipe, id: null });
+        return this.http.post<{ name: string }>(`https://ptit-chef.firebaseio.com/${type}.json?auth=${fetechedToken}`, { ...newRecipe, id: null });
       }),
       switchMap(resData => {
         generatedId = resData.name;
@@ -324,6 +363,7 @@ export class RecipeService {
     userId: string
   ) {
 
+    let fetchedToken: string;
     let updatedRecipesList: Recipe[];
     const totalTime: number = cookingTime + prepTime;
     const updatedRecipe: Recipe = new Recipe(
@@ -344,13 +384,18 @@ export class RecipeService {
       userId
     );
 
-    return this.getRecipes(type).pipe(
+    return this.authService.token.pipe(
+      take(1),
+      switchMap(token => {
+        fetchedToken = token;
+        return this.getRecipes(type);
+      }),
       take(1),
       switchMap(recipes => {
         const updatedRecipeIndex = recipes.findIndex(rp => rp.id === id);
         updatedRecipesList = [...recipes];
         updatedRecipesList[updatedRecipeIndex] = updatedRecipe;
-        return this.http.put(`https://ptit-chef.firebaseio.com/${type}/${id}.json`, { ...updatedRecipesList[updatedRecipeIndex], id: null });
+        return this.http.put(`https://ptit-chef.firebaseio.com/${type}/${id}.json?auth=${fetchedToken}`, { ...updatedRecipesList[updatedRecipeIndex], id: null });
       }),
       tap(() => {
         this.dispatchData(type, updatedRecipesList);
@@ -360,13 +405,19 @@ export class RecipeService {
 
   deleteRecipe(id: string, type: string): any {
     let deleteRecipeList: Recipe[];
-    return this.getRecipes(type).pipe(
+    let fetechedToken: string;
+    return this.authService.token.pipe(
+      take(1),
+      switchMap(token => {
+        fetechedToken = token;
+        return this.getRecipes(type);
+      }),
       take(1),
       switchMap(recipes => {
         const deleteRecipeIndex = recipes.findIndex(rp => rp.id === id);
         deleteRecipeList = [...recipes];
         deleteRecipeList.splice(deleteRecipeIndex, 1);
-        return this.http.delete(`https://ptit-chef.firebaseio.com/${type}/${id}.json`);
+        return this.http.delete(`https://ptit-chef.firebaseio.com/${type}/${id}.json?auth=${fetechedToken}`);
       }),
       tap(() => {
         this.dispatchData(type, deleteRecipeList);
@@ -374,44 +425,48 @@ export class RecipeService {
   }
 
   fetchAllRecipes(type: string) {
-    let fetchedUserId;
-    return this.authService.userId.pipe(
+    let fetechedToken: string;
+    return this.authService.token.pipe(
+      take(1),
+      switchMap(token => {
+        fetechedToken = token;
+        return this.authService.userId;
+      }),
       take(1),
       switchMap(userId => {
         if (!userId) {
           throw new Error('No user id found!');
         }
-        fetchedUserId = userId;
         return this.http.get<{ [key: string]: RecipeData }>(
-          `https://ptit-chef.firebaseio.com/${type}.json?orderBy="userId"&equalTo="${fetchedUserId}"`
+          `https://ptit-chef.firebaseio.com/${type}.json?orderBy="userId"&equalTo="${userId}"&auth=${fetechedToken}`
         );
       }),
-        take(1),
-        map(resData => {
-          const recipeAllDataList = [];
-          for (const key in resData) {
-            if (resData.hasOwnProperty(key)) {
-              recipeAllDataList.push(new Recipe(
-                key,
-                resData[key].title,
-                resData[key].type,
-                resData[key].imageUrl,
-                resData[key].prepTime,
-                resData[key].cookingTime,
-                resData[key].totalTime,
-                resData[key].yields,
-                resData[key].star,
-                resData[key].isVegie,
-                resData[key].isHealthy,
-                resData[key].country,
-                resData[key].ingredients,
-                resData[key].direction,
-                resData[key].userId
-              ));
-            }
+      take(1),
+      map(resData => {
+        const recipeAllDataList = [];
+        for (const key in resData) {
+          if (resData.hasOwnProperty(key)) {
+            recipeAllDataList.push(new Recipe(
+              key,
+              resData[key].title,
+              resData[key].type,
+              resData[key].imageUrl,
+              resData[key].prepTime,
+              resData[key].cookingTime,
+              resData[key].totalTime,
+              resData[key].yields,
+              resData[key].star,
+              resData[key].isVegie,
+              resData[key].isHealthy,
+              resData[key].country,
+              resData[key].ingredients,
+              resData[key].direction,
+              resData[key].userId
+            ));
           }
-          return recipeAllDataList;
-        }),
-      );
+        }
+        return recipeAllDataList;
+      }),
+    );
   }
 }

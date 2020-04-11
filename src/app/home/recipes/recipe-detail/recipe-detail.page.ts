@@ -43,11 +43,13 @@ export class RecipeDetailPage implements OnInit, OnDestroy {
       this.navCtrl.navigateBack('/home/tabs/recipes');
       return;
     }
+    this.isLoading = true;
     this.recipesSub = this.recipeService.getRecipeFromId(
       this.route.snapshot.paramMap.get('recipeId'),
       this.route.snapshot.paramMap.get('recipeList')
     ).subscribe((recipe: Recipe) => {
       this.recipe = recipe;
+      this.isLoading = false;
     });
   }
 
@@ -82,7 +84,14 @@ export class RecipeDetailPage implements OnInit, OnDestroy {
     }).then(modalEl => {
       modalEl.onDidDismiss().then(modalData => {
         if (!modalData.data) {
-          return;
+          this.isLoading = true;
+          this.recipesSub = this.recipeService.getRecipeFromId(
+            this.route.snapshot.paramMap.get('recipeId'),
+            this.route.snapshot.paramMap.get('recipeList')
+          ).subscribe((recipe: Recipe) => {
+            this.recipe = recipe;
+            this.isLoading = false;
+          });
         }
       });
       modalEl.present();
