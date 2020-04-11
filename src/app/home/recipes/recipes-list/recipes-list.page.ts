@@ -60,7 +60,6 @@ export class RecipesListPage implements OnInit, OnDestroy {
     });
   }
 
-  
 
   getText(recipeType: string) {
     switch (recipeType) {

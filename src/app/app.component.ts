@@ -49,6 +49,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.menu.close();
   }
 
+  onFavoriesClick() {
+    this.menu.close();
+  }
+
   ngOnDestroy() {
     if (this.authSub) {
       this.authSub.unsubscribe();
