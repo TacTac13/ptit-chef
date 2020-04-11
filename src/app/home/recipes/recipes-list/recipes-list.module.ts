@@ -23,6 +23,6 @@ import { ApplicationPipesModule } from '../../../application-pipe.module';
     FontAwesomeModule,
     ApplicationPipesModule
   ],
-  declarations: [RecipesListPage]
+  declarations: [RecipesListPage],
 })
 export class RecipesListPageModule {}

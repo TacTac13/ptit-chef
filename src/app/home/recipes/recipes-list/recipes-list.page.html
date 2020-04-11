@@ -15,10 +15,21 @@
     <!-- <div class="spinner ion-justify-content-center" *ngIf="isLoading">
       <ion-spinner name="dots" color="primary"></ion-spinner>
     </div> -->
-    <ion-row class="ion-justify-content-center" *ngIf="!isLoading">
+    <ion-row class="ion-justify-content-center" *ngIf="!isLoading && recipesList.length === 0">
+      <ion-col size="12" size-lg="4" size-sm="8" class="ion-justify-content-center">
+        <div class="no-recipe-content">
+          <p class="no-recipe-text">{{ noRecipeText }}</p>
+          <ion-button class="add-button" (click)="openNewRecipeModal()">
+            <fa-icon [icon]="faPlus" class="icon"></fa-icon> {{ noRecipeTextButton }}
+          </ion-button>
+        </div>          
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-justify-content-center" *ngIf="!isLoading && recipesList.length > 0">
       <ion-list approxItemHeight="70px">
         <ion-col size="12" size-lg="4" size-sm="8" class="ion-justify-content-center">
-          <ion-card [routerLink]="['/', 'home', 'tabs', 'recipes', recipeType , recipe.id]" class="card"  *ngFor="let recipe of recipesList">
+          <ion-card [routerLink]="['/', 'home', 'tabs', 'recipes', recipeType , recipe.id]" class="card"
+            *ngFor="let recipe of recipesList">
             <ion-img [src]="recipe.imageUrl"></ion-img>
             <ion-card-header class="header">
               <ion-card-title class="title">{{ recipe.title }}</ion-card-title>
@@ -44,7 +55,7 @@
     <ion-row class="ion-justify-content-center" *ngIf="isLoading">
       <ion-list approxItemHeight="70px">
         <ion-col size="12" size-lg="4" size-sm="8" class="ion-justify-content-center">
-          <ion-card class="card"  *ngFor="let skelet of skeletonList">
+          <ion-card class="card" *ngFor="let skelet of skeletonList">
             <ion-img src="../../../../assets/img/skeleton-img.jpg"></ion-img>
             <ion-card-header class="header">
               <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>

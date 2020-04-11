@@ -2,10 +2,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RecipeService } from '../../../../service/recipe.service';
 import { Recipe } from '../../../../models/recipe.model';
 import { ActivatedRoute } from '@angular/router';
-import { NavController } from '@ionic/angular';
-import { faAngleLeft, faLeaf, faStar as faSolidStar, faWeight, faBars } from '@fortawesome/free-solid-svg-icons';
+import { NavController, ModalController } from '@ionic/angular';
+import { faAngleLeft, faLeaf, faStar as faSolidStar, faWeight, faBars,  faPlus} from '@fortawesome/free-solid-svg-icons';
 import { faStar as faRegularStar } from '@fortawesome/free-regular-svg-icons';
 import { Subscription } from 'rxjs';
+import { NewRecipeModalComponent } from '../../modal/new-recipe-modal/new-recipe-modal.component';
 
 @Component({
   selector: 'app-recipes-list',
@@ -17,12 +18,15 @@ export class RecipesListPage implements OnInit, OnDestroy {
   recipesList: Recipe[];
   recipeType: string;
   title: string;
+  noRecipeText: string;
+  noRecipeTextButton: string;
   faAngleLeft = faAngleLeft;
   faLeaf = faLeaf;
   faBars = faBars;
   faStar = faSolidStar;
   faStar2 = faRegularStar;
   faWeight = faWeight;
+  faPlus = faPlus;
   recipesSub: Subscription;
   isLoading = false;
   skeletonList = [1, 2, 3, 4, 5];
@@ -31,6 +35,7 @@ export class RecipesListPage implements OnInit, OnDestroy {
     private recipeService: RecipeService,
     private route: ActivatedRoute,
     private navCtrl: NavController,
+    private modalCtrl: ModalController
   ) { }
 
 
@@ -41,7 +46,7 @@ export class RecipesListPage implements OnInit, OnDestroy {
     } else {
       this.recipeType = this.route.snapshot.paramMap.get('recipeList');
     }
-    this.getTitle(this.recipeType);
+    this.getText(this.recipeType);
 
     this.recipesSub = this.recipeService.getRecipes(this.recipeType).subscribe((recipes: Recipe[]) => {
       this.recipesList = recipes;
@@ -55,22 +60,41 @@ export class RecipesListPage implements OnInit, OnDestroy {
     });
   }
 
-  getTitle(recipeType: string) {
+  
+
+  getText(recipeType: string) {
     switch (recipeType) {
       case 'appetizer':
-        this.title = 'Entrées';
+        this.title = 'Entrée';
+        this.noRecipeText = 'Vous n\'avez encore ajouté aucune entrée !';
+        this.noRecipeTextButton = 'Ajoutez une entrée';
         break;
       case 'main':
-        this.title = 'Plats principals';
+        this.title = 'Plat principal';
+        this.noRecipeText = 'Vous n\'avez encore ajouté aucun plat principal !';
+        this.noRecipeTextButton = 'Ajoutez un plat principal';
         break;
       case 'dessert':
-        this.title = 'Desserts';
+        this.title = 'Dessert';
+        this.noRecipeText = 'Vous n\'avez encore ajouté aucun dessert !';
+        this.noRecipeTextButton = 'Ajoutez un dessert';
         break;
     }
   }
 
   getCoutryClass(code: string) {
     return 'flag-icon-' + code.toLowerCase();
+  }
+
+  openNewRecipeModal() {
+    this.modalCtrl.create({ component: NewRecipeModalComponent }).then(modalEl => {
+      modalEl.onDidDismiss().then(modalData => {
+        if (!modalData.data) {
+          return;
+        }
+      });
+      modalEl.present();
+    });
   }
 
   ngOnDestroy() {

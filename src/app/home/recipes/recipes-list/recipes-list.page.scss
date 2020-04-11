@@ -12,6 +12,27 @@ ion-back-button {
   width: 26px;
 }
 
+.no-recipe-content{
+  margin-top: 20px;
+  text-align: center;
+  .no-recipe-text {
+    color: var(--ion-color-medium);
+  }
+  .add-button {
+    font-family: "Roboto Bold";
+    font-size: 15px;
+    --border-radius: 0px;
+    --color: var(--ion-color-light);
+    --background-color: var(--ion-color-primary);
+    margin-top: 10px;
+    .icon{
+      margin-right: 7px;
+    }
+  }
+}
+
+
+
 .menu-icon {
   font-size: 22px;
   margin-top: -7px;
