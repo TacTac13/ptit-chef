@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController, ModalController, AlertController } from '@ionic/angular';
 import { RecipeService } from '../../../../service/recipe.service';
@@ -7,6 +7,7 @@ import { faAngleLeft, faLeaf, faStar as faSolidStar, faWeight, faEllipsisH, faEd
 import { faStar as faRegularStar } from '@fortawesome/free-regular-svg-icons';
 import { NewRecipeModalComponent } from '../../modal/new-recipe-modal/new-recipe-modal.component';
 import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'app-recipe-detail',
@@ -29,6 +30,7 @@ export class RecipeDetailPage implements OnInit, OnDestroy {
   isDropdownOpen = false;
   recipesSub: Subscription;
   isLoading = false;
+  headerHeight: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -37,6 +39,8 @@ export class RecipeDetailPage implements OnInit, OnDestroy {
     private modalCtrl: ModalController,
     private alertCtrl: AlertController
   ) { }
+
+
 
   ngOnInit() {
     if (!this.route.snapshot.paramMap.has('recipeId')) {
@@ -51,6 +55,19 @@ export class RecipeDetailPage implements OnInit, OnDestroy {
       this.recipe = recipe;
       this.isLoading = false;
     });
+  }
+
+
+  onScrole(event) {
+    const toolbar = document.getElementById('bar');
+    const grid = document.getElementById('grid');
+    if (event.detail.scrollTop > 255) {
+      toolbar.classList.add('hide-toolbar');
+      grid.classList.add('show-grid');
+    } else if (event.detail.scrollTop < 255) {
+      toolbar.classList.remove('hide-toolbar');
+      grid.classList.remove('show-grid');
+    }
   }
 
   ionViewWillEnter() {

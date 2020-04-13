@@ -1,5 +1,5 @@
 <ion-header mode="ios">
-  <div class="toolbar">
+  <div class="toolbar" id="bar">
     <div class="menu">
       <ion-buttons slot="start">
         <ion-menu-button color="light" menu="m1">
@@ -34,11 +34,11 @@
   </div>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" [scrollEvents]="true" (ionScroll)="onScrole($event)">
   <div class="ion-text-center">
     <ion-spinner color="primary" *ngIf="isLoading"></ion-spinner>
   </div>
-  <ion-grid class="ion-no-padding ion-no-margin" *ngIf="!isLoading">
+  <ion-grid id="grid" class="ion-no-padding ion-no-margin" *ngIf="!isLoading">
     <ion-row class="ion-justify-content-center">
       <ion-col size="12" size-lg="8" size-md="10" size-sm="12" class="ion-no-padding">
         <ion-img [src]="recipe.imageUrl" class="recipe-img"></ion-img>

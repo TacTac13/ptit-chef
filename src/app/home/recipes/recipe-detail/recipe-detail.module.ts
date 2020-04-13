@@ -11,6 +11,7 @@ import { RecipeDetailPage } from './recipe-detail.page';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ApplicationPipesModule } from '../../../application-pipe.module';
 
+
 @NgModule({
   imports: [
     CommonModule,

@@ -12,6 +12,7 @@ import { ImagePickerComponent } from './modal/image-picker/image-picker.componen
 import { UiSwitchModule } from 'ngx-toggle-switch';
 import { RatingModule } from 'ng-starrating';
 
+
 @NgModule({
   imports: [
     CommonModule,

@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 })
 export class AppComponent implements OnInit, OnDestroy {
 
+
   faHeart = faHeart;
   faSignOutAlt = faSignOutAlt;
   private authSub: Subscription;
@@ -36,26 +37,27 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
 
-  initializeApp() {
-    this.platform.ready().then(() => {
-      if (Capacitor.isPluginAvailable('SplashScreen')) {
-        Plugins.SplashScreen.hide();
+
+    initializeApp() {
+      this.platform.ready().then(() => {
+        if (Capacitor.isPluginAvailable('SplashScreen')) {
+          Plugins.SplashScreen.hide();
+        }
+      });
+    }
+
+    onLogout() {
+      this.authService.logOut();
+      this.menu.close();
+    }
+
+    onFavoriesClick() {
+      this.menu.close();
+    }
+
+    ngOnDestroy() {
+      if (this.authSub) {
+        this.authSub.unsubscribe();
       }
-    });
-  }
-
-  onLogout() {
-    this.authService.logOut();
-    this.menu.close();
-  }
-
-  onFavoriesClick() {
-    this.menu.close();
-  }
-
-  ngOnDestroy() {
-    if (this.authSub) {
-      this.authSub.unsubscribe();
     }
   }
-}
