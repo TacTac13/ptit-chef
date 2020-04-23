@@ -42,11 +42,14 @@ const routes: Routes = [
     ]
   },
   {
+    path: 'favorites',
+    loadChildren: () => import('./favorites/favorites.module').then( m => m.FavoritesPageModule)
+  },
+  {
     path: '',
     redirectTo: '/home/tabs/recipes',
     pathMatch: 'full'
   }
-
 ];
 
 @NgModule({

@@ -52,6 +52,12 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     onFavoriesClick() {
+      this.navCtrl.navigateForward('/home/favorites');
+      this.menu.close();
+    }
+
+    onRecipesClick() {
+      this.navCtrl.navigateForward('/home');
       this.menu.close();
     }
 
