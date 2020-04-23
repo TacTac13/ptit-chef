@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -8,6 +8,9 @@ import { FavoritesPageRoutingModule } from './favorites-routing.module';
 
 import { FavoritesPage } from './favorites.page';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NewFavoriteModalComponent } from '../modal/new-favorite-modal/new-favorite-modal.component';
+import { FavoriteService } from 'src/service/favorite.service';
+import { RecipeService } from 'src/service/recipe.service';
 
 @NgModule({
   imports: [
@@ -15,8 +18,11 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     FormsModule,
     IonicModule,
     FavoritesPageRoutingModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    ReactiveFormsModule
   ],
-  declarations: [FavoritesPage]
+  declarations: [FavoritesPage, NewFavoriteModalComponent],
+  entryComponents: [NewFavoriteModalComponent],
+  providers: [FavoriteService, RecipeService]
 })
 export class FavoritesPageModule {}

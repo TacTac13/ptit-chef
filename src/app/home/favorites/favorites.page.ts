@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FavoriteService } from 'src/service/favorite.service';
 import { Favorite } from 'src/models/favorites.model';
-import { IonReorderGroup } from '@ionic/angular';
+import { IonReorderGroup, ModalController } from '@ionic/angular';
+import { NewFavoriteModalComponent } from '../modal/new-favorite-modal/new-favorite-modal.component';
 
 @Component({
   selector: 'app-favorites',
@@ -15,9 +16,12 @@ export class FavoritesPage implements OnInit {
 
   favoritesList: Favorite[] = [];
   faBars = faBars;
+  faTrash = faTrash;
+  faEdit = faEdit;
 
   constructor(
-    private favaoriteService: FavoriteService
+    private favaoriteService: FavoriteService,
+    private modalCtrl: ModalController
   ) { }
 
   ngOnInit() {
@@ -30,4 +34,22 @@ export class FavoritesPage implements OnInit {
     this.favoritesList = event.detail.complete(this.favoritesList);
   }
 
+  onEditItem() {
+
+  }
+
+  onDeletetItem() {
+
+  }
+
+  onAddItem() {
+    this.modalCtrl.create({ component: NewFavoriteModalComponent }).then(modalEl => {
+      modalEl.onDidDismiss().then(modalData => {
+        if (!modalData.data) {
+          return;
+        }
+      });
+      modalEl.present();
+    });
+  }
 }

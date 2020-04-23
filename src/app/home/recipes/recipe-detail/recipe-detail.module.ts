@@ -10,6 +10,7 @@ import { RecipeDetailPage } from './recipe-detail.page';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ApplicationPipesModule } from '../../../application-pipe.module';
+import { RecipeService } from 'src/service/recipe.service';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { ApplicationPipesModule } from '../../../application-pipe.module';
     FontAwesomeModule,
     ApplicationPipesModule
   ],
-  declarations: [RecipeDetailPage]
+  declarations: [RecipeDetailPage],
+  providers: [RecipeService]
 })
 export class RecipeDetailPageModule {}

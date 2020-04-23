@@ -10,8 +10,25 @@ h3 {
     font-size: 22px;
     margin-top: -7px;
   }
-  
+
+  .header-md:after {
+    height: 0;
+  }
+
   ion-toolbar {
     --color: white;
     --border-width: 0 0 0 !important;
+  }
+
+  p{
+    color: var(--ion-color-medium);
+    margin-top: -5px;
+    margin-bottom: 3px;
+    font-size: 15px;
+  }
+
+  .item-icon{
+    color: var(--ion-color-primary);
+    font-size: 15px;
+    margin-left: 13px;
   }

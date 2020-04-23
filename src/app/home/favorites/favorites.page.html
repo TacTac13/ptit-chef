@@ -10,14 +10,34 @@
 </ion-header>
 
 <ion-content>
+  <ion-grid>
+    <ion-row class="ion-justify-content-center" >
+      <ion-col size="12" size-lg="4" size-sm="8">
+        <p>Cette page vous permet de gérer vos favoris.
+          Vous pouvez ajouter, modifier ou supprimer vos catégories favorites
+          de recettes qui seront visible sur la page d'accueil.</p>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-justify-content-center" >
+      <ion-col size="12" size-lg="4" size-sm="8">
+        <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false">
+          <ion-item *ngFor="let favorit of favoritesList">
+            <ion-reorder slot="start"></ion-reorder>
+            <ion-label>
+              {{ favorit.title }}
+            </ion-label>
+            <fa-icon (click)="onEditItem()" [icon]="faEdit" class="item-icon"></fa-icon>
+            <fa-icon (click)="onDeletetItem()"  [icon]="faTrash" class="item-icon"></fa-icon>
+          </ion-item>
+        </ion-reorder-group>
+      </ion-col>
+    </ion-row>
+  </ion-grid> 
 
-  <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false" >
-    <ion-item *ngFor="let favorit of favoritesList">
-      <ion-reorder slot="start"></ion-reorder>
-      <ion-label>
-        {{ favorit.title }}
-      </ion-label>
-    </ion-item>
-  </ion-reorder-group>
+  <ion-fab  vertical="bottom" horizontal="end" slot="fixed" (click)="onAddItem()">
+    <ion-fab-button color="primary">
+      <ion-icon name="add" color="light"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
 </ion-content>

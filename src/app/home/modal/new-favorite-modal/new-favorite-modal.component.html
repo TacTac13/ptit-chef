@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button color="light" (click)="onCancel()" slot="start">
+        <fa-icon [icon]="faTimes"></fa-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title color="light" class="title"></ion-title>
+    <ion-buttons slot="primary">
+      <ion-button color="light" (click)="onCreateFavorite()" slot="primary"
+        [disabled]="!form.valid">
+        <fa-icon [icon]="faCheck"></fa-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <form [formGroup]="form">
+    <ion-grid>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-sm="8" offset-sm="2">
+          <h2 style="margin-top: 0;">Informations</h2>
+          <p class="baseline">Veulliez renseigner les informations sur la recette</p>
+          <ion-item>
+            <ion-label position="floating">Nom de la recette*</ion-label>
+            <ion-input type="text" autocomplete autocorrect formControlName="recipeName"></ion-input>
+          </ion-item>
+          <div *ngIf="!form.get('recipeName').valid && form.get('recipeName').touched">
+            <p class="alert">Veuillez nommer votre recette</p>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>
