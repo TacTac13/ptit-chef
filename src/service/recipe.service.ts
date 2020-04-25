@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Recipe } from '../models/recipe.model';
-import { BehaviorSubject, of, Observable } from 'rxjs';
-import { take, map, switchMap, find, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { take, map, switchMap, tap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
 import { RecipeData } from '../models/recipe-data.model';

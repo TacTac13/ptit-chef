@@ -11,7 +11,7 @@ import { NewRecipeModalComponent } from './modal/new-recipe-modal/new-recipe-mod
 import { ImagePickerComponent } from './modal/image-picker/image-picker.component';
 import { UiSwitchModule } from 'ngx-toggle-switch';
 import { RatingModule } from 'ng-starrating';
-import { RecipeService } from 'src/service/recipe.service';
+import { RecipeService } from '../../service/recipe.service';
 
 
 @NgModule({

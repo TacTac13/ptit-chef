@@ -10,7 +10,10 @@
 </ion-header>
 
 <ion-content>
-  <ion-grid>
+  <div class="spinner ion-justify-content-center" *ngIf="isLoading">
+    <ion-spinner name="dots" color="primary"></ion-spinner>
+  </div>
+  <ion-grid *ngIf="!isLoading">
     <ion-row class="ion-justify-content-center" >
       <ion-col size="12" size-lg="4" size-sm="8">
         <p>Cette page vous permet de gérer vos favoris.

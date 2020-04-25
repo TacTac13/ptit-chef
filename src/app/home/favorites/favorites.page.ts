@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { faBars, faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
-import { FavoriteService } from 'src/service/favorite.service';
-import { Favorite } from 'src/models/favorites.model';
+import { FavoriteService } from '../../../service/favorite.service';
+import { Favorite } from '../../../models/favorites.model';
 import { IonReorderGroup, ModalController } from '@ionic/angular';
 import { NewFavoriteModalComponent } from '../modal/new-favorite-modal/new-favorite-modal.component';
 
@@ -18,6 +18,7 @@ export class FavoritesPage implements OnInit {
   faBars = faBars;
   faTrash = faTrash;
   faEdit = faEdit;
+  isLoading = false;
 
   constructor(
     private favaoriteService: FavoriteService,
@@ -27,6 +28,13 @@ export class FavoritesPage implements OnInit {
   ngOnInit() {
     this.favaoriteService.getFavorites().subscribe(favorites => {
       this.favoritesList = favorites;
+    });
+  }
+
+  ionViewWillEnter() {
+    this.isLoading = true;
+    this.favaoriteService.fetchFavorites().subscribe(() => {
+      this.isLoading = false;
     });
   }
 

@@ -8,7 +8,7 @@ import { SearchPageRoutingModule } from './search-routing.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { SearchPage } from './search.page';
-import { RecipeService } from 'src/service/recipe.service';
+import { RecipeService } from '../../../service/recipe.service';
 
 @NgModule({
   imports: [

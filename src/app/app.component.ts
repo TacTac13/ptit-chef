@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { faHeart, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { Platform, MenuController, NavController } from '@ionic/angular';
 import { Plugins, Capacitor } from '@capacitor/core';
-import { AuthService } from 'src/service/auth.service';
+import { AuthService } from '../service/auth.service';
 import { Subscription } from 'rxjs';
 
 @Component({

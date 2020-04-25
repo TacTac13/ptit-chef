@@ -1,9 +1,7 @@
-export class FavoriteEL {
-    constructor(
-        public id: string,
-        public title: string,
-        public imageUrl: string,
-        public stars: boolean[],
-        public userId: string
-    ) { }
+export interface FavoriteEL {
+    id: string;
+    title: string;
+    imageUrl: string;
+    stars: boolean[];
+    userId: string;
 }
