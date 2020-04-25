@@ -5,9 +5,9 @@
         <fa-icon [icon]="faTimes"></fa-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title color="light" class="title">Nouveau favoris</ion-title>
+    <ion-title color="light" class="title">{{ !favorite ? "Nouveau favoris" : "Modifier le favoris" }}</ion-title>
     <ion-buttons slot="primary">
-      <ion-button color="light" (click)="onCreateFavorite()" slot="primary" [disabled]="!favoriteName">
+      <ion-button color="light" (click)="!favorite ? onCreateFavorite() : onEditeFavorite()" slot="primary" [disabled]="!favoriteName">
         <fa-icon [icon]="faCheck"></fa-icon>
       </ion-button>
     </ion-buttons>

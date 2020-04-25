@@ -29,8 +29,8 @@
             <ion-label>
               {{ favorit.title }}
             </ion-label>
-            <fa-icon (click)="onEditItem()" [icon]="faEdit" class="item-icon"></fa-icon>
-            <fa-icon (click)="onDeletetItem()"  [icon]="faTrash" class="item-icon"></fa-icon>
+            <fa-icon (click)="onEditItem(favorit.id)" [icon]="faEdit" class="item-icon"></fa-icon>
+            <fa-icon (click)="onDeletetItem(favorit.id)"  [icon]="faTrash" class="item-icon"></fa-icon>
           </ion-item>
         </ion-reorder-group>
       </ion-col>

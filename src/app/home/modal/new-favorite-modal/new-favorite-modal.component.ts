@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { faCheck, faTimes, faTrash, faPlus, faWeight, faLeaf } from '@fortawesome/free-solid-svg-icons';
 import { ModalController, AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { RecipeService } from '../../../../service/recipe.service';
 import { FavoriteEL } from '../../../../models/favoritesEl.model';
 import { FavoriteService } from '../../../../service/favorite.service';
+import { Favorite } from '../../../../models/favorites.model';
 
 @Component({
   selector: 'app-new-favorite-modal',
@@ -11,6 +12,8 @@ import { FavoriteService } from '../../../../service/favorite.service';
   styleUrls: ['./new-favorite-modal.component.scss'],
 })
 export class NewFavoriteModalComponent implements OnInit {
+
+  @Input() favorite: Favorite;
 
   faCheck = faCheck;
   faTimes = faTimes;
@@ -33,13 +36,19 @@ export class NewFavoriteModalComponent implements OnInit {
 
   private fetchAllRecipes(type: string) {
     this.recipeService.fetchAllRecipes(type).subscribe(recipes => {
-      for (const i of recipes) {
-        this.recipesList.push(i);
-      }
-      // tslint:disable-next-line: prefer-for-of
-      for (let j = 0; j < this.recipesList.length; j++) {
-        this.recipesList[j].isChecked = false;
-      }
+
+      recipes.map((recipe, i) => {
+        recipe.isChecked = false;
+        if (this. favorite && this.favorite.favoritesList) {
+          // tslint:disable-next-line: prefer-for-of
+          for (let j = 0; j < this.favorite.favoritesList.length; j++) {
+            if (recipe.id === this.favorite.favoritesList[j].id) {
+              recipe.isChecked = true;
+            }
+          }
+        }
+        this.recipesList.push(recipe);
+      });
     });
   }
 
@@ -57,6 +66,10 @@ export class NewFavoriteModalComponent implements OnInit {
     this.fetchAllRecipes('appetizer');
     this.fetchAllRecipes('main');
     this.fetchAllRecipes('dessert');
+
+    if (this.favorite) {
+      this.favoriteName = this.favorite.title;
+    }
   }
 
   onCheckboxClic(id: string, isChecked: boolean) {
@@ -112,6 +125,39 @@ export class NewFavoriteModalComponent implements OnInit {
         loadingEl.dismiss();
         this.modalCtrl.dismiss();
         this.presentToast('Votre Favoris a bien été créé !');
+      }
+      );
+    });
+
+  }
+
+  onEditeFavorite() {
+    const favoriteEl: FavoriteEL[] = [];
+    this.recipesList.forEach(recipe => {
+      if (recipe.isChecked) {
+        favoriteEl.push({
+          id: recipe.id,
+          title: recipe.title,
+          imageUrl: recipe.imageUrl,
+          stars: recipe.star,
+          userId: recipe.userId
+        });
+      }
+    });
+
+    this.loaderCtrl.create({
+      message: 'Modification de votre favoris...'
+    }).then(loadingEl => {
+      loadingEl.present();
+      this.favoriteService.editFavorites(
+        this.favorite.id,
+        this.favoriteName,
+        this.favorite.userId,
+        favoriteEl
+      ).subscribe(() => {
+        loadingEl.dismiss();
+        this.modalCtrl.dismiss();
+        this.presentToast('Votre favoris a bien été modifié !');
       }
       );
     });

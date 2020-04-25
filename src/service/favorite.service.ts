@@ -79,8 +79,6 @@ export class FavoriteService {
         if (!userId) {
           throw new Error('No user id found!');
         }
-        console.log(userId);
-
         newFavorites = new Favorite(
           favoriteId,
           title,
@@ -90,7 +88,6 @@ export class FavoriteService {
         return this.http.post<{ name: string }>(`https://ptit-chef.firebaseio.com/favorites.json?auth=${fetechedToken}`, { ...newFavorites, id: null });
       }),
       switchMap(resData => {
-        console.log(resData);
         generatedId = resData.name;
         return this.getFavorites();
       }),
@@ -98,6 +95,61 @@ export class FavoriteService {
       tap(favorite => {
         newFavorites.id = generatedId;
         this._favorites.next(favorite.concat(newFavorites));
+      })
+    );
+  }
+
+  deleteFavorit(id: string) {
+    let deleteFavoritList: Favorite[];
+    let fetechedToken: string;
+    return this.authService.token.pipe(
+      take(1),
+      switchMap(token => {
+        fetechedToken = token;
+        return this.getFavorites();
+      }),
+      take(1),
+      switchMap(favorites => {
+        const deleteFavoritIndex = favorites.findIndex(rp => rp.id === id);
+        deleteFavoritList = [...favorites];
+        deleteFavoritList.splice(deleteFavoritIndex, 1);
+        return this.http.delete(`https://ptit-chef.firebaseio.com/favorites/${id}.json?auth=${fetechedToken}`);
+      }),
+      tap(() => {
+        this._favorites.next(deleteFavoritList);
+      }));
+  }
+
+  editFavorites(
+    id: string,
+    title: string,
+    userId: string,
+    favoritesList: FavoriteEL[]
+  ) {
+    let fetchedToken: string;
+    let updatedFavoriteList: Favorite[];
+    const updatedFavorite: Favorite = new Favorite(
+      id,
+      title,
+      userId,
+      favoritesList
+    );
+
+    return this.authService.token.pipe(
+      take(1),
+      switchMap(token => {
+        fetchedToken = token;
+        return this.getFavorites();
+      }),
+      take(1),
+      switchMap(favorites => {
+        const updatedfavoriteIndex = favorites.findIndex(rp => rp.id === id);
+        updatedFavoriteList = [...favorites];
+        updatedFavoriteList[updatedfavoriteIndex] = updatedFavorite;
+        return this.http.put(`https://ptit-chef.firebaseio.com/favorites/${id}.json?auth=${fetchedToken}`, { ...updatedFavoriteList[updatedfavoriteIndex], id: null });
+      }),
+      tap(() => {
+        this._favorites.next(updatedFavoriteList);
       })
     );
   }

@@ -21,6 +21,6 @@ import { AuthService } from '../../service/auth.service';
   ],
   declarations: [AuthPage, NewUserModalComponent],
   entryComponents: [NewUserModalComponent],
-  providers:[AuthService]
+  providers: [AuthService]
 })
 export class AuthPageModule {}
