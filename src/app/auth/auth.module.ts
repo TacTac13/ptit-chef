@@ -9,7 +9,6 @@ import { AuthPageRoutingModule } from './auth-routing.module';
 import { AuthPage } from './auth.page';
 import { NewUserModalComponent } from '../home/modal/new-user-modal/new-user-modal.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { AuthService } from '../../service/auth.service';
 
 @NgModule({
   imports: [
@@ -20,7 +19,6 @@ import { AuthService } from '../../service/auth.service';
     FontAwesomeModule
   ],
   declarations: [AuthPage, NewUserModalComponent],
-  entryComponents: [NewUserModalComponent],
-  providers: [AuthService]
+  entryComponents: [NewUserModalComponent]
 })
 export class AuthPageModule {}

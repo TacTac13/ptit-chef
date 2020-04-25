@@ -12,7 +12,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-import { AuthService } from '../service/auth.service';
 
 
 @NgModule({
@@ -29,7 +28,6 @@ import { AuthService } from '../service/auth.service';
   providers: [
     StatusBar,
     SplashScreen,
-    AuthService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

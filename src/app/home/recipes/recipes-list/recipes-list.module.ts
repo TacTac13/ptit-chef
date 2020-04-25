@@ -10,7 +10,6 @@ import { RecipesListPage } from './recipes-list.page';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ApplicationPipesModule } from '../../../application-pipe.module';
-import { RecipeService } from '../../../../service/recipe.service';
 
 
 
@@ -24,7 +23,6 @@ import { RecipeService } from '../../../../service/recipe.service';
     FontAwesomeModule,
     ApplicationPipesModule
   ],
-  declarations: [RecipesListPage],
-  providers: [RecipeService]
+  declarations: [RecipesListPage]
 })
 export class RecipesListPageModule { }

@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Favorite } from 'src/models/favorites.model';
-import { FavoriteEL } from 'src/models/favoritesEl.model';
+import { Favorite } from '../models/favorites.model';
+import { FavoriteEL } from '../models/favoritesEl.model';
 import { take, switchMap, tap, map } from 'rxjs/operators';
-import { FavoriteData } from 'src/models/favorites-data.model';
+import { FavoriteData } from '../models/favorites-data.model';
 
 @Injectable({
   providedIn: 'root'
