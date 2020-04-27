@@ -47,6 +47,7 @@ export class FavoriteService {
               key,
               resData[key].title,
               resData[key].userId,
+              resData[key].pos,
               resData[key].favoritesList,
             ));
           }
@@ -60,6 +61,7 @@ export class FavoriteService {
 
   addFavorites(
     title: string,
+    pos: number,
     favoritesList: FavoriteEL[]
   ) {
 
@@ -83,6 +85,7 @@ export class FavoriteService {
           favoriteId,
           title,
           userId,
+          pos,
           favoritesList
         );
         return this.http.post<{ name: string }>(`https://ptit-chef.firebaseio.com/favorites.json?auth=${fetechedToken}`, { ...newFavorites, id: null });
@@ -116,6 +119,9 @@ export class FavoriteService {
         return this.http.delete(`https://ptit-chef.firebaseio.com/favorites/${id}.json?auth=${fetechedToken}`);
       }),
       tap(() => {
+        for (let i = 0; i < deleteFavoritList.length; i++) {
+          deleteFavoritList[i].pos = i;
+        }
         this._favorites.next(deleteFavoritList);
       }));
   }
@@ -124,6 +130,7 @@ export class FavoriteService {
     id: string,
     title: string,
     userId: string,
+    pos: number,
     favoritesList: FavoriteEL[]
   ) {
     let fetchedToken: string;
@@ -132,6 +139,7 @@ export class FavoriteService {
       id,
       title,
       userId,
+      pos,
       favoritesList
     );
 

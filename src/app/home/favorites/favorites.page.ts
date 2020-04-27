@@ -2,9 +2,10 @@ import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { faBars, faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FavoriteService } from '../../../service/favorite.service';
 import { Favorite } from '../../../models/favorites.model';
-import { IonReorderGroup, ModalController, AlertController, NavController } from '@ionic/angular';
+import { IonReorderGroup, ModalController, AlertController } from '@ionic/angular';
 import { NewFavoriteModalComponent } from '../modal/new-favorite-modal/new-favorite-modal.component';
 import { Subscription } from 'rxjs';
+import { take, map, tap, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-favorites',
@@ -23,31 +24,66 @@ export class FavoritesPage implements OnInit, OnDestroy {
   favoritesSub: Subscription;
 
   constructor(
-    private favaoriteService: FavoriteService,
+    private favoriteService: FavoriteService,
     private modalCtrl: ModalController,
-    private alertCtrl: AlertController,
-    private navCtrl: NavController
+    private alertCtrl: AlertController
   ) { }
 
   ngOnInit() {
-    this.favoritesSub = this.favaoriteService.getFavorites().subscribe(favorites => {
-      this.favoritesList = favorites;
-    });
+    this.favoritesSub = this.favoriteService.getFavorites().pipe(
+      switchMap(favorites => {
+        this.favoritesList = [];
+        if (favorites) {
+          const temporaryList = [...favorites];
+          const list = [];
+          let index = 0;
+          while (temporaryList.length > 0) {
+            temporaryList.map((favorite) => {
+              if (favorite.pos === index) {
+                list.push(favorite);
+                const favIndex = temporaryList.indexOf(favorite);
+                temporaryList.splice(favIndex, 1);
+                index++;
+              }
+            });
+          }
+          return list;
+        }
+      })).subscribe(favorites => {
+        this.favoritesList.push(favorites);
+      });
+  }
+
+  reorder() {
+
   }
 
   ionViewWillEnter() {
     this.isLoading = true;
-    this.favaoriteService.fetchFavorites().subscribe(() => {
+    this.favoriteService.fetchFavorites().subscribe(() => {
       this.isLoading = false;
     });
   }
 
   doReorder(event: any) {
     this.favoritesList = event.detail.complete(this.favoritesList);
+
+    for (let i = 0; i < this.favoritesList.length; i++) {
+      this.favoritesList[i].pos = i;
+    }
+
+    this.favoritesList.map(favorite => {
+      this.favoriteService.editFavorites(
+        favorite.id,
+        favorite.title,
+        favorite.userId,
+        favorite.pos,
+        favorite.favoritesList
+      ).subscribe();
+    });
   }
 
   onEditItem(favoritId: string) {
-
     let favoritToEdit: Favorite;
     this.favoritesList.map(favorite => {
       if (favorite.id === favoritId) {
@@ -55,11 +91,11 @@ export class FavoritesPage implements OnInit, OnDestroy {
           id: favorite.id,
           title: favorite.title,
           userId: favorite.userId,
+          pos: favorite.pos,
           favoritesList: favorite.favoritesList
         };
       }
     });
-
     this.modalCtrl.create({
       component: NewFavoriteModalComponent, componentProps: {
         favorite: favoritToEdit,
@@ -67,14 +103,7 @@ export class FavoritesPage implements OnInit, OnDestroy {
     }).then(modalEl => {
       modalEl.onDidDismiss().then(modalData => {
         if (!modalData.data) {
-          // this.isLoading = true;
-          // this.recipesSub = this.recipeService.getRecipeFromId(
-          //   this.route.snapshot.paramMap.get('recipeId'),
-          //   this.route.snapshot.paramMap.get('recipeList')
-          // ).subscribe((recipe: Recipe) => {
-          //   this.recipe = recipe;
-          //   this.isLoading = false;
-          // });
+          return;
         }
       });
       modalEl.present();
@@ -92,9 +121,7 @@ export class FavoritesPage implements OnInit, OnDestroy {
         },
         {
           text: 'Ok', handler: () => {
-            this.favaoriteService.deleteFavorit(favoritId).subscribe(() => {
-              //this.navCtrl.navigateBack(`/home/tabs/recipes/${type}`);
-            });
+            this.favoriteService.deleteFavorit(favoritId).subscribe();
           }
         }
       ]
@@ -104,7 +131,11 @@ export class FavoritesPage implements OnInit, OnDestroy {
   }
 
   onAddItem() {
-    this.modalCtrl.create({ component: NewFavoriteModalComponent }).then(modalEl => {
+    this.modalCtrl.create({
+      component: NewFavoriteModalComponent, componentProps: {
+        pos: this.favoritesList.length,
+      }
+    }).then(modalEl => {
       modalEl.onDidDismiss().then(modalData => {
         if (!modalData.data) {
           return;

@@ -14,6 +14,7 @@ import { Favorite } from '../../../../models/favorites.model';
 export class NewFavoriteModalComponent implements OnInit {
 
   @Input() favorite: Favorite;
+  @Input() pos: number;
 
   faCheck = faCheck;
   faTimes = faTimes;
@@ -120,6 +121,7 @@ export class NewFavoriteModalComponent implements OnInit {
       loadingEl.present();
       this.favoriteService.addFavorites(
         this.favoriteName,
+        this.pos,
         favoriteEl
       ).subscribe(() => {
         loadingEl.dismiss();
@@ -153,6 +155,7 @@ export class NewFavoriteModalComponent implements OnInit {
         this.favorite.id,
         this.favoriteName,
         this.favorite.userId,
+        this.favorite.pos,
         favoriteEl
       ).subscribe(() => {
         loadingEl.dismiss();

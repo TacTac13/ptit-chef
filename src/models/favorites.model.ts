@@ -5,6 +5,7 @@ export class Favorite {
         public id: string,
         public title: string,
         public userId: string,
+        public pos: number,
         public favoritesList?: FavoriteEL[]
     ) { }
 }
