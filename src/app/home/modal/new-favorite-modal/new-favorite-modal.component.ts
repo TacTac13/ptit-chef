@@ -108,6 +108,7 @@ export class NewFavoriteModalComponent implements OnInit {
         favoriteEl.push({
           id: recipe.id,
           title: recipe.title,
+          type: recipe.type,
           imageUrl: recipe.imageUrl,
           stars: recipe.star,
           userId: recipe.userId
@@ -140,6 +141,7 @@ export class NewFavoriteModalComponent implements OnInit {
         favoriteEl.push({
           id: recipe.id,
           title: recipe.title,
+          type: recipe.type,
           imageUrl: recipe.imageUrl,
           stars: recipe.star,
           userId: recipe.userId

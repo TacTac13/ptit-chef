@@ -5,7 +5,7 @@ import { Favorite } from '../../../models/favorites.model';
 import { IonReorderGroup, ModalController, AlertController } from '@ionic/angular';
 import { NewFavoriteModalComponent } from '../modal/new-favorite-modal/new-favorite-modal.component';
 import { Subscription } from 'rxjs';
-import { take, map, tap, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-favorites',
@@ -146,6 +146,20 @@ export class FavoritesPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    for (let i = 0; i < this.favoritesList.length; i++) {
+      this.favoritesList[i].pos = i;
+    }
+
+    this.favoritesList.map(favorite => {
+      this.favoriteService.editFavorites(
+        favorite.id,
+        favorite.title,
+        favorite.userId,
+        favorite.pos,
+        favorite.favoritesList
+      ).subscribe();
+    });
+
     this.favoritesSub.unsubscribe();
   }
 }

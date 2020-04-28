@@ -8,6 +8,7 @@ import { RecipesPageRoutingModule } from './recipes-routing.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { RecipesPage } from './recipes.page';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
 
 import 'hammerjs';
 
@@ -17,7 +18,8 @@ import 'hammerjs';
     FormsModule,
     FontAwesomeModule,
     IonicModule,
-    RecipesPageRoutingModule
+    RecipesPageRoutingModule,
+    SlickCarouselModule
   ],
   declarations: [RecipesPage],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

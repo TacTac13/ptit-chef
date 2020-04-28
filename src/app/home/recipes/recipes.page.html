@@ -31,4 +31,27 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+  <ion-grid class="ion-no-padding" *ngIf="!isLoading">
+    <ion-row>
+      <ion-col size-sm="6" offset-sm="3" class="ion-no-padding">
+        <div *ngFor="let favorite of favoritesList" class="carousel" >
+          <h2>{{ favorite.title }}</h2>
+          <ngx-slick-carousel [config]="slideConfig">
+            <div ngxSlickItem *ngFor="let recipe of favorite.favoritesList">
+              <div (click)="onRecipeClick(recipe.id, recipe.type)">
+                <img src="{{ recipe.imageUrl }}" alt="" width="82px" height="82px">
+                <span>{{ recipe.title }}</span>
+                <div class="stars-container">
+                <div *ngFor="let star of recipe.stars" class="star-icon">
+                  <fa-icon [icon]="faStar" *ngIf="star"></fa-icon>
+                  <fa-icon [icon]="faStar2" *ngIf="!star"></fa-icon>
+                </div>
+              </div>
+              </div>
+            </div>
+          </ngx-slick-carousel>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
