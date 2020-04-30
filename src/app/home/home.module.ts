@@ -11,6 +11,7 @@ import { NewRecipeModalComponent } from './modal/new-recipe-modal/new-recipe-mod
 import { ImagePickerComponent } from './modal/image-picker/image-picker.component';
 import { UiSwitchModule } from 'ngx-toggle-switch';
 import { RatingModule } from 'ng-starrating';
+import { NewFavoriteModalComponent } from './modal/new-favorite-modal/new-favorite-modal.component';
 
 
 @NgModule({
@@ -24,7 +25,7 @@ import { RatingModule } from 'ng-starrating';
     UiSwitchModule,
     RatingModule
   ],
-  declarations: [HomePage, NewRecipeModalComponent, ImagePickerComponent],
-  entryComponents: [NewRecipeModalComponent, ImagePickerComponent]
+  declarations: [HomePage, NewRecipeModalComponent, ImagePickerComponent, NewFavoriteModalComponent],
+  entryComponents: [NewRecipeModalComponent, ImagePickerComponent, NewFavoriteModalComponent]
 })
 export class HomePageModule {}

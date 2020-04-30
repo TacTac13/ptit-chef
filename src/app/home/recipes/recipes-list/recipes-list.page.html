@@ -32,7 +32,7 @@
             *ngFor="let recipe of recipesList">
             <ion-img [src]="recipe.imageUrl"></ion-img>
             <ion-card-header class="header">
-              <ion-card-title class="title">{{ recipe.title }}</ion-card-title>
+              <ion-card-title class="title wrap-text">{{ recipe.title }}</ion-card-title>
               <div>
                 <fa-icon [icon]="faWeight" class="weight" *ngIf="recipe.isHealthy"></fa-icon>
                 <fa-icon [icon]="faLeaf" class="leaf" *ngIf="recipe.isVegie"></fa-icon>

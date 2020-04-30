@@ -8,7 +8,6 @@ import { FavoritesPageRoutingModule } from './favorites-routing.module';
 
 import { FavoritesPage } from './favorites.page';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { NewFavoriteModalComponent } from '../modal/new-favorite-modal/new-favorite-modal.component';
 
 @NgModule({
   imports: [
@@ -19,7 +18,6 @@ import { NewFavoriteModalComponent } from '../modal/new-favorite-modal/new-favor
     FontAwesomeModule,
     ReactiveFormsModule
   ],
-  declarations: [FavoritesPage, NewFavoriteModalComponent],
-  entryComponents: [NewFavoriteModalComponent]
+  declarations: [FavoritesPage],
 })
 export class FavoritesPageModule {}

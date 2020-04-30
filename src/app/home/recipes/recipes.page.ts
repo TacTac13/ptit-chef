@@ -1,12 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { faBars, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faStar, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { FavoriteService } from '../../../service/favorite.service';
 import { faStar as faRegularStar } from '@fortawesome/free-regular-svg-icons';
 import { Favorite } from '../../../models/favorites.model';
-import { LoadingController, NavController } from '@ionic/angular';
+import { LoadingController, NavController, ModalController } from '@ionic/angular';
 import { RecipeService } from '../../../service/recipe.service';
 import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { NewFavoriteModalComponent } from '../modal/new-favorite-modal/new-favorite-modal.component';
 
 @Component({
   selector: 'app-recipes',
@@ -18,6 +19,7 @@ export class RecipesPage implements OnInit, OnDestroy {
   faBars = faBars;
   faStar = faStar;
   faStar2 = faRegularStar;
+  faHeart = faHeart;
   favoritesList: Favorite[];
   isLoading = false;
   favoritesSub: Subscription;
@@ -42,10 +44,12 @@ export class RecipesPage implements OnInit, OnDestroy {
     private favoritesService: FavoriteService,
     private loadingCtrl: LoadingController,
     private recipeService: RecipeService,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private modalCtrl: ModalController
   ) { }
 
   ngOnInit() {
+    this.isLoading = true;
     this.favoritesSub = this.favoritesService.getFavorites().pipe(
       switchMap(favorites => {
         this.favoritesList = [];
@@ -67,6 +71,7 @@ export class RecipesPage implements OnInit, OnDestroy {
         }
       })).subscribe(favorites => {
         this.favoritesList.push(favorites);
+        this.isLoading = false;
       });
   }
 
@@ -87,6 +92,29 @@ export class RecipesPage implements OnInit, OnDestroy {
           this.navCtrl.navigateForward(`/home/tabs/recipes/${recipeType}/${recipeId}`);
         });
       });
+  }
+
+  onAddFavorite() {
+    this.modalCtrl.create({
+      component: NewFavoriteModalComponent, componentProps: {
+        pos: this.favoritesList.length,
+      }
+    }).then(modalEl => {
+      modalEl.onDidDismiss().then(modalData => {
+        if (!modalData.data) {
+          return;
+        }
+      });
+      modalEl.present();
+    });
+  }
+
+  getRecipeTitle(title: string) {
+    if (title.length > 20) {
+      return title.substring(0, 20) + '...';
+    } else {
+      return title;
+    }
   }
 
   ngOnDestroy() {

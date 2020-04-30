@@ -4,29 +4,31 @@
 
 .carousel{
   margin: 0 20px;
-  h2{  
-    color: var(--ion-color-dark);
-    font-family: "Roboto Bold";
-    font-size: 21px;
-  }
-  img{
-    object-fit: cover;
-    margin-bottom: 5px;
-  }
-  span{
-    margin: 5px 0;
-    font-size: 15;
-    color: var(--ion-color-medium);
-    font-family: "Roboto Light";
-  }
-  .stars-container {
-    display: flex;
-    margin-top: 5px;
-    .star-icon {
-      transform: rotate(45deg);
-      color: var(--ion-color-primary);
-      margin-right: 2px;
-      font-size: 14px;
+  .caroussel-container{
+    h2{  
+      color: var(--ion-color-dark);
+      font-family: "Roboto Bold";
+      font-size: 21px;
+    }
+    img{
+      object-fit: cover;
+      margin-bottom: 5px;
+    }
+    span{
+      margin: 5px 0;
+      font-size: 15;
+      color: var(--ion-color-medium);
+      font-family: "Roboto Light";
+    }
+    .stars-container {
+      display: flex;
+      margin-top: 5px;
+      .star-icon {
+        transform: rotate(45deg);
+        color: var(--ion-color-primary);
+        margin-right: 2px;
+        font-size: 14px;
+      }
     }
   }
 }
@@ -67,6 +69,39 @@ h1{
   color: white;
   font-size: 27px;
   font-family: "Roboto Bold";
+}
+
+.no-recipe-list-border{
+  border: 2px dashed  var(--ion-color-primary);
+  width: 100%;
+  border-radius: 20px;
+  .no-recipe-list{
+    margin: 5px;
+    border-radius: 20px;
+    background-color: var(--ion-color-primary);
+    color : var(--ion-color-secondary);
+    padding: 30px;
+    text-align: center;
+    h4{
+      font-size: 19px;
+      font-family: "Roboto Bold";
+    }
+    p{
+      font-family: "Roboto Light";
+      .icon{
+        margin: 0 2px;
+      }
+    }
+    ion-button{
+      font-family: "Roboto Bold";
+      font-size: 19px;
+      --border-radius: 0px;
+      --background: var(--ion-color-secondary);
+      --color: var(--ion-color-primary);
+      margin-top: 30px;
+      padding: 4px 0;
+    }
+  }
 }
 
 
