@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { faBars, faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faTrash, faEdit, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FavoriteService } from '../../../service/favorite.service';
 import { Favorite } from '../../../models/favorites.model';
 import { IonReorderGroup, ModalController, AlertController } from '@ionic/angular';
@@ -20,6 +20,7 @@ export class FavoritesPage implements OnInit, OnDestroy {
   faBars = faBars;
   faTrash = faTrash;
   faEdit = faEdit;
+  faPlus = faPlus;
   isLoading = false;
   favoritesSub: Subscription;
 

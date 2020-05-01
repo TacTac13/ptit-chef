@@ -1,34 +1,53 @@
 h3 {
-    margin-top: 2px;
-    margin-left: 12px;
-    font-family: "Roboto bold";
-    color: var(--ion-color-dark);
-    font-size: 21px;
-  }
+  margin-top: 2px;
+  margin-left: 12px;
+  font-family: "Roboto bold";
+  color: var(--ion-color-dark);
+  font-size: 21px;
+}
 
-  .menu-icon {
-    font-size: 22px;
-    margin-top: -7px;
-  }
+.menu-icon {
+  font-size: 22px;
+  margin-top: -7px;
+}
 
-  .header-md:after {
-    height: 0;
-  }
+.header-md:after {
+  height: 0;
+}
 
-  ion-toolbar {
-    --color: white;
-    --border-width: 0 0 0 !important;
-  }
+ion-toolbar {
+  --color: white;
+  --border-width: 0 0 0 !important;
+}
 
-  p{
+p {
+  color: var(--ion-color-medium);
+  margin-top: -5px;
+  margin-bottom: 3px;
+  font-size: 15px;
+}
+
+.item-icon {
+  color: var(--ion-color-primary);
+  font-size: 15px;
+  margin-left: 13px;
+}
+
+.no-recipe-content {
+  margin-top: 20px;
+  text-align: center;
+  .no-recipe-text {
     color: var(--ion-color-medium);
-    margin-top: -5px;
-    margin-bottom: 3px;
-    font-size: 15px;
   }
-
-  .item-icon{
-    color: var(--ion-color-primary);
+  .add-button {
+    font-family: "Roboto Bold";
     font-size: 15px;
-    margin-left: 13px;
+    --border-radius: 0px;
+    --color: var(--ion-color-secondary);
+    --background-color: var(--ion-color-primary);
+    margin-top: 10px;
+    .icon {
+      margin-right: 7px;
+    }
   }
+}

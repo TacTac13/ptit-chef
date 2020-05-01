@@ -7,31 +7,39 @@
     </ion-buttons>
     <ion-title color="light" class="title">{{ !favorite ? "Nouveau favoris" : "Modifier le favoris" }}</ion-title>
     <ion-buttons slot="primary">
-      <ion-button color="light" (click)="!favorite ? onCreateFavorite() : onEditeFavorite()" slot="primary" [disabled]="!favoriteName">
+      <ion-button color="light" (click)="!favorite ? onCreateFavorite() : onEditeFavorite()" slot="primary"
+        [disabled]="!favoriteName">
         <fa-icon [icon]="faCheck"></fa-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content class="ion-padding">
-    <ion-grid>
-      <ion-row class="ion-justify-content-center">
-        <ion-col size-sm="8" offset-sm="2">
-          <h2 style="margin-top: 0;">Nom de votre favoris</h2>
-          <p class="baseline">Veulliez renseigner le nom de votre favoris qui sera visible sur l'écran d'accueil</p>
-          <ion-item>
-            <ion-label position="floating">Nom*</ion-label>
-            <ion-input type="text" autocomplete autocorrect [(ngModel)]="favoriteName"></ion-input>
-          </ion-item>
-          <!-- <div *ngIf="!form.get('favoriteName').valid && form.get('favoriteName').touched">
-            <p class="alert">Veuillez nommer votre favoris</p>
-          </div> -->
-        </ion-col>
-      </ion-row>
-      <ion-row class="ion-justify-content-center">
-        <ion-col size-sm="8" offset-sm="2">
-          <h2 style="margin-top: 20px;">Liste de vos recettes</h2>
-          <p class="baseline">Vous pouvez ajouter des recettes à votre favoris. Un maximum de 10 recettes par favoris est autorisé.</p>
+  <ion-grid>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-sm="8" offset-sm="2">
+        <h2 style="margin-top: 0;">Nom de votre favoris</h2>
+        <p class="baseline">Veulliez renseigner le nom de votre favoris qui sera visible sur l'écran d'accueil</p>
+        <ion-item>
+          <ion-label position="floating">Nom*</ion-label>
+          <ion-input type="text" autocomplete autocorrect [(ngModel)]="favoriteName"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-sm="8" offset-sm="2">
+        <h2 style="margin-top: 20px;">Liste de vos recettes</h2>
+        <div class="no-recipe-list-border">
+          <div class="no-recipe-list" *ngIf="this.recipesList.length === 0">
+            <h4>Vous n'avez aucune recette !</h4>
+            <p>Pour ajouter une favoris, il vous suffit de cliquer sur
+              <fa-icon [icon]="faBars" class="icon"></fa-icon>,
+              puis d'aller dans la section "<span class="recipe-icon">B</span> Mes recettes"</p>
+          </div>
+        </div>
+        <div *ngIf="this.recipesList.length > 0">
+          <p class="baseline">Vous pouvez ajouter des recettes à votre favoris. Un maximum de 10 recettes par favoris
+            est autorisé.</p>
           <ion-list>
             <ion-item *ngFor="let recipe of recipesList">
               <ion-avatar slot="start">
@@ -45,13 +53,12 @@
                 <fa-icon [icon]="faLeaf" class="leaf" *ngIf="recipe.isVegie"></fa-icon>
                 <span [ngClass]="getCoutryClass(recipe.country)" class="flag-icon"></span>
               </div>
-              <ion-checkbox slot="end" (ionChange)="onCheckboxClic(recipe.id, recipe.isChecked)" [(ngModel)]="recipe.isChecked"></ion-checkbox>
+              <ion-checkbox slot="end" (ionChange)="onCheckboxClic(recipe.id, recipe.isChecked)"
+                [(ngModel)]="recipe.isChecked"></ion-checkbox>
             </ion-item>
           </ion-list>
-          <!-- <div *ngIf="!form.get('favoriteName').valid && form.get('favoriteName').touched">
-            <p class="alert">Veuillez nommer votre favoris</p>
-          </div> -->
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

@@ -13,7 +13,7 @@
   <div class="spinner ion-justify-content-center" *ngIf="isLoading">
     <ion-spinner name="dots" color="primary"></ion-spinner>
   </div>
-  <ion-grid *ngIf="!isLoading">
+  <ion-grid>
     <ion-row class="ion-justify-content-center" >
       <ion-col size="12" size-lg="4" size-sm="8">
         <p>Cette page vous permet de gérer vos favoris.
@@ -21,7 +21,17 @@
           de recettes qui seront visible sur la page d'accueil.</p>
       </ion-col>
     </ion-row>
-    <ion-row class="ion-justify-content-center" >
+    <ion-row class="ion-justify-content-center" *ngIf="!isLoading && favoritesList.length === 0">
+      <ion-col size="12" size-lg="4" size-sm="8" class="ion-justify-content-center">
+        <div class="no-recipe-content">
+          <p class="no-recipe-text">Vous n'avez aucun favoris d'enregistré !</p>
+          <ion-button mode="ios" class="add-button" (click)="onAddItem()">
+            <fa-icon [icon]="faPlus" class="icon"></fa-icon> Ajouter mon premier favoris
+          </ion-button>
+        </div>          
+      </ion-col>
+    </ion-row>
+    <ion-row  *ngIf="!isLoading && favoritesList.length >= 0" class="ion-justify-content-center" >
       <ion-col size="12" size-lg="4" size-sm="8">
         <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false">
           <ion-item *ngFor="let favorit of favoritesList">

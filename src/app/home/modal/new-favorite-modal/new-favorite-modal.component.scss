@@ -49,3 +49,32 @@ h2 {
     border: 1px solid #ededed;
   }
 }
+
+.no-recipe-list-border{
+  margin-top: 20px;
+  border: 2px dashed  var(--ion-color-primary);
+  width: 100%;
+  border-radius: 20px;
+  .no-recipe-list{
+    margin: 5px;
+    border-radius: 20px;
+    background-color: var(--ion-color-primary);
+    color : var(--ion-color-secondary);
+    padding: 30px;
+    text-align: center;
+    h4{
+      font-size: 19px;
+      font-family: "Roboto Bold";
+    }
+    p{
+      font-family: "Roboto Light";
+      .icon{
+        margin: 0 2px;
+      }
+    }
+    .recipe-icon{
+      font-family: "icon";
+      font-size: 24px;
+    }
+  }
+}

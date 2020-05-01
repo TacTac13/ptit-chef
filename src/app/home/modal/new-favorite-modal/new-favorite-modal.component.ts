@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { faCheck, faTimes, faTrash, faPlus, faWeight, faLeaf } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faTimes, faTrash, faPlus, faWeight, faLeaf, faBars } from '@fortawesome/free-solid-svg-icons';
 import { ModalController, AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { RecipeService } from '../../../../service/recipe.service';
 import { FavoriteEL } from '../../../../models/favoritesEl.model';
@@ -22,6 +22,7 @@ export class NewFavoriteModalComponent implements OnInit {
   faPlus = faPlus;
   faWeight = faWeight;
   faLeaf = faLeaf;
+  faBars = faBars;
   recipesList: any[];
   checkboxMax: any[] = [];
   favoriteName: string;
