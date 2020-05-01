@@ -26,6 +26,7 @@ export class NewFavoriteModalComponent implements OnInit {
   recipesList: any[];
   checkboxMax: any[] = [];
   favoriteName: string;
+  isRecipeLoading = false;
 
   constructor(
     private modalCtrl: ModalController,
@@ -37,6 +38,7 @@ export class NewFavoriteModalComponent implements OnInit {
   ) { }
 
   private fetchAllRecipes(type: string) {
+    this.isRecipeLoading = true;
     this.recipeService.fetchAllRecipes(type).subscribe(recipes => {
 
       recipes.map((recipe, i) => {
@@ -51,6 +53,7 @@ export class NewFavoriteModalComponent implements OnInit {
         }
         this.recipesList.push(recipe);
       });
+      this.isRecipeLoading = false;
     });
   }
 

@@ -31,7 +31,7 @@
         </div>          
       </ion-col>
     </ion-row>
-    <ion-row  *ngIf="!isLoading && favoritesList.length >= 0" class="ion-justify-content-center" >
+    <ion-row  *ngIf="!isLoading && favoritesList.length > 0" class="ion-justify-content-center" >
       <ion-col size="12" size-lg="4" size-sm="8">
         <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false">
           <ion-item *ngFor="let favorit of favoritesList">

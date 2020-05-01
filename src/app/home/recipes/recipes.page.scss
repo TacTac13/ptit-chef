@@ -2,6 +2,10 @@
     background-color: white;
 }
 
+.hide-toolbar{
+  background-color: var(--ion-color-primary) !important;
+}
+
 .carousel{
   margin: 0 20px;
   .caroussel-container{
@@ -37,11 +41,11 @@
   width: 100%;
   height: 44px;
   background-color: #ffffff00;
-  color: blue;
   display: flex;
   justify-content: flex-start;
-  margin-left: 6px;
+  transition: all 0.3s ease-in-out;
   .menu {
+    margin-left: 6px;
     .menu-icon {
       font-size: 22px;
       margin-top: 8px;

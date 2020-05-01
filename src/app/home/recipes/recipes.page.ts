@@ -82,6 +82,15 @@ export class RecipesPage implements OnInit, OnDestroy {
     });
   }
 
+  onScrole(event) {
+    const toolbar = document.getElementById('bar');
+    if (event.detail.scrollTop > 400) {
+      toolbar.classList.add('hide-toolbar');
+    } else if (event.detail.scrollTop < 400) {
+      toolbar.classList.remove('hide-toolbar');
+    }
+  }
+
   onRecipeClick(recipeId: string, recipeType: string) {
     this.loadingCtrl
       .create({ message: 'Chargement de la recette...' })

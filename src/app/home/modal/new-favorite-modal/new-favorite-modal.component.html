@@ -29,15 +29,18 @@
     <ion-row class="ion-justify-content-center">
       <ion-col size-sm="8" offset-sm="2">
         <h2 style="margin-top: 20px;">Liste de vos recettes</h2>
-        <div class="no-recipe-list-border">
-          <div class="no-recipe-list" *ngIf="this.recipesList.length === 0">
+        <div class="spinner ion-justify-content-center" *ngIf="isRecipeLoading">
+          <ion-spinner name="dots" color="primary"></ion-spinner>
+        </div>
+        <div class="no-recipe-list-border" *ngIf="!isRecipeLoading && this.recipesList.length === 0">
+          <div class="no-recipe-list">
             <h4>Vous n'avez aucune recette !</h4>
             <p>Pour ajouter une favoris, il vous suffit de cliquer sur
               <fa-icon [icon]="faBars" class="icon"></fa-icon>,
               puis d'aller dans la section "<span class="recipe-icon">B</span> Mes recettes"</p>
           </div>
         </div>
-        <div *ngIf="this.recipesList.length > 0">
+        <div *ngIf="!isRecipeLoading && this.recipesList.length > 0">
           <p class="baseline">Vous pouvez ajouter des recettes à votre favoris. Un maximum de 10 recettes par favoris
             est autorisé.</p>
           <ion-list>

@@ -60,13 +60,10 @@ export class RecipeDetailPage implements OnInit, OnDestroy {
 
   onScrole(event) {
     const toolbar = document.getElementById('bar');
-    const grid = document.getElementById('grid');
     if (event.detail.scrollTop > 255) {
       toolbar.classList.add('hide-toolbar');
-      grid.classList.add('show-grid');
     } else if (event.detail.scrollTop < 255) {
       toolbar.classList.remove('hide-toolbar');
-      grid.classList.remove('show-grid');
     }
   }
 

@@ -50,6 +50,11 @@ h2 {
   }
 }
 
+.spinner {
+  display: flex;
+  margin-top: 34px;
+}
+
 .no-recipe-list-border{
   margin-top: 20px;
   border: 2px dashed  var(--ion-color-primary);
