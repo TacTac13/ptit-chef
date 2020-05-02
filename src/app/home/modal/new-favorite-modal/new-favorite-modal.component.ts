@@ -162,7 +162,8 @@ export class NewFavoriteModalComponent implements OnInit {
         this.favoriteName,
         this.favorite.userId,
         this.favorite.pos,
-        favoriteEl
+        favoriteEl,
+        false
       ).subscribe(() => {
         loadingEl.dismiss();
         this.modalCtrl.dismiss();

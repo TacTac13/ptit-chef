@@ -79,7 +79,8 @@ export class FavoritesPage implements OnInit, OnDestroy {
         favorite.title,
         favorite.userId,
         favorite.pos,
-        favorite.favoritesList
+        favorite.favoritesList,
+        false
       ).subscribe();
     });
   }
@@ -147,20 +148,6 @@ export class FavoritesPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    for (let i = 0; i < this.favoritesList.length; i++) {
-      this.favoritesList[i].pos = i;
-    }
-
-    this.favoritesList.map(favorite => {
-      this.favoriteService.editFavorites(
-        favorite.id,
-        favorite.title,
-        favorite.userId,
-        favorite.pos,
-        favorite.favoritesList
-      ).subscribe();
-    });
-
     this.favoritesSub.unsubscribe();
   }
 }
