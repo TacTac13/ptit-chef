@@ -6,47 +6,54 @@
       </ion-menu-button>
     </div>
     <div class="searchbar">
-      <ion-searchbar animated color="primary" placeholder="Rechercher une recette" class="search" (ionInput)="filterList($event)"></ion-searchbar>
+      <ion-searchbar animated color="primary" placeholder="Rechercher une recette" class="search"
+        (ionInput)="filterList($event)"></ion-searchbar>
     </div>
   </div>
 </ion-header>
 
 <ion-content>
-  <ion-list *ngIf="!isLoading">
-    <ion-item *ngFor="let recipe of recipesList" (click)="onClickRecipe(recipe.id, recipe.type)">
-      <ion-avatar slot="start">
-        <img src="{{recipe.imageUrl}}">
-      </ion-avatar>
-      <ion-label>
-        <h3>{{recipe.title}}</h3>
-        <div class="info-container">
-          <div class="stars-container">
-            <div *ngFor="let star of recipe.star" class="star-icon">
-              <fa-icon [icon]="faStar" *ngIf="star"></fa-icon>
-              <fa-icon [icon]="faStar2" *ngIf="!star"></fa-icon>
-            </div>          
-          </div>
-          <div class="info">
-            <fa-icon [icon]="faWeight" class="weight" *ngIf="recipe.isHealthy"></fa-icon>
-            <fa-icon [icon]="faLeaf" class="leaf" *ngIf="recipe.isVegie"></fa-icon>
-            <span [ngClass]="getCoutryClass(recipe.country)" class="flag-icon"></span>
-          </div>
-        </div>        
-      </ion-label>
-    </ion-item>
-  </ion-list>
-  <ion-list *ngIf="isLoading">
-    <ion-item *ngFor="let skeleton of skeletonList">
-      <ion-avatar slot="start">
-        <ion-skeleton-text></ion-skeleton-text>
-      </ion-avatar>
-      <ion-label>
-        <ion-skeleton-text  animated style="width: 80%"></ion-skeleton-text>
-        <div class="info-skeleton">
-            <ion-skeleton-text  animated style="width: 30%"></ion-skeleton-text>
-            <ion-skeleton-text  animated style="width: 15%"></ion-skeleton-text>
-          </div>      
-      </ion-label>
-    </ion-item>
-  </ion-list>
+  <ion-grid *ngIf="!isLoading">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-lg="8" size-md="10" size-sm="12" class="ion-no-padding">
+        <ion-list>
+          <ion-item *ngFor="let recipe of recipesList" (click)="onClickRecipe(recipe.id, recipe.type)">
+            <ion-avatar slot="start">
+              <img src="{{recipe.imageUrl}}">
+            </ion-avatar>
+            <ion-label>
+              <h3>{{recipe.title}}</h3>
+              <div class="info-container">
+                <div class="stars-container">
+                  <div *ngFor="let star of recipe.star" class="star-icon">
+                    <fa-icon [icon]="faStar" *ngIf="star"></fa-icon>
+                    <fa-icon [icon]="faStar2" *ngIf="!star"></fa-icon>
+                  </div>
+                </div>
+                <div class="info">
+                  <fa-icon [icon]="faWeight" class="weight" *ngIf="recipe.isHealthy"></fa-icon>
+                  <fa-icon [icon]="faLeaf" class="leaf" *ngIf="recipe.isVegie"></fa-icon>
+                  <span [ngClass]="getCoutryClass(recipe.country)" class="flag-icon"></span>
+                </div>
+              </div>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+        <ion-list *ngIf="isLoading">
+          <ion-item *ngFor="let skeleton of skeletonList">
+            <ion-avatar slot="start">
+              <ion-skeleton-text></ion-skeleton-text>
+            </ion-avatar>
+            <ion-label>
+              <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+              <div class="info-skeleton">
+                <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+                <ion-skeleton-text animated style="width: 15%"></ion-skeleton-text>
+              </div>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

@@ -12,11 +12,8 @@
 
 <ion-content>
   <ion-grid>
-    <!-- <div class="spinner ion-justify-content-center" *ngIf="isLoading">
-      <ion-spinner name="dots" color="primary"></ion-spinner>
-    </div> -->
     <ion-row class="ion-justify-content-center" *ngIf="!isLoading && recipesList.length === 0">
-      <ion-col size="12" size-lg="4" size-sm="8" class="ion-justify-content-center">
+      <ion-col  size-md="8" offset-md="2" class="ion-justify-content-center">
         <div class="no-recipe-content">
           <p class="no-recipe-text">{{ noRecipeText }}</p>
           <ion-button mode="ios" class="add-button" (click)="openNewRecipeModal()">
@@ -27,7 +24,7 @@
     </ion-row>
     <ion-row class="ion-justify-content-center" *ngIf="!isLoading && recipesList.length > 0">
       <ion-list approxItemHeight="70px">
-        <ion-col size="12" size-lg="4" size-sm="8" class="ion-justify-content-center">
+        <ion-col size-md="8" offset-md="2" class="ion-justify-content-center">
           <ion-card [routerLink]="['/', 'home', 'tabs', 'recipes', recipeType , recipe.id]" class="card"
             *ngFor="let recipe of recipesList">
             <ion-img [src]="recipe.imageUrl"></ion-img>
@@ -54,7 +51,7 @@
     </ion-row>
     <ion-row class="ion-justify-content-center" *ngIf="isLoading">
       <ion-list approxItemHeight="70px">
-        <ion-col size="12" size-lg="4" size-sm="8" class="ion-justify-content-center">
+        <ion-col  size-md="8" offset-md="2" class="ion-justify-content-center">
           <ion-card class="card" *ngFor="let skelet of skeletonList">
             <ion-img src="../../../../assets/img/skeleton-img.jpg"></ion-img>
             <ion-card-header class="header">

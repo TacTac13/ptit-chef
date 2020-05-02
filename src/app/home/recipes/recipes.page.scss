@@ -1,40 +1,47 @@
-.hidden{
-    background-color: white;
+.hidden {
+  background-color: white;
 }
 
-.hide-toolbar{
+.hide-toolbar {
   background-color: var(--ion-color-primary) !important;
 }
 
-.carousel{
+.carousel {
   margin: 0 20px;
-  .caroussel-container{
-    h2{  
-      color: var(--ion-color-dark);
-      font-family: "Roboto Bold";
-      font-size: 21px;
-    }
-    img{
-      object-fit: cover;
-      margin-bottom: 5px;
-    }
-    span{
-      margin: 5px 0;
-      font-size: 15;
-      color: var(--ion-color-medium);
-      font-family: "Roboto Light";
-    }
-    .stars-container {
-      display: flex;
-      margin-top: 5px;
-      .star-icon {
-        transform: rotate(45deg);
-        color: var(--ion-color-primary);
-        margin-right: 2px;
-        font-size: 14px;
+  .caroussel-container {
+    .recipe-item {
+      cursor: pointer;
+      h2 {
+        color: var(--ion-color-dark);
+        font-family: "Roboto Bold";
+        font-size: 21px;
+      }
+      img {
+        object-fit: cover;
+        margin-bottom: 5px;
+      }
+      span {
+        margin: 5px 0;
+        font-size: 15;
+        color: var(--ion-color-medium);
+        font-family: "Roboto Light";
+      }
+      .stars-container {
+        display: flex;
+        margin-top: 5px;
+        .star-icon {
+          transform: rotate(45deg);
+          color: var(--ion-color-primary);
+          margin-right: 2px;
+          font-size: 14px;
+        }
       }
     }
   }
+}
+
+ion-slide {
+  cursor: pointer;
 }
 
 .toolbar {
@@ -53,20 +60,18 @@
   }
 }
 
-
 ion-grid {
   margin-top: -44px;
   margin-bottom: 50px;
 }
 
-
-.carrousel-img{
-    width: 100%;
-    height: 28rem;
-    object-fit: cover;
+.carrousel-img {
+  width: 100%;
+  height: 28rem;
+  object-fit: cover;
 }
 
-h1{
+h1 {
   position: absolute;
   top: 13px;
   left: 40px;
@@ -75,28 +80,28 @@ h1{
   font-family: "Roboto Bold";
 }
 
-.no-recipe-list-border{
-  border: 2px dashed  var(--ion-color-primary);
+.no-recipe-list-border {
+  border: 2px dashed var(--ion-color-primary);
   width: 100%;
   border-radius: 20px;
-  .no-recipe-list{
+  .no-recipe-list {
     margin: 5px;
     border-radius: 20px;
     background-color: var(--ion-color-primary);
-    color : var(--ion-color-secondary);
+    color: var(--ion-color-secondary);
     padding: 30px;
     text-align: center;
-    h4{
+    h4 {
       font-size: 19px;
       font-family: "Roboto Bold";
     }
-    p{
+    p {
       font-family: "Roboto Light";
-      .icon{
+      .icon {
         margin: 0 2px;
       }
     }
-    ion-button{
+    ion-button {
       font-family: "Roboto Bold";
       font-size: 19px;
       --border-radius: 0px;
@@ -107,6 +112,3 @@ h1{
     }
   }
 }
-
-
-

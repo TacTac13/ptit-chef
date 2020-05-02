@@ -10,6 +10,7 @@ ion-content {
         justify-content: center;
         .logo{
             width: 72%;
+            max-width: 400px;
         }
     }
   }
@@ -18,19 +19,37 @@ ion-content {
   }
   .new-user-button{
     font-family: "Roboto Light";
-    font-size: 17px;
+    font-size: 15px;
     text-align: center;
     color: var(--ion-color-medium);
+    cursor: pointer;
+    text-decoration: underline;
   }
   .connexion-container{
-      margin-top: -26px;
+      margin-top: -18px;
   }
   ion-button{
     font-family: "Roboto Bold";
     font-size: 21px;
     --border-radius: 0px;
     --color: var(--ion-color-secondary);
-    margin-top: 30px;
+    margin-top: 18px;
     padding: 4px 0;
+  }
+}
+
+
+.content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  .background-container {
+    width: 50%;
+    height: 100%;
+  }
+  form{
+    width: 50%;
   }
 }

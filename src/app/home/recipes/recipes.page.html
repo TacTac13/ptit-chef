@@ -13,7 +13,7 @@
 <ion-content [fullscreen]="true"  [scrollEvents]="true"  (ionScroll)="onScrole($event)">
   <ion-grid class="ion-no-padding">
     <ion-row>
-      <ion-col size-sm="6" offset-sm="3" class="ion-no-padding">
+      <ion-col class="ion-no-padding">
         <ion-slides pager="true" [options]="slideOpts">
           <ion-slide [routerLink]="['/', 'home', 'tabs', 'recipes', 'appetizer']">
             <h1 color="light">Entrée</h1>
@@ -33,11 +33,11 @@
   </ion-grid>
   <ion-grid class="ion-no-padding" *ngIf="!isLoading && this.favoritesList.length >= 0">
     <ion-row>
-      <ion-col size-sm="6" offset-sm="3" class="ion-no-padding">
+      <ion-col size-md="8" offset-md="2" class="ion-no-padding">
         <div *ngFor="let favorite of favoritesList" class="carousel" >
           <h2>{{ favorite.title }}</h2>
           <ngx-slick-carousel [config]="slideConfig" class="caroussel-container">
-            <div ngxSlickItem *ngFor="let recipe of favorite.favoritesList">
+            <div ngxSlickItem class="recipe-item" *ngFor="let recipe of favorite.favoritesList">
               <div (click)="onRecipeClick(recipe.id, recipe.type)">
                 <img src="{{ recipe.imageUrl }}" alt="" width="82px" height="82px">
                 <span>{{ getRecipeTitle(recipe.title) }}</span>
@@ -56,7 +56,7 @@
   </ion-grid>
   <ion-grid *ngIf="!isLoading && this.favoritesList.length === 0">
     <ion-row>
-      <ion-col size-sm="6" offset-sm="3" class="ion-no-padding">
+      <ion-col size-md="8" offset-md="2" class="ion-no-padding">
         <div class="no-recipe-list-border">
           <div class="no-recipe-list">
            <h4>Vous n'avez aucun favoris !</h4>

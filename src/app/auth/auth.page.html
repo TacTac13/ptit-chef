@@ -1,4 +1,4 @@
-<ion-content>
+<ion-content *ngIf="this.scrWidth <= 768">
   <div class="background-container">
     <div class="logo-container">
       <img src="../../assets/img/logo.png" class="logo" />
@@ -47,6 +47,43 @@
       </ion-row>
     </ion-grid>
   </form>
+</ion-content>
 
-
+<ion-content *ngIf="this.scrWidth > 768">
+  <div class="content">
+    <div class="background-container">
+      <div class="logo-container">
+        <img src="../../assets/img/logo.png" class="logo" />
+      </div>
+    </div>    
+    <form #f="ngForm" (ngSubmit)="onLogin(f)">
+      <ion-grid>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size-xs="8" size-sm="6">
+            <div class="connexion-container">
+              <ion-item>
+                <ion-label position="floating">E-mail</ion-label>
+                <ion-input type="email" ngModel name="email" required email #emailCtrl="ngModel"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Mot de passe</ion-label>
+                <ion-input type="password" ngModel name="password" required minlength="6" #passwordCtrl="ngModel">
+                </ion-input>
+              </ion-item>
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size-xs="8" size-sm="6">
+            <ion-button mode="ios" type="submit" class="login-button" expand="block">
+              C'est parti !
+            </ion-button>
+            <div class="new-user-button">
+              <h4 (click)="openNewUserModal()">ou créer un compte</h4>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+  </div>
 </ion-content>

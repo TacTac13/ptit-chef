@@ -28,13 +28,25 @@ export class RecipesPage implements OnInit, OnDestroy {
     speed: 400
   };
   slideConfig = {
-    slidesToShow: 4,
+    slidesToShow: 6,
     slidesToScroll: 2,
     responsive: [
       {
         breakpoint: 451,
         settings: {
           slidesToShow: 3
+        }
+      },
+      {
+        breakpoint: 960,
+        settings: {
+          slidesToShow: 4
+        }
+      },
+      {
+        breakpoint: 1200,
+        settings: {
+          slidesToShow: 5
         }
       }
     ]
