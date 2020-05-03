@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, Input, ViewChildren, QueryList, OnDestroy } from '@angular/core';
 
 import { faCheck, faTimes, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { ModalController, NavController, LoadingController, ToastController } from '@ionic/angular';
@@ -7,7 +7,10 @@ import { countryList } from '../../../../shared/country-list';
 import { RecipeService } from '../../../../service/recipe.service';
 
 import { Recipe } from '../../../../models/recipe.model';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, map, tap } from 'rxjs/operators';
+import { FavoriteService } from 'src/service/favorite.service';
+import { Subscription } from 'rxjs';
+import { Favorite } from 'src/models/favorites.model';
 
 function base64toBlob(base64Data, contentType) {
   contentType = contentType || '';
@@ -36,7 +39,7 @@ function base64toBlob(base64Data, contentType) {
   templateUrl: './new-recipe-modal.component.html',
   styleUrls: ['./new-recipe-modal.component.scss'],
 })
-export class NewRecipeModalComponent implements OnInit {
+export class NewRecipeModalComponent implements OnInit, OnDestroy {
 
   @ViewChildren('ingredientInput') ingredientInput: QueryList<any>;
   @ViewChildren('stepsInput') stepsInput: QueryList<any>;
@@ -62,6 +65,8 @@ export class NewRecipeModalComponent implements OnInit {
   selectedImage: string;
   countrySelectOk = false;
   typeSelectOk = false;
+  favSub: Subscription;
+  favoritesList: Favorite[];
 
   constructor(
     private modalCtrl: ModalController,
@@ -70,6 +75,7 @@ export class NewRecipeModalComponent implements OnInit {
     private navCtrl: NavController,
     private loaderCtrl: LoadingController,
     private toastController: ToastController,
+    private favoriteService: FavoriteService
   ) { }
 
   ngOnInit() {
@@ -81,6 +87,10 @@ export class NewRecipeModalComponent implements OnInit {
 
       this.ingredients = this.Recipe.ingredients;
       this.steps = this.Recipe.direction;
+
+      this.favSub = this.favoriteService.getFavorites().subscribe(favorites => {
+        this.favoritesList = favorites;
+      });
     }
 
     this.form = this.fb.group({
@@ -118,6 +128,11 @@ export class NewRecipeModalComponent implements OnInit {
         validators: [Validators.required]
       })
     });
+
+  }
+
+  ionViewWillEnter() {
+    this.favoriteService.fetchFavorites().subscribe();
   }
 
   async presentToast(message) {
@@ -250,6 +265,11 @@ export class NewRecipeModalComponent implements OnInit {
   }
 
   onEditRecipe() {
+    this.editRecipe();
+    this.editFavorite();
+  }
+
+  private editRecipe() {
     this.ingredients = [];
     this.steps = [];
     let isChangeOfType = false;
@@ -323,6 +343,54 @@ export class NewRecipeModalComponent implements OnInit {
     });
   }
 
+  private editFavorite() {
+    if (this.form.value.image) {
+      this.recipeService.uploadImage(this.form.get('image').value).subscribe(uploadRes => {
+        this.favoritesList.map(favorite => {
+          favorite.favoritesList.map(recipe => {
+            if (recipe.id === this.Recipe.id) {
+              recipe.title = this.form.value.recipeName ? this.form.value.recipeName : this.Recipe.title;
+              recipe.imageUrl = uploadRes.imageUrl;
+              recipe.stars = this.rating.length !== 0 ? this.rating : this.Recipe.star;
+              recipe.type = this.form.value.recipeType ? this.form.value.recipeType : this.Recipe.type;
+            }
+          });
+        });
+        this.favoritesList.map(favorite => {
+          this.favoriteService.editFavorites(
+            favorite.id,
+            favorite.title,
+            favorite.userId,
+            favorite.pos,
+            favorite.favoritesList,
+            true
+          ).subscribe();
+      });
+      });
+    } else {
+      this.favoritesList.map(favorite => {
+        favorite.favoritesList.map(recipe => {
+          if (recipe.id === this.Recipe.id) {
+            recipe.title = this.form.value.recipeName ? this.form.value.recipeName : this.Recipe.title;
+            recipe.imageUrl = this.Recipe.imageUrl;
+            recipe.stars = this.rating.length !== 0 ? this.rating : this.Recipe.star;
+            recipe.type = this.form.value.recipeType ? this.form.value.recipeType : this.Recipe.type;
+          }
+        });
+      });
+      this.favoritesList.map(favorite => {
+        this.favoriteService.editFavorites(
+          favorite.id,
+          favorite.title,
+          favorite.userId,
+          favorite.pos,
+          favorite.favoritesList,
+          true
+        ).subscribe();
+      });
+    }
+  }
+
   onRate(event) {
     this.rating = [];
     const starsLeft: number = 5 - event.newValue;
@@ -343,6 +411,10 @@ export class NewRecipeModalComponent implements OnInit {
       }
     });
     return table;
+  }
+
+  ngOnDestroy() {
+    this.favSub.unsubscribe();
   }
 
 }

@@ -50,9 +50,6 @@ export class ImagePickerComponent implements OnInit {
     }
   }
 
-  ionViewWillEnter() {
-  }
-
   onPickImage() {
     if (!Capacitor.isPluginAvailable('Camera')) {
       this.filPickerRef.nativeElement.click();

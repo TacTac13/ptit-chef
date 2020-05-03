@@ -5,6 +5,8 @@ import { take, map, switchMap, tap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
 import { RecipeData } from '../models/recipe-data.model';
+import { FavoriteService } from './favorite.service';
+import { Favorite } from 'src/models/favorites.model';
 
 
 @Injectable({
@@ -14,7 +16,10 @@ export class RecipeService {
 
   public oldType: string;
 
-  constructor(private authService: AuthService, private http: HttpClient) {
+  constructor(
+    private authService: AuthService,
+    private http: HttpClient,
+    private favoriteService: FavoriteService) {
   }
 
 
@@ -231,6 +236,7 @@ export class RecipeService {
 
     let fetchedToken: string;
     let updatedRecipesList: Recipe[];
+    let favoritesList: Favorite[];
     const totalTime: number = cookingTime + prepTime;
     const updatedRecipe: Recipe = new Recipe(
       id,
