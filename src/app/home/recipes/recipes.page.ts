@@ -16,6 +16,7 @@ import { NewFavoriteModalComponent } from '../modal/new-favorite-modal/new-favor
 })
 export class RecipesPage implements OnInit, OnDestroy {
 
+
   faBars = faBars;
   faStar = faStar;
   faStar2 = faRegularStar;
@@ -23,6 +24,7 @@ export class RecipesPage implements OnInit, OnDestroy {
   favoritesList: Favorite[];
   isLoading = false;
   favoritesSub: Subscription;
+  index = 1;
   slideOpts = {
     initialSlide: 1,
     speed: 400
@@ -31,7 +33,7 @@ export class RecipesPage implements OnInit, OnDestroy {
     slidesPerView: 'auto',
     spaceBetween: 25,
     freeMode: false,
-    grabCursor: true
+    grabCursor: true,
   };
 
 

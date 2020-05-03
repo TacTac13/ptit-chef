@@ -36,7 +36,7 @@
       <ion-col size-md="12" class="ion-no-padding">
         <div *ngFor="let favorite of favoritesList" class="carousel">
           <h2>{{ favorite.title }}</h2>
-          <swiper [config]="config" class="swipper">
+          <swiper [config]="config" class="swipper" [(index)]="index">
             <div *ngFor="let recipe of favorite.favoritesList">
               <div (click)="onRecipeClick(recipe.id, recipe.type)" class="caroussel-container">
                 <img src="{{ recipe.imageUrl }}" alt="" width="82px" height="82px">
@@ -50,7 +50,6 @@
               </div>
             </div>
           </swiper>
-          <div class="swiper-scrollbar"></div>
         </div>
       </ion-col>
     </ion-row>
