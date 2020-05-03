@@ -10,7 +10,7 @@
   </div>
 </ion-header>
 
-<ion-content [fullscreen]="true"  [scrollEvents]="true"  (ionScroll)="onScrole($event)">
+<ion-content [fullscreen]="true" [scrollEvents]="true" (ionScroll)="onScrole($event)">
   <ion-grid class="ion-no-padding">
     <ion-row>
       <ion-col class="ion-no-padding">
@@ -31,42 +31,44 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <ion-grid class="ion-no-padding" *ngIf="!isLoading && this.favoritesList.length >= 0">
+  <ion-grid class="ion-no-padding favorites-container" *ngIf="!isLoading && this.favoritesList.length >= 0">
     <ion-row>
-      <ion-col size-md="8" offset-md="2" class="ion-no-padding">
-        <div *ngFor="let favorite of favoritesList" class="carousel" >
+      <ion-col size-md="12" class="ion-no-padding">
+        <div *ngFor="let favorite of favoritesList" class="carousel">
           <h2>{{ favorite.title }}</h2>
-          <ngx-slick-carousel [config]="slideConfig" class="caroussel-container">
-            <div ngxSlickItem class="recipe-item" *ngFor="let recipe of favorite.favoritesList">
-              <div (click)="onRecipeClick(recipe.id, recipe.type)">
+          <swiper [config]="config" class="swipper">
+            <div *ngFor="let recipe of favorite.favoritesList">
+              <div (click)="onRecipeClick(recipe.id, recipe.type)" class="caroussel-container">
                 <img src="{{ recipe.imageUrl }}" alt="" width="82px" height="82px">
                 <span>{{ getRecipeTitle(recipe.title) }}</span>
                 <div class="stars-container">
-                <div *ngFor="let star of recipe.stars" class="star-icon">
-                  <fa-icon [icon]="faStar" *ngIf="star"></fa-icon>
-                  <fa-icon [icon]="faStar2" *ngIf="!star"></fa-icon>
+                  <div *ngFor="let star of recipe.stars" class="star-icon">
+                    <fa-icon [icon]="faStar" *ngIf="star"></fa-icon>
+                    <fa-icon [icon]="faStar2" *ngIf="!star"></fa-icon>
+                  </div>
                 </div>
               </div>
-              </div>
             </div>
-          </ngx-slick-carousel>
+          </swiper>
+          <div class="swiper-scrollbar"></div>
         </div>
       </ion-col>
     </ion-row>
   </ion-grid>
-  <ion-grid *ngIf="!isLoading && this.favoritesList.length === 0">
+  <ion-grid class="no-favorites-container" *ngIf="!isLoading && this.favoritesList.length === 0">
     <ion-row>
       <ion-col size-md="8" offset-md="2" class="ion-no-padding">
         <div class="no-recipe-list-border">
           <div class="no-recipe-list">
-           <h4>Vous n'avez aucun favoris !</h4>
-           <p>Pour ajouter un favoris, il vous suffit de cliquer sur 
-             <fa-icon [icon]="faBars" class="icon"></fa-icon>, 
-             puis d'aller dans la section favoris 
-             <fa-icon [icon]="faHeart" class="icon"></fa-icon></p>
-           <ion-button mode="ios" class="fav-button" expand="block" (click)="onAddFavorite()">
-            Ajouter mon premier favoris
-          </ion-button>
+            <h4>Vous n'avez aucun favoris !</h4>
+            <p>Pour ajouter un favoris, il vous suffit de cliquer sur
+              <fa-icon [icon]="faBars" class="icon"></fa-icon>,
+              puis d'aller dans la section favoris
+              <fa-icon [icon]="faHeart" class="icon"></fa-icon>
+            </p>
+            <ion-button mode="ios" class="fav-button" expand="block" (click)="onAddFavorite()">
+              Ajouter mon premier favoris
+            </ion-button>
           </div>
         </div>
       </ion-col>

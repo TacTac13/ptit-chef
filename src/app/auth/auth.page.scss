@@ -5,14 +5,8 @@ ion-content {
     display: flex;
     align-items: center;
     justify-content: center;
-    .logo-container {
-        display: flex;  
-        justify-content: center;
-        .logo{
-            width: 72%;
-            max-width: 400px;
-            height: auto;
-        }
+    img {
+      max-width: 55%;
     }
   }
   .curve{

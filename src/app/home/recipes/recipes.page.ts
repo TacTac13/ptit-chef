@@ -27,30 +27,13 @@ export class RecipesPage implements OnInit, OnDestroy {
     initialSlide: 1,
     speed: 400
   };
-  slideConfig = {
-    slidesToShow: 6,
-    slidesToScroll: 2,
-    responsive: [
-      {
-        breakpoint: 451,
-        settings: {
-          slidesToShow: 3
-        }
-      },
-      {
-        breakpoint: 960,
-        settings: {
-          slidesToShow: 4
-        }
-      },
-      {
-        breakpoint: 1200,
-        settings: {
-          slidesToShow: 5
-        }
-      }
-    ]
+  config = {
+    slidesPerView: 'auto',
+    spaceBetween: 25,
+    freeMode: false,
+    grabCursor: true
   };
+
 
   constructor(
     private favoritesService: FavoriteService,

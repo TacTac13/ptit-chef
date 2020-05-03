@@ -1,37 +1,5 @@
-@media screen and (min-width: 768px) {
-  .hide-toolbar{
-    background-color: #ffffff00 !important;
-  }
-  .toolbar {
-    .menu {
-      .menu-icon {
-        color: var(--ion-color-dark) !important;
-      }
-    }
-    .back {
-      .back-button {
-        color: var(--ion-color-dark) !important;
-      }
-      .dropdown-button {
-        color: var(--ion-color-dark) !important;
-      }
-      .dropdown {
-        border: 1px solid var(--ion-color-dark);
-        .icon {
-          color: var(--ion-color-dark) !important;
-        }
-        &::before {
-          border-color: transparent transparent var(--ion-color-dark) transparent !important;
-        }
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 768px) {  
-  .hide-toolbar{
-    background-color: var(--ion-color-primary) !important;
-  }
+.hide-toolbar {
+  background-color: var(--ion-color-primary) !important;
 }
 
 .toolbar {
@@ -41,10 +9,10 @@
   color: white;
   display: flex;
   justify-content: flex-start;
-   
+
   transition: all 0.3s ease-in-out;
   .menu {
-    margin-left: 6px; 
+    margin-left: 6px;
     .menu-icon {
       font-size: 22px;
       margin-top: 8px;
@@ -61,7 +29,7 @@
       color: var(--ion-color-light);
     }
     .dropdown-button {
-      font-size: 22px;      
+      font-size: 22px;
       color: var(--ion-color-light);
       margin-right: 10px;
     }
@@ -108,11 +76,9 @@ ion-toolbar {
 }
 
 ion-grid {
-  margin-top: -44px;  
+  margin-top: -44px;
   transition: all 0.2s ease-in-out;
 }
-
-
 
 .recipe-img {
   height: 300px;

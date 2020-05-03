@@ -8,9 +8,16 @@ import { RecipesPageRoutingModule } from './recipes-routing.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { RecipesPage } from './recipes.page';
-import { SlickCarouselModule } from 'ngx-slick-carousel';
+import { SwiperModule } from 'ngx-swiper-wrapper';
+import { SWIPER_CONFIG } from 'ngx-swiper-wrapper';
+import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 
 import 'hammerjs';
+
+const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
+  direction: 'horizontal',
+  slidesPerView: 'auto'
+};
 
 @NgModule({
   imports: [
@@ -19,9 +26,15 @@ import 'hammerjs';
     FontAwesomeModule,
     IonicModule,
     RecipesPageRoutingModule,
-    SlickCarouselModule
+    SwiperModule
   ],
   declarations: [RecipesPage],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  providers: [
+    {
+      provide: SWIPER_CONFIG,
+      useValue: DEFAULT_SWIPER_CONFIG
+    }
+  ]
 })
 export class RecipesPageModule {}
