@@ -81,9 +81,9 @@ export class RecipesPage implements OnInit, OnDestroy {
 
   onScrole(event) {
     const toolbar = document.getElementById('bar');
-    if (event.detail.scrollTop > 400) {
+    if (event.detail.scrollTop > 300) {
       toolbar.classList.add('hide-toolbar');
-    } else if (event.detail.scrollTop < 400) {
+    } else if (event.detail.scrollTop < 300) {
       toolbar.classList.remove('hide-toolbar');
     }
   }

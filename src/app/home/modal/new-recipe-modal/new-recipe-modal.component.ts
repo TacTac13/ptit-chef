@@ -307,7 +307,11 @@ export class NewRecipeModalComponent implements OnInit, OnDestroy {
                 this.navCtrl.navigateRoot(`/home/tabs/recipes/${this.form.value.recipeType}/${this.Recipe.id}`);
               });
             }
-            this.modalCtrl.dismiss(isChangeOfType);
+            this.modalCtrl.dismiss({
+              id: this.Recipe.id, 
+              type: this.form.value.recipeType ? this.form.value.recipeType : this.Recipe.type,
+              changeOfType: isChangeOfType
+            });
             loadingEl.dismiss();
             this.presentToast('Votre recette a bien été modifié !');
           });
@@ -335,7 +339,11 @@ export class NewRecipeModalComponent implements OnInit, OnDestroy {
               this.navCtrl.navigateRoot(`/home/tabs/recipes/${this.form.value.recipeType}/${this.Recipe.id}`);
             });
           }
-          this.modalCtrl.dismiss(isChangeOfType);
+          this.modalCtrl.dismiss({
+            id: this.Recipe.id, 
+            type: this.form.value.recipeType ? this.form.value.recipeType : this.Recipe.type,
+            changeOfType: isChangeOfType
+          });
           loadingEl.dismiss();
           this.presentToast('Votre recette a bien été modifié !');
         });
@@ -414,7 +422,9 @@ export class NewRecipeModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.favSub.unsubscribe();
+    if (this.favSub) {      
+      this.favSub.unsubscribe();
+    }
   }
 
 }

@@ -1,21 +1,21 @@
 .hide-toolbar {
-  background-color: var(--ion-color-primary) !important;
+  //--background: var(--ion-color-primary) !important;
+  opacity: 0;
 }
 
-.toolbar {
+ion-toolbar {
   width: 100%;
   height: 44px;
-  background-color: #ffffff00;
+  --background: #ffffff00;
+  --border-color: #ffffff00;
   color: white;
   display: flex;
   justify-content: flex-start;
-
   transition: all 0.3s ease-in-out;
   .menu {
     margin-left: 6px;
     .menu-icon {
       font-size: 22px;
-      margin-top: 8px;
     }
   }
   .back {
@@ -33,47 +33,14 @@
       color: var(--ion-color-light);
       margin-right: 10px;
     }
-    .dropdown {
-      border-radius: 10px;
-      position: absolute;
-      top: 43px;
-      right: 0;
-      background-color: white;
-      font-size: 14px;
-      font-family: "Roboto Regular";
-      color: var(--ion-color-dark);
-      .dropdown-line {
-        margin: 15px 20px;
-        display: flex;
-      }
-      .icon {
-        margin-right: 15px;
-      }
-      &::before {
-        content: "";
-        position: absolute;
-        top: -10px;
-        right: 8px;
-        width: 0;
-        height: 0;
-        border-style: solid;
-        border-width: 0 10px 10px 10px;
-        border-color: transparent transparent white transparent;
-      }
-      .separate {
-        width: 100%;
-        height: 1px;
-        background-color: var(--ion-color-medium);
-      }
-    }
+    
   }
 }
 
-ion-toolbar {
-  --background: transparent;
-  --ion-color-base: transparent !important;
-  --border-color: transparent;
+ion-popover{
+  --width: 150px;
 }
+
 
 ion-grid {
   margin-top: -44px;

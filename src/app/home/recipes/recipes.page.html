@@ -1,5 +1,5 @@
-<ion-header mode="ios">
-  <div class="toolbar" id="bar">
+<ion-header>
+  <ion-toolbar class="toolbar" mode="ios" id="bar">
     <div class="menu">
       <ion-buttons slot="start">
         <ion-menu-button color="light" menu="m1">
@@ -7,7 +7,7 @@
         </ion-menu-button>
       </ion-buttons>
     </div>
-  </div>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" [scrollEvents]="true" (ionScroll)="onScrole($event)">

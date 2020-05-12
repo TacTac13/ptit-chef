@@ -3,7 +3,8 @@
 }
 
 .hide-toolbar {
-  background-color: var(--ion-color-primary) !important;
+  //background-color: var(--ion-color-primary) !important;
+  opacity:0;
 }
 
 .carousel{
@@ -67,12 +68,11 @@ ion-slide {
   cursor: pointer;
 }
 
-.toolbar {
-  width: 100%;
+ion-toolbar {
   height: 44px;
-  background-color: #ffffff00;
-  display: flex;
-  justify-content: flex-start;
+  --background: #ffffff00;
+  --border-color: #ffffff00;
+  color: white;
   transition: all 0.3s ease-in-out;
   .menu {
     margin-left: 6px;
@@ -95,7 +95,7 @@ ion-grid {
 
 h1 {
   position: absolute;
-  top: 13px;
+  top: 40px;
   left: 40px;
   color: white;
   font-size: 27px;

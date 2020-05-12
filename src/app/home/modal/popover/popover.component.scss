@@ -1,0 +1,18 @@
+.dropdown {
+      font-size: 14px;
+      font-family: "Roboto Regular";
+      color: var(--ion-color-dark);
+  
+    .dropdown-line {
+      margin: 15px 20px;
+      display: flex;
+    }
+    .icon {
+      margin-right: 15px;
+    }
+    .separate {
+      width: 100%;
+      height: 1px;
+      background-color: var(--ion-color-medium);
+    }
+  }

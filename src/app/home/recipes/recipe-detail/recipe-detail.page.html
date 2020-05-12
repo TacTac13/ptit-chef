@@ -1,40 +1,23 @@
 <ion-header mode="ios">
-  <div class="toolbar" id="bar">
-    <div class="menu">
-      <ion-buttons slot="start">
+  <ion-toolbar class="toolbar" id="bar2" mode="ios">
+      <ion-buttons slot="start" class="menu">
         <ion-menu-button color="light" menu="m1">
           <fa-icon class="menu-icon" [icon]="faBars"></fa-icon>
         </ion-menu-button>
       </ion-buttons>
-    </div>
-    <div class="back">
-      <ion-buttons>
+      <ion-buttons class="back">
         <ion-button [routerLink]="['/', 'home', 'tabs', 'recipes', recipeType]" routerDirection="back"
-          class="back-button">A
+          class="back-button" color="light">A
         </ion-button>
-      </ion-buttons>
-      <ion-buttons>
-        <ion-button class="dropdown-button" (click)="openDropdown()">
+        <ion-button class="dropdown-button" (click)="presentPopover($event)" color="light">
           <fa-icon [icon]="faEllipsisH" class="icon"></fa-icon>
-        </ion-button>
-        <div class="dropdown" *ngIf="isDropdownOpen">
-          <div class="triangle"></div>
-          <div class="dropdown-line" (click)="onEditRecipe()">
-            <fa-icon class="icon" [icon]="faEdit"></fa-icon>
-            <ion-label>Modifier</ion-label>
-          </div>
-          <div class="separate"></div>
-          <div class="dropdown-line" (click)="onDeleteRecipe()">
-            <fa-icon class="icon" [icon]="faTrash"></fa-icon>
-            <ion-label>Supprimer</ion-label>
-          </div>
-        </div>
+        </ion-button>        
       </ion-buttons>
-    </div>
-  </div>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" [scrollEvents]="true" (ionScroll)="onScrole($event)">
+ 
   <div class="ion-text-center">
     <ion-spinner color="primary" *ngIf="isLoading"></ion-spinner>
   </div>

@@ -10,6 +10,7 @@ import { RecipeDetailPage } from './recipe-detail.page';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ApplicationPipesModule } from '../../../application-pipe.module';
+import { PopoverComponent } from '../../modal/popover/popover.component';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { ApplicationPipesModule } from '../../../application-pipe.module';
     FontAwesomeModule,
     ApplicationPipesModule
   ],
-  declarations: [RecipeDetailPage]
+  declarations: [RecipeDetailPage, PopoverComponent],
+  entryComponents:[PopoverComponent]
 })
 export class RecipeDetailPageModule {}
